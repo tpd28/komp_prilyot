@@ -82,6 +82,21 @@ p{margin:0}
 /* Поля: одне під одним */
 .fs{display:flex;flex-direction:column;gap:20px;max-width:520px}
 .pib{display:flex;flex-direction:column;gap:20px}
+.pass-h{font-size:14px;line-height:20px;margin-bottom:4px}
+.pass-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px}
+.pass-row .pf{display:flex;flex-direction:column;gap:2px}
+.pass-row .pf span{font-size:11px;line-height:14px;color:var(--muted)}
+.pass-row .pf b{font-weight:400;font-size:14px;line-height:20px;border-bottom:1px solid var(--line);padding:6px 0 8px;min-height:36px}
+.pass-row .pf b:empty::before{content:attr(data-ph);color:var(--ph)}
+.pass-row .or{font-size:13px;color:var(--muted);padding-bottom:10px}
+.ro{display:flex;flex-direction:column;gap:2px}
+.ro span{font-size:11px;line-height:14px;color:var(--muted)}
+.ro b{font-weight:400;font-size:14px;line-height:20px}
+.diia-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:0 24px;border-radius:6px;border:0;background:var(--btn);color:#fff;font-size:14px;font-weight:600;cursor:pointer;width:100%;max-width:400px}
+.diia-btn:hover{background:#0047D6}
+.diia-btn .dl{width:22px;height:22px;border:1.5px solid #fff;border-radius:5px;font-size:8px;font-weight:700;display:grid;place-items:center}
+.diia-btn:disabled{opacity:.6;cursor:default}
+.diia-res{border:1px solid var(--aside-line);border-radius:6px;padding:12px 16px;display:flex;flex-direction:column;gap:12px;background:var(--page)}
 .pib .opt{min-height:32px;margin-top:-8px}
 .fld{display:flex;flex-direction:column;gap:2px;min-width:0}
 .fld>label,.flabel{font-size:11px;line-height:14px;color:var(--muted)}
@@ -444,7 +459,17 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
         <div class="fld"><label for="a-fio">Прізвище, ім'я, по батькові</label><div class="lock"><input id="a-fio" type="text" readonly value="Коваленко Ірина Олексіївна">LOCK</div></div>
         <div class="fld"><label for="a-rn">РНОКПП</label><div class="lock"><input id="a-rn" type="text" readonly value="3045678912">LOCK</div></div>
         <div class="fld"><label for="a-em">Електронна пошта</label><div class="lock"><input id="a-em" type="text" readonly value="iryna.kovalenko@example.com">LOCK</div></div>
-        <div class="fld" data-req data-err="Вкажіть серію та номер паспорта або номер ID-картки"><label for="a-pass">Паспортні дані *</label><input id="a-pass" type="text" value="" placeholder="Серія та номер"><span class="hint">Серія і номер паспорта (АА 123456) або номер ID-картки (9 цифр). Копію додасте на кроці «Документи»</span></div>
+        <div class="fld" id="passFld">
+          <span class="pass-h">Паспортні дані</span>
+          <div class="pass-row">
+            <span class="pf" style="width:56px"><b id="pp-s" aria-label="Серія" data-ph="Серія"></b></span>
+            <span class="pf" style="width:150px"><b id="pp-n" aria-label="Номер паспорта" data-ph="Номер паспорта"></b></span>
+            <span class="or">або</span>
+            <span class="pf" style="flex:1 1 200px;max-width:250px"><b id="pp-id" aria-label="Номер ID-картки" data-ph="Номер ID-картки"></b></span>
+          </div>
+        </div>
+        <div class="msg warn" data-when="@pass=0" style="padding:20px 22px"><span class="ic" aria-hidden="true" style="color:var(--err)">❗</span><span>Відсутні паспортні дані. Заповнити ваші дані ви можете в <a href="#" data-soon style="color:var(--btn);text-decoration:underline">профілі користувача</a>. Повернутись до цієї заяви ви можете через вкладку «Чернетки» розділу «Мої послуги».</span></div>
+        <div class="ro"><span>Дата народження</span><b>06.04.1991</b></div>
         <div class="fld" data-req data-err="Вкажіть номер телефону у форматі +380XXXXXXXXX" data-pat="^\+380\d{9}$"><label for="a-ph">Телефон *</label><input id="a-ph" type="tel" value="+380501234567" placeholder="+380"><span class="hint">На цей номер надійдуть сповіщення про статус заяви</span></div>
       </div>
       <div class="msg warn mt24" style="max-width:520px"><span class="ic" aria-hidden="true">☝</span><span>Уважно перевірте заповнені дані та актуальність контактів. За необхідності відредагуйте.</span></div>
@@ -770,6 +795,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
     <p class="n">Імітація відповідей реєстрів. На порталі цієї панелі немає.</p>
     <label><input type="checkbox" id="dm-reg" checked><span>РТГК / ЄІСС підтверджують реєстрацію у Києві або статус ВПО</span></label>
     <label><input type="checkbox" id="dm-pilga" checked><span>ЄІСС підтверджує пільгову категорію</span></label>
+    <label><input type="checkbox" id="dm-pass" checked><span>Паспортні дані є в профілі користувача</span></label>
     <label><input type="checkbox" id="dm-dup"><span>Заяву на цю загиблу особу Ви вже подавали</span></label>
     <button type="button" id="dm-reset">Почати спочатку</button>
   </div>
@@ -785,7 +811,7 @@ const CATS={vpo:'Внутрішньо переміщена особа (ВПО)',
 const CAT_SHORT={vpo:'ВПО',many:'багатодітної сім\'ї',guard:'опікуна / піклувальника',dis:'сім\'ї, у якій виховується дитина з інвалідністю'};
 const STREETS={"Голосіївський":["просп. Голосіївський","вул. Васильківська","вул. Антоновича","просп. Науки"],"Дарницький":["просп. Миколи Бажана","Харківське шосе","вул. Ревуцького","вул. Вербицького"],"Деснянський":["просп. Червоної Калини","вул. Закревського","Лісовий просп.","вул. Бальзака"],"Дніпровський":["просп. Соборності","бульв. Перова","вул. Райдужна","вул. Березняківська"],"Оболонський":["Оболонський просп.","просп. Володимира Івасюка","вул. Героїв Дніпра","вул. Левка Лук'яненка"],"Печерський":["вул. Велика Васильківська","бульв. Лесі Українки","вул. Липська","вул. Мечникова"],"Подільський":["вул. Сагайдачного","вул. Кирилівська","просп. Правди","вул. Межигірська"],"Святошинський":["Берестейський просп.","вул. Якуба Коласа","бульв. Академіка Кольцова","вул. Симиренка"],"Солом'янський":["Повітрофлотський просп.","вул. Гарматна","вул. Борщагівська","вул. Донця"],"Шевченківський":["вул. Хрещатик","вул. Велика Житомирська","вул. Богдана Хмельницького","бульв. Тараса Шевченка"]};
 const LABELS={applicant:'Відомості про заявника',event:'Яка подія сталась внаслідок збройної агресії',injury:'Поранення',death:'Загибель',housing:'Пошкодження житла',payment:'Відомості для нарахувань',docs:'Документи',terms:'Підтвердження умов'};
-const flags={reg:1,pilga:1,dup:0,hok:0,hnone:0,mon:0,rep:0,hnodoc:0};
+const flags={pass:1,reg:1,pilga:1,dup:0,hok:0,hnone:0,mon:0,rep:0,hnodoc:0};
 let view='catalog', step='applicant', logged=false, kidN=0, orders=[], passDiia=false, appNo='';
 
 /* ---------- Рендер складених полів ---------- */
@@ -826,19 +852,41 @@ function renderReg(el){
 }
 function kidHTML(i){
   return `<div class="card kid" data-kid="${i}"><div class="card-h"><span>Дитина ${i}</span><button type="button" class="lnk del" data-rmkid>Видалити</button></div>
-  <div class="fs">
+  <div class="fld" data-group="kd${i}" data-err="Оберіть варіант"><span style="font-size:14px;line-height:20px;margin-bottom:8px">Чи бажаєте завантажити свідоцтво дитини через застосунок «Дія»?</span>
+    <div class="opts" style="flex-direction:row;gap:24px"><label class="opt"><input type="radio" name="kd${i}" value="yes" checked><span>Так</span></label><label class="opt"><input type="radio" name="kd${i}" value="no"><span>Ні</span></label></div></div>
+  <div data-when="kd${i}=yes" style="display:flex;flex-direction:column;gap:12px">
+    <div class="fld" data-group="ks${i}" data-err="Поділіться свідоцтвом через Дію або оберіть «Ні», щоб заповнити дані вручну">
+      <input type="checkbox" name="ks${i}" value="1" hidden>
+      <button type="button" class="diia-btn" data-kdiia="${i}"><span class="dl" aria-hidden="true">Дія</span>Поділитись документами через Дію</button>
+    </div>
+    <div class="diia-res" data-when="ks${i}=1">
+      <p class="ok-t" style="margin:0"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Свідоцтво про народження отримано з Дії. Дані заповнено автоматично</p>
+      <div class="ro"><span>Прізвище, ім'я, по батькові</span><b class="r-n"></b></div>
+      <div class="ro"><span>Дата народження</span><b class="r-b"></b></div>
+      <div class="ro"><span>Серія та номер свідоцтва про народження</span><b class="r-c"></b></div>
+    </div>
+  </div>
+  <div class="fs" data-when="kd${i}=no">
   <div class="pib kname" id="k${i}n"></div>
   <div class="fld date" data-label="Дата народження *" data-req data-err="Вкажіть дату народження"></div>
   <div class="fld" data-req data-err="Вкажіть серію свідоцтва"><label for="k${i}s">Серія свідоцтва про народження *</label><input id="k${i}s" type="text" placeholder="Наприклад: І-КВ"></div>
   <div class="fld" data-req data-pat="^\\d{6}$" data-err="Номер свідоцтва має містити 6 цифр"><label for="k${i}c">Номер свідоцтва про народження *</label><input id="k${i}c" type="text" inputmode="numeric" maxlength="6" placeholder="6 цифр"></div>
-  <div class="fld" data-req data-err="Оберіть ступінь тяжкості"><label for="k${i}d">Ступінь тяжкості тілесних ушкоджень *</label><select id="k${i}d" class="deg"></select><span class="hint">Як зазначено в довідці медичного закладу</span></div>
   </div>
+  <div class="fs"><div class="fld" data-req data-err="Оберіть ступінь тяжкості"><label for="k${i}d">Ступінь тяжкості тілесних ушкоджень *</label><select id="k${i}d" class="deg"></select><span class="hint">Як зазначено в довідці медичного закладу</span></div></div>
   <div data-when="!inodoc=1&!reg_child=no" style="display:flex;flex-direction:column;gap:20px">
+  <div class="up" data-when="kd${i}=no" data-label="Свідоцтво про народження дитини" data-req></div>
   <div class="up" data-label="Довідка медичного закладу про факт отримання травми / поранення та ступінь тяжкості дитини" data-req></div>
-  <div class="up" data-when="i_role=parent" data-label="Свідоцтво про народження дитини" data-req></div>
   <div class="up" data-when="i_role=guard" data-label="Посвідчення опікуна / піклувальника або рішення суду чи органу опіки та піклування" data-req></div>
   </div></div>`;
 }
+const DIIA_KIDS=[['Коваленко Марія Іванівна','03.03.2016','І-КВ 654321'],['Коваленко Олег Іванович','12.07.2019','І-КВ 778812'],['Коваленко Софія Іванівна','21.01.2022','І-КВ 901245']];
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-kdiia]'); if(!b) return;
+  const k=b.closest('.kid'), idx=$$('.kid').indexOf(k), d=DIIA_KIDS[idx%DIIA_KIDS.length];
+  b.disabled=true; b.lastChild.textContent='Очікуємо підтвердження в Дії…';
+  setTimeout(()=>{ k.querySelector('.r-n').textContent=d[0]; k.querySelector('.r-b').textContent=d[1]; k.querySelector('.r-c').textContent=d[2]; k.dataset.name=d[0];
+    const cb=k.querySelector(`input[name="ks${b.dataset.kdiia}"]`); cb.checked=true; b.hidden=true; clearBad(b.closest('.fld')); cond(); },1300);
+});
 
 function renderPib(el){
   const id=el.id, sfx=el.dataset.sfx||'', nop=id.replace(/[^a-z0-9]/gi,'')+'_nop';
@@ -910,6 +958,7 @@ function validate(sec){
     else { const f=w.querySelector('input,select'); let v=f.value.trim(); if(w.dataset.pat) v=v.replace(/\s/g,'').toUpperCase(); bad=!v||(w.dataset.pat&&!new RegExp(w.dataset.pat).test(v)); }
     if(bad){ ok=false; setBad(w,msg); }
   });
+  if(sec.id==='s-applicant' && !flags.pass){ ok=false; setBad($('#passFld'),'Без паспортних даних заяву подати неможливо'); }
   if(sec.id==='s-docs' && !passDiia && !$('#passFile')._files.length){ ok=false; setBad($('#passBlk'),'Поділіться паспортом через Дію або завантажте копію'); }
   if(!ok){ const b=sec.querySelector('.bad'); b&&b.scrollIntoView({block:'center',behavior:'smooth'}); }
   return ok;
@@ -945,7 +994,7 @@ function aids(){
   if(included('injury')&&!val('inodoc').length){
     const who=[]; const sel=val('inj');
     if(sel.includes('self')&&val('reg_self')[0]!=='no') who.push(`${$('#a-fio').value}, ушкодження: ${$('#i-s-deg').value.toLowerCase()}`);
-    if(sel.includes('child')&&val('reg_child')[0]!=='no') $$('.kid').forEach(k=>who.push(`${pibVal(k.querySelector('.kname'))||'дитина'} (дитина), ушкодження: ${k.querySelector('.deg').value.toLowerCase()}`));
+    if(sel.includes('child')&&val('reg_child')[0]!=='no') $$('.kid').forEach(k=>who.push(`${(val('kd'+k.dataset.kid)[0]==='yes'?k.dataset.name:pibVal(k.querySelector('.kname')))||'дитина'} (дитина), ушкодження: ${k.querySelector('.deg').value.toLowerCase()}`));
     if(sel.includes('other')&&val('reg_other')[0]!=='no') who.push(`${pibVal($('#i-o-n'))}, ушкодження: ${$('#i-o-deg').value.toLowerCase()}`);
     who.forEach(w=>list.push({g:'Поранення',t:'Одноразова допомога пораненій особі — '+w,svc:'Допомога у зв\'язку з пораненням'}));
   }
@@ -960,6 +1009,7 @@ function aids(){
   }
   return list;
 }
+function passText(){ return $('#pp-id').textContent?'ID-картка № '+$('#pp-id').textContent:($('#pp-s').textContent+' '+$('#pp-n').textContent).trim(); }
 function buildSign(){
   const a=aids(), body=$('#signBody');
   if(!a.length){
@@ -975,7 +1025,7 @@ function buildSign(){
   <div class="doc-tb"><span>Заява.pdf · 1 з 1</span><span>100%</span></div>
   <div class="doc-wrap"><div class="doc">
     <h4>ЗАЯВА № ${appNo}</h4><p class="sub">про надання матеріальної допомоги особам у складних життєвих обставинах через обстріли</p>
-    <h5>Заявник</h5><dl><dt>Прізвище, ім'я та по батькові</dt><dd>${esc($('#a-fio').value)}</dd><dt>РНОКПП</dt><dd>${esc($('#a-rn').value)}</dd><dt>Паспорт</dt><dd>${esc($('#a-pass').value)}</dd><dt>Номер телефону</dt><dd>${esc($('#a-ph').value)}</dd><dt>Email</dt><dd>${esc($('#a-em').value)}</dd></dl>
+    <h5>Заявник</h5><dl><dt>Прізвище, ім'я та по батькові</dt><dd>${esc($('#a-fio').value)}</dd><dt>РНОКПП</dt><dd>${esc($('#a-rn').value)}</dd><dt>Паспорт</dt><dd>${esc(passText())}</dd><dt>Номер телефону</dt><dd>${esc($('#a-ph').value)}</dd><dt>Email</dt><dd>${esc($('#a-em').value)}</dd></dl>
     <h5>Подія</h5><dl><dt>Дата обстрілу</dt><dd>${dateOf($('#e-date'))}</dd><dt>Адреса</dt><dd>${esc(addr())}</dd><dt>Що сталося</dt><dd>${ev[0].toUpperCase()+ev.slice(1)}</dd></dl>
     <h5>Види допомоги, на які подається заява</h5><dl>${Object.entries(groups).map(([g,ts])=>`<dt>${g}</dt><dd><ul class="lst">${ts.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></dd>`).join('')}</dl>
     <h5>Рахунок для виплати (IBAN)</h5><p>${esc(iban)}</p>
@@ -1086,6 +1136,8 @@ $('#p-iban').addEventListener('input',e=>{ const v=e.target.value.replace(/\s/g,
 /* ---------- Сценарії ---------- */
 $('#dm-reg').addEventListener('change',e=>{flags.reg=e.target.checked?1:0;cond()});
 $('#dm-pilga').addEventListener('change',e=>{flags.pilga=e.target.checked?1:0;cond()});
+function fillPass(){ $('#pp-s').textContent=''; $('#pp-n').textContent=''; $('#pp-id').textContent=flags.pass?'004123789':''; }
+$('#dm-pass').addEventListener('change',e=>{flags.pass=e.target.checked?1:0;fillPass();cond()});
 $('#dm-dup').addEventListener('change',e=>{flags.dup=e.target.checked?1:0;cond()});
 $('#dm-reset').addEventListener('click',()=>location.reload());
 $('#ov').addEventListener('click',e=>{ if(e.target.id==='ov') closeModal(); });
@@ -1096,6 +1148,7 @@ document.addEventListener('change',e=>{ if(e.target.tagName==='SELECT') markEmpt
 new MutationObserver(markEmpty).observe(document.body,{childList:true,subtree:true});
 /* ---------- Старт ---------- */
 $$('.pib').forEach(renderPib);
+fillPass();
 $$('.reg').forEach(renderReg);
 $$('.date').forEach(renderDate);
 $$('.up').forEach(renderUp);
