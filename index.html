@@ -562,8 +562,8 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
           </div>
         </div>
       </div>
-      <label class="opt mt24"><input type="checkbox" name="inodoc" value="1"><span>У мене немає всіх необхідних документів</span></label>
-      <div class="msg warn mt" data-when="inodoc=1"><span class="ic" aria-hidden="true">☝</span><span>Заяву за цією подією зараз не буде сформовано. Ви зможете подати її пізніше, коли матимете всі документи.</span></div>
+      <label class="opt mt24" data-when="inj=self|child|other"><input type="checkbox" name="inodoc" value="1"><span>У мене немає всіх необхідних документів</span></label>
+      <div class="msg warn mt" data-when="inodoc=1&inj=self|child|other"><span class="ic" aria-hidden="true">☝</span><span>Заяву за цією подією зараз не буде сформовано. Ви зможете подати її пізніше, коли матимете всі документи.</span></div>
     </section>
 
     <!-- Крок: Загибель -->
@@ -581,7 +581,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
       <div class="msg bad-m mt24" data-when="@dup=1" role="alert"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span><b>Ви вже подали заяву на допомогу у зв'язку із загибеллю цієї особи.</b><br>Заява № МД-20102026-087 від 20.10.2026 перебуває на розгляді. Повторно подати заяву неможливо. Продовжуйте заповнення заяви на інші події.</span></div>
       <div data-when="@dup=0">
         <div class="reg" data-who="dead"></div>
-        <div data-when="!dnodoc=1&!reg_dead=no">
+        <div data-when="!dnodoc=1&!reg_dead=no&d_rel=spouse|parent|child|sib|grand|gchild">
           <h3>Додайте підтверджуючі документи</h3>
           <div style="display:flex;flex-direction:column;gap:20px">
             <div class="up" data-label="Свідоцтво про смерть загиблої особи" data-req></div>
@@ -591,8 +591,8 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
             <div class="up" data-label="Відмова від призначення інших членів родини"></div>
           </div>
         </div>
-        <label class="opt mt24"><input type="checkbox" name="dnodoc" value="1"><span>У мене немає всіх необхідних документів</span></label>
-        <div class="msg warn mt" data-when="dnodoc=1"><span class="ic" aria-hidden="true">☝</span><span>Заяву за цією подією зараз не буде сформовано. Ви зможете подати її пізніше, коли матимете всі документи.</span></div>
+        <label class="opt mt24" data-when="d_rel=spouse|parent|child|sib|grand|gchild&!reg_dead=no"><input type="checkbox" name="dnodoc" value="1"><span>У мене немає всіх необхідних документів</span></label>
+        <div class="msg warn mt" data-when="dnodoc=1&d_rel=spouse|parent|child|sib|grand|gchild"><span class="ic" aria-hidden="true">☝</span><span>Заяву за цією подією зараз не буде сформовано. Ви зможете подати її пізніше, коли матимете всі документи.</span></div>
       </div>
     </section>
 
