@@ -81,6 +81,8 @@ p{margin:0}
 
 /* Поля: одне під одним */
 .fs{display:flex;flex-direction:column;gap:20px;max-width:520px}
+.pib{display:flex;flex-direction:column;gap:20px}
+.pib .opt{min-height:32px;margin-top:-8px}
 .fld{display:flex;flex-direction:column;gap:2px;min-width:0}
 .fld>label,.flabel{font-size:11px;line-height:14px;color:var(--muted)}
 .fld input[type=text],.fld input[type=tel],.fld select,.drow input,.drow select{width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:6px 0 8px;font-size:14px;line-height:20px;background-color:transparent;min-height:36px}
@@ -519,7 +521,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
             </div></div>
             <h3>Надайте дані особи, яка отримала поранення</h3>
             <div class="fs">
-              <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="i-o-n">ПІБ *</label><input id="i-o-n" type="text" placeholder="Прізвище, ім'я, по батькові"></div>
+              <div class="pib" id="i-o-n"></div>
               <div class="fld" data-req data-pat="^\d{10}$" data-err="РНОКПП має містити 10 цифр"><label for="i-o-rn">РНОКПП *</label><input id="i-o-rn" type="text" inputmode="numeric" maxlength="10" placeholder="10 цифр"></div>
               <div class="fld" data-req data-err="Вкажіть паспортні дані"><label for="i-o-p">Паспортні дані *</label><input id="i-o-p" type="text" placeholder="Серія та номер паспорта або номер ID-картки"></div>
               <div class="fld" data-req data-err="Оберіть ступінь тяжкості"><label for="i-o-deg">Ступінь тяжкості тілесних ушкоджень *</label><select id="i-o-deg" class="deg"></select><span class="hint">Як зазначено в довідці медичного закладу</span></div>
@@ -546,8 +548,9 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
       <div class="fs"><div class="fld" data-req data-err="Оберіть родинний зв'язок"><label for="d-rel">Родинний зв'язок *</label><select id="d-rel" name="d_rel"><option value="">Оберіть зі списку</option><option value="spouse">Чоловік / дружина</option><option value="parent">Батько / мати</option><option value="child">Син / донька</option><option value="sib">Рідний брат / сестра</option><option value="grand">Дід / баба</option><option value="gchild">Онук / онука</option></select></div></div>
       <h3>Відомості про загиблу особу</h3>
       <div class="fs">
-        <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="d-fio">Прізвище, ім'я, по батькові *</label><input id="d-fio" type="text" placeholder="Прізвище, ім'я, по батькові"></div>
-        <div class="fld" data-req data-err="Вкажіть серію та номер свідоцтва"><label for="d-cert">Серія та номер свідоцтва про смерть *</label><input id="d-cert" type="text" placeholder="Наприклад: I-ТВ 123456"></div>
+        <div class="pib" id="d-fio"></div>
+        <div class="fld" data-req data-err="Вкажіть серію свідоцтва"><label for="d-cser">Серія свідоцтва про смерть *</label><input id="d-cser" type="text" placeholder="Наприклад: I-ТВ"></div>
+        <div class="fld" data-req data-pat="^\d{6}$" data-err="Номер свідоцтва має містити 6 цифр"><label for="d-cnum">Номер свідоцтва про смерть *</label><input id="d-cnum" type="text" inputmode="numeric" maxlength="6" placeholder="6 цифр"></div>
         <div class="fld date" id="d-date" data-label="Дата смерті *" data-req data-err="Вкажіть дату смерті"></div>
       </div>
       <div class="msg bad-m mt24" data-when="@dup=1" role="alert"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span><b>Ви вже подали заяву на допомогу у зв'язку із загибеллю цієї особи.</b><br>Заява № МД-20102026-087 від 20.10.2026 перебуває на розгляді. Повторно подати заяву неможливо. Продовжуйте заповнення заяви на інші події.</span></div>
@@ -581,7 +584,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
       <div data-when="h_own=proxy">
         <h3>Відомості про власника / співвласника</h3>
         <div class="fs">
-          <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="h-on">ПІБ власника *</label><input id="h-on" type="text" placeholder="Прізвище, ім'я, по батькові"></div>
+          <div class="pib" id="h-on" data-sfx=" власника"></div>
           <div class="fld" data-req data-pat="^\d{10}$" data-err="РНОКПП має містити 10 цифр"><label for="h-orn">РНОКПП власника *</label><input id="h-orn" type="text" inputmode="numeric" maxlength="10" placeholder="10 цифр"></div>
         </div>
       </div>
@@ -824,7 +827,7 @@ function renderReg(el){
 function kidHTML(i){
   return `<div class="card kid" data-kid="${i}"><div class="card-h"><span>Дитина ${i}</span><button type="button" class="lnk del" data-rmkid>Видалити</button></div>
   <div class="fs">
-  <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="k${i}n">Прізвище, ім'я, по батькові *</label><input id="k${i}n" type="text" class="kname" placeholder="Прізвище, ім'я, по батькові"></div>
+  <div class="pib kname" id="k${i}n"></div>
   <div class="fld date" data-label="Дата народження *" data-req data-err="Вкажіть дату народження"></div>
   <div class="fld" data-req data-err="Вкажіть серію свідоцтва"><label for="k${i}s">Серія свідоцтва про народження *</label><input id="k${i}s" type="text" placeholder="Наприклад: І-КВ"></div>
   <div class="fld" data-req data-pat="^\\d{6}$" data-err="Номер свідоцтва має містити 6 цифр"><label for="k${i}c">Номер свідоцтва про народження *</label><input id="k${i}c" type="text" inputmode="numeric" maxlength="6" placeholder="6 цифр"></div>
@@ -836,10 +839,19 @@ function kidHTML(i){
   <div class="up" data-when="i_role=guard" data-label="Посвідчення опікуна / піклувальника або рішення суду чи органу опіки та піклування" data-req></div>
   </div></div>`;
 }
+
+function renderPib(el){
+  const id=el.id, sfx=el.dataset.sfx||'', nop=id.replace(/[^a-z0-9]/gi,'')+'_nop';
+  el.innerHTML=`<div class="fld" data-req data-err="Вкажіть прізвище"><label for="${id}-l">Прізвище${sfx} *</label><input id="${id}-l" type="text" class="p-l" placeholder="Прізвище"></div>
+  <div class="fld" data-req data-err="Вкажіть ім'я"><label for="${id}-f">Ім'я${sfx} *</label><input id="${id}-f" type="text" class="p-f" placeholder="Ім'я"></div>
+  <div class="fld" data-req data-err="Вкажіть по батькові" data-when="!${nop}=1"><label for="${id}-m">По батькові${sfx} *</label><input id="${id}-m" type="text" class="p-m" placeholder="По батькові"></div>
+  <label class="opt"><input type="checkbox" name="${nop}" value="1"><span>Немає по батькові</span></label>`;
+}
+function pibVal(el){ const g=c=>el.querySelector(c).value.trim(); const nop=el.querySelector('input[type=checkbox]').checked; return [g('.p-l'),g('.p-f'),nop?'':g('.p-m')].filter(Boolean).join(' '); }
 function fillDeg(root=document){ $$('select.deg',root).forEach(s=>{ if(!s.options.length) s.innerHTML='<option value="">Оберіть зі списку</option>'+DEGS.map(d=>`<option>${d}</option>`).join(''); }); }
 function addKid(){
   const box=$('#kids'); box.insertAdjacentHTML('beforeend',kidHTML(++kidN));
-  const k=box.lastElementChild; $$('.date',k).forEach(renderDate); $$('.up',k).forEach(renderUp); fillDeg(k); renumKids(); cond();
+  const k=box.lastElementChild; $$('.pib',k).forEach(renderPib); $$('.date',k).forEach(renderDate); $$('.up',k).forEach(renderUp); fillDeg(k); renumKids(); cond();
 }
 function renumKids(){ $$('.kid').forEach((k,i)=>{k.querySelector('.card-h span').textContent='Дитина '+(i+1); k.querySelector('[data-rmkid]').hidden=$$('.kid').length<2;}); }
 document.addEventListener('click',e=>{ if(e.target.closest('[data-rmkid]')){ e.target.closest('.kid').remove(); renumKids(); } });
@@ -933,12 +945,12 @@ function aids(){
   if(included('injury')&&!val('inodoc').length){
     const who=[]; const sel=val('inj');
     if(sel.includes('self')&&val('reg_self')[0]!=='no') who.push(`${$('#a-fio').value}, ушкодження: ${$('#i-s-deg').value.toLowerCase()}`);
-    if(sel.includes('child')&&val('reg_child')[0]!=='no') $$('.kid').forEach(k=>who.push(`${k.querySelector('.kname').value||'дитина'} (дитина), ушкодження: ${k.querySelector('.deg').value.toLowerCase()}`));
-    if(sel.includes('other')&&val('reg_other')[0]!=='no') who.push(`${$('#i-o-n').value}, ушкодження: ${$('#i-o-deg').value.toLowerCase()}`);
+    if(sel.includes('child')&&val('reg_child')[0]!=='no') $$('.kid').forEach(k=>who.push(`${pibVal(k.querySelector('.kname'))||'дитина'} (дитина), ушкодження: ${k.querySelector('.deg').value.toLowerCase()}`));
+    if(sel.includes('other')&&val('reg_other')[0]!=='no') who.push(`${pibVal($('#i-o-n'))}, ушкодження: ${$('#i-o-deg').value.toLowerCase()}`);
     who.forEach(w=>list.push({g:'Поранення',t:'Одноразова допомога пораненій особі — '+w,svc:'Допомога у зв\'язку з пораненням'}));
   }
   if(included('death')&&!flags.dup&&!val('dnodoc').length&&val('reg_dead')[0]!=='no'){
-    list.push({g:'Загибель',t:`Одноразова допомога членам сім'ї загиблої особи — ${$('#d-fio').value}, ${$('#d-rel').selectedOptions[0].text.toLowerCase()}`,svc:'Допомога у зв\'язку із загибеллю члена родини'});
+    list.push({g:'Загибель',t:`Одноразова допомога членам сім'ї загиблої особи — ${pibVal($('#d-fio'))}, ${$('#d-rel').selectedOptions[0].text.toLowerCase()}`,svc:'Допомога у зв\'язку із загибеллю члена родини'});
   }
   if(included('housing')&&flags.hok){
     const cat=val('h_cat')[0], pr=cat&&cat!=='none';
@@ -1083,6 +1095,7 @@ function markEmpty(){ $$('select').forEach(x=>x.classList.toggle('empty',!x.valu
 document.addEventListener('change',e=>{ if(e.target.tagName==='SELECT') markEmpty(); });
 new MutationObserver(markEmpty).observe(document.body,{childList:true,subtree:true});
 /* ---------- Старт ---------- */
+$$('.pib').forEach(renderPib);
 $$('.reg').forEach(renderReg);
 $$('.date').forEach(renderDate);
 $$('.up').forEach(renderUp);
