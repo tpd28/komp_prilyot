@@ -119,7 +119,7 @@ select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%
 .opts{display:flex;flex-direction:column;gap:4px}
 .opt{display:flex;gap:12px;align-items:center;min-height:36px;font-size:14px;line-height:20px;cursor:pointer}
 .opt input{width:20px;height:20px;margin:0;flex:none;accent-color:var(--btn);cursor:pointer}
-.opt.top{align-items:flex-start}.opt.top input{margin-top:1px}
+.opt.otop{align-items:flex-start}.opt.otop input{margin-top:1px}
 .opt{user-select:none;-webkit-user-select:none}
 .terms{display:flex;flex-direction:column;gap:16px;max-width:720px;margin-top:24px}
 .term .opt{font-size:14px;line-height:22px;color:var(--ink);border:1px solid var(--aside-line);border-radius:8px;padding:16px 20px;background:#fff}
@@ -487,7 +487,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
     <section class="step" id="s-injury" hidden>
       <h2>Обставини поранення</h2>
       <h3>Хто отримав поранення?</h3>
-      <div class="msg warn" style="margin-bottom:12px"><span class="ic" aria-hidden="true">☝</span><span>Можна обрати кілька варіантів. Під кожним обраним варіантом з'являться поля для уточнення.</span></div>
+      <div class="msg warn" style="margin-bottom:12px"><span class="ic" aria-hidden="true">☝</span><span>Можна обрати кілька варіантів. Під кожним обраним варіантом з'являться поля для уточнення. Реєстрацію місця проживання та статус ВПО кожної особи, яка отримала поранення, система перевірить автоматично.</span></div>
       <div class="fld" data-group="inj" data-err="Оберіть, хто отримав поранення">
         <div class="opts">
           <label class="opt"><input type="checkbox" name="inj" value="self"><span>Я особисто</span></label>
@@ -511,7 +511,6 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
               <label class="opt"><input type="radio" name="i_role" value="guard"><span>Опікун / піклувальник</span></label>
             </div></div>
             <h3>Відомості про дитину</h3>
-            <div class="msg warn" style="margin-bottom:16px"><span class="ic" aria-hidden="true">☝</span><span>Реєстрацію місця проживання та статус ВПО дитини система перевірить автоматично після введення даних.</span></div>
             <div id="kids" style="display:flex;flex-direction:column;gap:16px"></div>
             <div><button type="button" class="lnk" id="addKid">+ Додати дитину</button></div>
             <div class="reg" data-who="child"></div>
@@ -521,8 +520,8 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
           <div class="sub-blk" data-when="inj=other">
             <h3>Ким Ви є для пораненого?</h3>
             <div class="fld" data-group="i_orole" data-err="Оберіть варіант"><div class="opts">
-              <label class="opt"><input type="radio" name="i_orole" value="legal"><span>Законний представник</span></label>
-              <label class="opt"><input type="radio" name="i_orole" value="proxy"><span>Представник за довіреністю</span></label>
+              <label class="opt otop"><input type="radio" name="i_orole" value="legal"><span>Опікун / піклувальник<small style="display:block;color:var(--muted);font-size:13px">Поранену особу визнано недієздатною або обмежено дієздатною, Вас призначено її опікуном або піклувальником</small></span></label>
+              <label class="opt otop"><input type="radio" name="i_orole" value="proxy"><span>Інша особа, яка має право представляти інтереси пораненого<small style="display:block;color:var(--muted);font-size:13px">Наприклад, за нотаріально посвідченою довіреністю</small></span></label>
             </div></div>
             <h3>Надайте дані особи, яка отримала поранення</h3>
             <div class="fs">
@@ -531,13 +530,12 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
               <div class="fld" data-req data-err="Вкажіть паспортні дані"><label for="i-o-p">Паспортні дані *</label><input id="i-o-p" type="text" placeholder="Серія та номер паспорта або номер ID-картки"></div>
               <div class="fld" data-req data-err="Оберіть ступінь тяжкості"><label for="i-o-deg">Ступінь тяжкості тілесних ушкоджень *</label><select id="i-o-deg" class="deg"></select><span class="hint">Як зазначено в довідці медичного закладу</span></div>
             </div>
-            <div class="msg warn mt" data-when="@reg=1"><span class="ic" aria-hidden="true">☝</span><span>Реєстрацію місця проживання та статус ВПО особи, яку Ви представляєте, перевіримо за її РНОКПП автоматично.</span></div>
             <div class="reg" data-who="other"></div>
             <div data-when="!inodoc=1&!reg_other=no">
               <h3>Додайте підтверджуючі документи</h3>
               <div class="msg warn" style="margin-bottom:16px"><span class="ic" aria-hidden="true">☝</span><span>Перелік сформовано для звернення представника.</span></div>
               <div class="up" data-label="Довідка медичного закладу про факт отримання травми / поранення та ступінь тяжкості" data-req></div>
-              <div class="msg info mt"><span>Документ про Ваші повноваження додасте на кроці «Документи»</span></div>
+              <div class="msg info mt"><span>Підтверджуючий документ на право представляти інтереси пораненого додасте на кроці «Документи» разом зі своїм паспортом</span></div>
             </div>
           </div>
         </div>
@@ -727,7 +725,10 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
       </div>
       <div data-when="@rep=1">
         <h3>Документи представника</h3>
-        <div class="up" data-label="Документ про повноваження законного представника / уповноваженої особи" data-req></div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="up" data-when="@rep2=1" data-label="Підтверджуючий документ на право представляти інтереси" data-req></div>
+        <div class="up" data-when="@repH=1" data-label="Нотаріально посвідчена довіреність від власника / співвласника житла" data-req></div>
+        </div>
       </div>
       <h3>Уже отримано та додано до заяви</h3>
       <div class="tbl-w"><table><thead><tr><th>Статус</th><th>Документ / відомості</th><th>Джерело</th></tr></thead><tbody id="gotRows"></tbody></table></div>
@@ -737,8 +738,8 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
     <section class="step" id="s-terms" hidden>
       <h2>Погодження з умовами</h2>
       <div class="terms">
-        <div class="term" data-group="t1" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t1" value="1"><span>Підтверджую достовірність поданих мною документів та відомостей. Мене попереджено про відповідальність, у тому числі кримінальну, за подання недостовірних відомостей або підроблених документів з метою отримання грошових виплат (статті 190, 358 Кримінального кодексу України).</span></label></div>
-        <div class="term" data-group="t2" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t2" value="1"><span>З метою забезпечення реалізації адміністративно-правових відносин, відносин у сфері соціального захисту та бухгалтерського обліку при наданні мені матеріальної допомоги, відповідно до Закону України «Про захист персональних даних» я, <b>Коваленко Ірина Олексіївна</b>, даю згоду на обробку моїх персональних даних та персональних даних осіб, відомості про яких я зазначив(-ла) у заяві.</span></label></div>
+        <div class="term" data-group="t1" data-err="Підтвердіть, щоб продовжити"><label class="opt otop"><input type="checkbox" name="t1" value="1"><span>Підтверджую достовірність поданих мною документів та відомостей. Мене попереджено про відповідальність, у тому числі кримінальну, за подання недостовірних відомостей або підроблених документів з метою отримання грошових виплат (статті 190, 358 Кримінального кодексу України).</span></label></div>
+        <div class="term" data-group="t2" data-err="Підтвердіть, щоб продовжити"><label class="opt otop"><input type="checkbox" name="t2" value="1"><span>З метою забезпечення реалізації адміністративно-правових відносин, відносин у сфері соціального захисту та бухгалтерського обліку при наданні мені матеріальної допомоги, відповідно до Закону України «Про захист персональних даних» я, <b>Коваленко Ірина Олексіївна</b>, даю згоду на обробку моїх персональних даних та персональних даних осіб, відомості про яких я зазначив(-ла) у заяві.</span></label></div>
       </div>
     </section>
 
@@ -796,7 +797,7 @@ const CATS={vpo:'Внутрішньо переміщена особа (ВПО)',
 const CAT_SHORT={vpo:'ВПО',many:'багатодітної сім\'ї',guard:'опікуна / піклувальника',dis:'сім\'ї, у якій виховується дитина з інвалідністю'};
 const STREETS={"Голосіївський":["просп. Голосіївський","вул. Васильківська","вул. Антоновича","просп. Науки"],"Дарницький":["просп. Миколи Бажана","Харківське шосе","вул. Ревуцького","вул. Вербицького"],"Деснянський":["просп. Червоної Калини","вул. Закревського","Лісовий просп.","вул. Бальзака"],"Дніпровський":["просп. Соборності","бульв. Перова","вул. Райдужна","вул. Березняківська"],"Оболонський":["Оболонський просп.","просп. Володимира Івасюка","вул. Героїв Дніпра","вул. Левка Лук'яненка"],"Печерський":["вул. Велика Васильківська","бульв. Лесі Українки","вул. Липська","вул. Мечникова"],"Подільський":["вул. Сагайдачного","вул. Кирилівська","просп. Правди","вул. Межигірська"],"Святошинський":["Берестейський просп.","вул. Якуба Коласа","бульв. Академіка Кольцова","вул. Симиренка"],"Солом'янський":["Повітрофлотський просп.","вул. Гарматна","вул. Борщагівська","вул. Донця"],"Шевченківський":["вул. Хрещатик","вул. Велика Житомирська","вул. Богдана Хмельницького","бульв. Тараса Шевченка"]};
 const LABELS={applicant:'Відомості про заявника',event:'Яка подія сталась внаслідок збройної агресії',injury:'Поранення',death:'Загибель',housing:'Пошкодження житла',payment:'Відомості для нарахувань',docs:'Документи',terms:'Підтвердження умов'};
-const flags={pass:1,reg:1,pilga:1,dup:0,hok:0,hnone:0,mon:0,rep:0,hnodoc:0};
+const flags={rep2:0,repL:0,repP:0,repH:0,pass:1,reg:1,pilga:1,dup:0,hok:0,hnone:0,mon:0,rep:0,hnodoc:0};
 let view='catalog', step='applicant', logged=false, kidN=0, orders=[], passDiia=false, appNo='';
 
 /* ---------- Рендер складених полів ---------- */
@@ -916,7 +917,9 @@ function computeFlags(){
   flags.hok = (own&&cat&&!flags.hnone&&!(own==='no'&&flags.reg===0&&val('reg_pilg')[0]==='no'))?1:0;
   const mc=['h_mc1','h_mc2','h_mc3'].some(n=>val(n)[0]==='yes');
   flags.mon = (moveYes()&&val('h_other')[0]==='no'&&val('h_mon')[0]==='yes') ? (mc?2:1) : 0;
-  flags.rep = ((included('injury')&&val('inj').includes('other'))||(included('housing')&&own==='proxy'))?1:0;
+  const oth=included('injury')&&val('inj').includes('other');
+  flags.repL = (oth&&val('i_orole')[0]==='legal')?1:0; flags.repP=(oth&&val('i_orole')[0]==='proxy')?1:0; flags.repH=(included('housing')&&own==='proxy')?1:0;
+  flags.rep2 = oth?1:0; flags.rep = (oth||flags.repH)?1:0;
   flags.hnodoc = (val('g1nodoc').length||val('g2nodoc').length||val('g3nodoc').length)?1:0;
   if(cat&&CATS[cat]){ $('#h-cat-ok').textContent=`Статус ${CAT_SHORT[cat]} підтверджено за даними ЄІСС. Документ додавати не потрібно.`;
     $('#h-cat-no').textContent=`За даними ЄІСС статус ${CAT_SHORT[cat]} не знайдено. Додайте документ, що його підтверджує, — він з'явиться у переліку документів нижче.`; }
