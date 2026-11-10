@@ -120,6 +120,12 @@ select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%
 .opt{display:flex;gap:12px;align-items:center;min-height:36px;font-size:14px;line-height:20px;cursor:pointer}
 .opt input{width:20px;height:20px;margin:0;flex:none;accent-color:var(--btn);cursor:pointer}
 .opt.top{align-items:flex-start}.opt.top input{margin-top:1px}
+.opt{user-select:none;-webkit-user-select:none}
+.terms{display:flex;flex-direction:column;gap:16px;max-width:720px;margin-top:24px}
+.term .opt{font-size:14px;line-height:22px;color:var(--ink);border:1px solid var(--aside-line);border-radius:8px;padding:16px 20px;background:#fff}
+.term .opt:has(input:checked){border-color:var(--btn);background:#F7FAFF}
+.term .opt span{flex:1;min-width:0}
+.term .opt input{margin-top:2px}
 .sub-blk{margin:8px 0 16px 32px;display:flex;flex-direction:column}
 .sub-blk>h3:first-child{margin-top:8px}
 .card{border:1px solid var(--aside-line);border-radius:8px;padding:16px 20px;display:flex;flex-direction:column;gap:20px;max-width:560px}
@@ -460,12 +466,12 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
         <div class="fld"><label for="a-rn">РНОКПП</label><div class="lock"><input id="a-rn" type="text" readonly value="3045678912">LOCK</div></div>
         <div class="fld"><label for="a-em">Електронна пошта</label><div class="lock"><input id="a-em" type="text" readonly value="iryna.kovalenko@example.com">LOCK</div></div>
         <div class="fld" id="passFld">
-          <span class="pass-h">Паспортні дані</span>
+          <span class="pass-h" id="pp-h">Паспортні дані</span>
           <div class="pass-row">
-            <span class="pf" style="width:56px"><b id="pp-s" aria-label="Серія" data-ph="Серія"></b></span>
-            <span class="pf" style="width:150px"><b id="pp-n" aria-label="Номер паспорта" data-ph="Номер паспорта"></b></span>
-            <span class="or">або</span>
-            <span class="pf" style="flex:1 1 200px;max-width:250px"><b id="pp-id" aria-label="Номер ID-картки" data-ph="Номер ID-картки"></b></span>
+            <span class="pf pp-book" style="width:56px"><span class="pl">Серія</span><b id="pp-s" aria-label="Серія" data-ph="Серія"></b></span>
+            <span class="pf pp-book" style="width:150px"><span class="pl">Номер паспорта</span><b id="pp-n" aria-label="Номер паспорта" data-ph="Номер паспорта"></b></span>
+            <span class="or" id="pp-or">або</span>
+            <span class="pf pp-idc" style="flex:1 1 200px;max-width:250px"><span class="pl">Номер ID-картки</span><b id="pp-id" aria-label="Номер ID-картки" data-ph="Номер ID-картки"></b></span>
           </div>
         </div>
         <div class="msg warn" data-when="@pass=0" style="padding:20px 22px"><span class="ic" aria-hidden="true" style="color:var(--err)">❗</span><span>Відсутні паспортні дані. Заповнити ваші дані ви можете в <a href="#" data-soon style="color:var(--btn);text-decoration:underline">профілі користувача</a>. Повернутись до цієї заяви ви можете через вкладку «Чернетки» розділу «Мої послуги».</span></div>
@@ -620,6 +626,11 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
           <label class="opt"><input type="radio" name="h_cons" value="yes"><span>Так</span></label>
           <label class="opt"><input type="radio" name="h_cons" value="no"><span>Ні</span></label>
         </div></div>
+        <div data-when="h_cons=yes" style="display:flex;flex-direction:column;gap:16px;margin-top:16px">
+          <div class="msg warn"><span class="ic" aria-hidden="true">☝</span><span>Вкажіть кожного співвласника та додайте його письмову згоду.</span></div>
+          <div id="coowners" style="display:flex;flex-direction:column;gap:16px"></div>
+          <div><button type="button" class="lnk" id="addCo">+ Додати співвласника</button></div>
+        </div>
       </div>
 
       <div data-when="h_own=owner|co|proxy|no">
@@ -751,9 +762,9 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
     <!-- Крок: Умови -->
     <section class="step" id="s-terms" hidden>
       <h2>Погодження з умовами</h2>
-      <div class="opts mt24" style="gap:16px;max-width:720px">
-        <div class="fld" data-group="t1" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t1" value="1"><span>Підтверджую достовірність поданих мною документів та відомостей. Мене попереджено про відповідальність, у тому числі кримінальну, за подання недостовірних відомостей або підроблених документів з метою отримання грошових виплат (статті 190, 358 Кримінального кодексу України).</span></label></div>
-        <div class="fld" data-group="t2" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t2" value="1"><span>З метою забезпечення реалізації адміністративно-правових відносин, відносин у сфері соціального захисту та бухгалтерського обліку при наданні мені матеріальної допомоги, відповідно до Закону України «Про захист персональних даних» я, <b>Коваленко Ірина Олексіївна</b>, даю згоду на обробку моїх персональних даних та персональних даних осіб, відомості про яких я зазначив(-ла) у заяві.</span></label></div>
+      <div class="terms">
+        <div class="term" data-group="t1" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t1" value="1"><span>Підтверджую достовірність поданих мною документів та відомостей. Мене попереджено про відповідальність, у тому числі кримінальну, за подання недостовірних відомостей або підроблених документів з метою отримання грошових виплат (статті 190, 358 Кримінального кодексу України).</span></label></div>
+        <div class="term" data-group="t2" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t2" value="1"><span>З метою забезпечення реалізації адміністративно-правових відносин, відносин у сфері соціального захисту та бухгалтерського обліку при наданні мені матеріальної допомоги, відповідно до Закону України «Про захист персональних даних» я, <b>Коваленко Ірина Олексіївна</b>, даю згоду на обробку моїх персональних даних та персональних даних осіб, відомості про яких я зазначив(-ла) у заяві.</span></label></div>
       </div>
     </section>
 
@@ -795,7 +806,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
     <p class="n">Імітація відповідей реєстрів. На порталі цієї панелі немає.</p>
     <label><input type="checkbox" id="dm-reg" checked><span>РТГК / ЄІСС підтверджують реєстрацію у Києві або статус ВПО</span></label>
     <label><input type="checkbox" id="dm-pilga" checked><span>ЄІСС підтверджує пільгову категорію</span></label>
-    <label><input type="checkbox" id="dm-pass" checked><span>Паспортні дані є в профілі користувача</span></label>
+    <label style="flex-direction:column;gap:4px"><span>Паспорт у профілі користувача</span><select id="dm-pass" style="width:100%;padding:6px;border-radius:6px;border:0;background:#2E3646;color:#fff"><option value="id">ID-картка</option><option value="book">Паспорт-книжечка</option><option value="none">Немає</option></select></label>
     <label><input type="checkbox" id="dm-dup"><span>Заяву на цю загиблу особу Ви вже подавали</span></label>
     <button type="button" id="dm-reset">Почати спочатку</button>
   </div>
@@ -879,6 +890,17 @@ function kidHTML(i){
   <div class="up" data-when="i_role=guard" data-label="Посвідчення опікуна / піклувальника або рішення суду чи органу опіки та піклування" data-req></div>
   </div></div>`;
 }
+
+let coN=0;
+function coHTML(i){
+  return `<div class="card co" data-co="${i}"><div class="card-h"><span>Співвласник ${i}</span><button type="button" class="lnk del" data-rmco>Видалити</button></div>
+  <div class="fs"><div class="pib" id="co${i}n"></div>
+  <div class="fld" data-req data-pat="^\\d{10}$" data-err="РНОКПП має містити 10 цифр"><label for="co${i}r">РНОКПП *</label><input id="co${i}r" type="text" inputmode="numeric" maxlength="10" placeholder="10 цифр"></div></div>
+  <div class="up" data-label="Письмова згода співвласника щодо визначення отримувача допомоги" data-req></div></div>`;
+}
+function addCo(){ const box=$('#coowners'); box.insertAdjacentHTML('beforeend',coHTML(++coN)); const c=box.lastElementChild; $$('.pib',c).forEach(renderPib); $$('.up',c).forEach(renderUp); renumCo(); cond(); }
+function renumCo(){ const l=$$('.co'); l.forEach((c,i)=>{ c.querySelector('.card-h span').textContent='Співвласник '+(i+1); c.querySelector('[data-rmco]').hidden=l.length<2; }); }
+document.addEventListener('click',e=>{ if(e.target.closest('[data-rmco]')){ e.target.closest('.co').remove(); renumCo(); } });
 const DIIA_KIDS=[['Коваленко Марія Іванівна','03.03.2016','І-КВ 654321'],['Коваленко Олег Іванович','12.07.2019','І-КВ 778812'],['Коваленко Софія Іванівна','21.01.2022','І-КВ 901245']];
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-kdiia]'); if(!b) return;
@@ -936,10 +958,11 @@ function renderStepper(){
   $('#stpCnt').textContent=`${i}/${n} Кроків завершено`;
   $('#stpM').innerHTML=`<p>Крок ${i+1} з ${n} · <b>${LABELS[step]}</b></p><div class="bar"><span style="width:${(i+1)/n*100}%"></span></div>`;
 }
+function termsGate(){ const b=$('#bNext'); b.disabled = step==='terms' && !(val('t1').length&&val('t2').length); }
 function showStep(s){
   step=s; $$('.step').forEach(x=>x.hidden=x.id!=='s-'+s);
   if(s==='docs') buildGot();
-  renderStepper(); cond(); window.scrollTo(0,0);
+  renderStepper(); cond(); termsGate(); window.scrollTo(0,0);
 }
 
 /* ---------- Перевірка ---------- */
@@ -967,6 +990,8 @@ document.addEventListener('input',e=>{const w=e.target.closest('.bad'); w&&clear
 document.addEventListener('change',e=>{
   const w=e.target.closest('.bad'); w&&clearBad(w);
   if(e.target.name==='ev') renderStepper();
+  if(e.target.name==='t1'||e.target.name==='t2') termsGate();
+  if(e.target.name==='h_cons'&&e.target.value==='yes'&&!$$('.co').length) addCo();
   if(e.target.name==='inj'&&e.target.value==='child'&&e.target.checked&&!$$('.kid').length) addKid();
   cond();
 });
@@ -1124,6 +1149,7 @@ $('#bNext').addEventListener('click',()=>{
 $('#bBack').addEventListener('click',()=>{ const st=steps(), i=st.indexOf(step); if(i===0) go('service'); else showStep(st[i-1]); });
 document.addEventListener('click',e=>{ if(e.target.id==='signBtn') startSign(); });
 $('#addKid').addEventListener('click',addKid);
+$('#addCo').addEventListener('click',addCo);
 $('#diiaBtn').addEventListener('click',()=>{ const b=$('#diiaBtn'); b.disabled=true; b.textContent='Очікуємо підтвердження в Дії…';
   setTimeout(()=>{ passDiia=true; b.hidden=true; $('#diiaOk').hidden=false; $('#passUp').hidden=true; clearBad($('#passBlk')); },1300); });
 
@@ -1136,8 +1162,15 @@ $('#p-iban').addEventListener('input',e=>{ const v=e.target.value.replace(/\s/g,
 /* ---------- Сценарії ---------- */
 $('#dm-reg').addEventListener('change',e=>{flags.reg=e.target.checked?1:0;cond()});
 $('#dm-pilga').addEventListener('change',e=>{flags.pilga=e.target.checked?1:0;cond()});
-function fillPass(){ $('#pp-s').textContent=''; $('#pp-n').textContent=''; $('#pp-id').textContent=flags.pass?'004123789':''; }
-$('#dm-pass').addEventListener('change',e=>{flags.pass=e.target.checked?1:0;fillPass();cond()});
+let passType='id';
+function fillPass(){
+  const book=passType==='book', idc=passType==='id', none=passType==='none';
+  $('#pp-s').textContent=book?'МК':''; $('#pp-n').textContent=book?'123456':''; $('#pp-id').textContent=idc?'004123789':'';
+  $$('.pp-book').forEach(x=>x.hidden=idc); $('.pp-idc').hidden=book; $('#pp-or').hidden=!none; $$('#passFld .pl').forEach(x=>x.hidden=none);
+  flags.pass=none?0:1;
+  $('#pp-h').textContent=idc?'Паспорт громадянина України у формі ID-картки':book?'Паспорт громадянина України у формі книжечки':'Паспортні дані';
+}
+$('#dm-pass').addEventListener('change',e=>{passType=e.target.value;fillPass();cond()});
 $('#dm-dup').addEventListener('change',e=>{flags.dup=e.target.checked?1:0;cond()});
 $('#dm-reset').addEventListener('click',()=>location.reload());
 $('#ov').addEventListener('click',e=>{ if(e.target.id==='ov') closeModal(); });
