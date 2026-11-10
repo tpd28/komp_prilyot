@@ -650,14 +650,14 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
       <div data-when="h_own=no&h_cat=vpo|many|guard|dis"><div class="reg" data-who="pilg"></div></div>
 
       <div data-when="@hok=1">
-        <h3>Чи потребуєте Ви тимчасового відселення через неможливість проживання в цьому житлі?</h3>
+        <div data-when="!h_own=no"><h3>Чи потребуєте Ви тимчасового відселення через неможливість проживання в цьому житлі?</h3>
         <div class="fld" data-group="h_move" data-err="Оберіть варіант"><div class="opts">
           <label class="opt"><input type="radio" name="h_move" value="yes"><span>Так</span></label>
           <label class="opt"><input type="radio" name="h_move" value="no"><span>Ні</span></label>
-        </div></div>
-        <div class="msg warn mt" data-when="h_move=yes"><span class="ic" aria-hidden="true">☝</span><span>Ви можете отримати одноразову допомогу 40 000 грн у зв'язку з тимчасовим відселенням. Для цього потрібні акт або витяг з рішення районної комісії з питань ТЕБ та НС і довідка ОСББ / ЖБК про необхідність тимчасового відселення — вони з'являться у переліку документів нижче.</span></div>
+        </div></div></div>
+        <div class="msg warn mt" data-when="h_move=yes&!h_own=no"><span class="ic" aria-hidden="true">☝</span><span>Ви можете отримати одноразову допомогу 40 000 грн у зв'язку з тимчасовим відселенням. Для цього потрібні акт або витяг з рішення районної комісії з питань ТЕБ та НС і довідка ОСББ / ЖБК про необхідність тимчасового відселення — вони з'являться у переліку документів нижче.</span></div>
 
-        <div data-when="h_move=yes">
+        <div data-when="h_move=yes&!h_own=no">
           <h3>Чи має власник (співвласники) пошкодженого житла інше житлове приміщення в м. Києві, придатне для проживання?</h3>
           <div class="fld" data-group="h_other" data-err="Оберіть варіант"><div class="opts">
             <label class="opt"><input type="radio" name="h_other" value="yes"><span>Так</span></label>
@@ -665,7 +665,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
           </div></div>
           <div class="msg warn mt" data-when="h_other=yes"><span class="ic" aria-hidden="true">☝</span><span>Щомісячна допомога на період відселення не призначається, якщо власник або співвласник має інше житло в м. Києві, придатне для проживання.</span></div>
         </div>
-        <div data-when="h_move=yes&h_other=no">
+        <div data-when="h_move=yes&h_other=no&!h_own=no">
           <h3>Чи бажаєте Ви подати заяву на щомісячну допомогу 20 000 грн на період відселення?</h3>
           <div class="msg warn" style="margin-bottom:12px"><span class="ic" aria-hidden="true">☝</span><span>Щомісячна допомога призначається на період, поки житло непридатне для проживання.</span></div>
           <div class="fld" data-group="h_mon" data-err="Оберіть варіант"><div class="opts">
@@ -673,7 +673,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
             <label class="opt"><input type="radio" name="h_mon" value="no"><span>Ні</span></label>
           </div></div>
         </div>
-        <div data-when="h_move=yes&h_other=no&h_mon=yes">
+        <div data-when="h_move=yes&h_other=no&h_mon=yes&!h_own=no">
           <h3>Чи отримував власник / співвласник сертифікат «єВідновлення»?</h3>
           <div class="fld" data-group="h_mc1" data-err="Оберіть варіант"><div class="opts">
             <label class="opt"><input type="radio" name="h_mc1" value="yes"><span>Так</span></label>
@@ -703,7 +703,7 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
         </div>
         <label class="opt mt"><input type="checkbox" name="g1nodoc" value="1"><span>У мене немає всіх документів для цієї допомоги</span></label>
 
-        <div data-when="h_move=yes">
+        <div data-when="h_move=yes&!h_own=no">
           <h3 style="font-size:15px">Одноразова допомога 40 000 грн у зв'язку з тимчасовим відселенням</h3>
           <div data-when="!g2nodoc=1" style="display:flex;flex-direction:column;gap:20px">
             <div class="up" data-label="Акт або витяг з рішення районної комісії з питань ТЕБ та НС щодо ситуації у житловому фонді, що зазнав пошкодження чи руйнування" data-req></div>
@@ -935,12 +935,13 @@ function test(tok){
   else ok=val(n).some(x=>vals.includes(x));
   return neg?!ok:ok;
 }
+function moveYes(){ return val('h_own')[0]!=='no' && val('h_move')[0]==='yes'; }
 function computeFlags(){
   const own=val('h_own')[0], cat=val('h_cat')[0];
   flags.hnone = (own==='no'&&cat==='none')?1:0;
   flags.hok = (own&&cat&&!flags.hnone&&!(own==='no'&&flags.reg===0&&val('reg_pilg')[0]==='no'))?1:0;
   const mc=['h_mc1','h_mc2','h_mc3'].some(n=>val(n)[0]==='yes');
-  flags.mon = (val('h_move')[0]==='yes'&&val('h_other')[0]==='no'&&val('h_mon')[0]==='yes') ? (mc?2:1) : 0;
+  flags.mon = (moveYes()&&val('h_other')[0]==='no'&&val('h_mon')[0]==='yes') ? (mc?2:1) : 0;
   flags.rep = ((included('injury')&&val('inj').includes('other'))||(included('housing')&&own==='proxy'))?1:0;
   flags.hnodoc = (val('g1nodoc').length||val('g2nodoc').length||val('g3nodoc').length)?1:0;
   if(cat&&CATS[cat]){ $('#h-cat-ok').textContent=`Статус ${CAT_SHORT[cat]} підтверджено за даними ЄІСС. Документ додавати не потрібно.`;
@@ -1004,7 +1005,7 @@ function buildGot(){
   if(included('housing')&&cat&&CATS[cat]&&flags.pilga) r.push(['Пільговий статус: '+CATS[cat],'ЄІСС — перевірено']);
   if(included('injury')&&!val('inodoc').length) r.push(['Довідка медичного закладу про факт поранення','Крок «Поранення»']);
   if(included('death')&&!flags.dup&&!val('dnodoc').length) r.push(['Свідоцтво про смерть, довідка про причину смерті, документ про родинний зв\'язок','Крок «Загибель»']);
-  if(included('housing')&&flags.hok) r.push(['Витяг ДРРП, довідка ОСББ'+(val('h_move')[0]==='yes'?', акт комісії ТЕБ та НС':''),'Крок «Пошкодження житла»']);
+  if(included('housing')&&flags.hok) r.push(['Витяг ДРРП, довідка ОСББ'+(moveYes()?', акт комісії ТЕБ та НС':''),'Крок «Пошкодження житла»']);
   r.push(['IBAN для нарахування допомоги','Крок «Відомості для нарахувань»']);
   $('#gotRows').innerHTML=r.map(([a,b])=>`<tr><td><span class="st ok">Додано</span></td><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join('');
 }
@@ -1029,7 +1030,7 @@ function aids(){
   if(included('housing')&&flags.hok){
     const cat=val('h_cat')[0], pr=cat&&cat!=='none';
     if(!val('g1nodoc').length) list.push({g:'Пошкодження житла',t:pr?`Одноразова допомога за пошкоджене житло 20 000 грн (пільгова категорія: ${CATS[cat].toLowerCase()})`:'Одноразова допомога за пошкоджене житло 10 000 грн',svc:pr?'Допомога за пошкоджене житло, 20 000 грн':'Допомога за пошкоджене житло, 10 000 грн'});
-    if(val('h_move')[0]==='yes'&&!val('g2nodoc').length) list.push({g:'Пошкодження житла',t:'Одноразова допомога 40 000 грн у зв\'язку з тимчасовим відселенням',svc:'Допомога у зв\'язку з відселенням, 40 000 грн'});
+    if(moveYes()&&!val('g2nodoc').length) list.push({g:'Пошкодження житла',t:'Одноразова допомога 40 000 грн у зв\'язку з тимчасовим відселенням',svc:'Допомога у зв\'язку з відселенням, 40 000 грн'});
     if(flags.mon===1&&!val('g3nodoc').length) list.push({g:'Пошкодження житла',t:'Щомісячна допомога 20 000 грн на період відселення',svc:'Щомісячна допомога на період відселення'});
   }
   return list;
