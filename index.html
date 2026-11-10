@@ -8,695 +8,1073 @@
 <title>Допомога після обстрілу</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
 <style>
-/* Портал послуг Kyiv Digital: синя шапка, одна колонка форми, підкреслені поля, банери-підказки */
+/* Портал послуг Kyiv Digital — кольори і компоненти з погоджених макетів. Одна світла тема, як на порталі. */
 :root{
-  --blue:#0068FF; --blue-d:#0052CC; --blue-soft:#E8F1FF;
-  --ink:#1B1F27; --muted:#5B6372; --line:#C5CBD5; --line-soft:#E4E8EE;
-  --bg:#F3F5F8; --card:#FFFFFF;
-  --warn-bg:#FFF5D6; --warn-line:#F0BE2C;
-  --ok-bg:#E6F5EB; --ok:#1C7A3C;
-  --err:#C42B2B; --err-bg:#FDECEC;
-  --font:"Inter", "Segoe UI", Roboto, Arial, sans-serif;
+  --head:#0068FF; --btn:#0B5CFF; --ink:#1B2433; --muted:#5A6577; --ph:#7A8596;
+  --line:#C8D0DC; --aside-line:#E3E8F0; --menu-on:#F0F3F9; --page:#F7F8FA;
+  --info:#EDF3FF; --warn:#FFF6DA; --warn-ink:#4D3A00;
+  --done:#007A64; --cur-bg:#E5F0FF; --fut:#BFBFBF; --fut-ink:#6E6D6D; --track:#E8EFFF;
+  --err:#C62828; --err-bg:#FDECEC; --err-ink:#8A1C1C;
+  --foot:#0E2240; --foot-ink:#C9D4E5; --foot-mute:#9FB0C9;
+  --font:'Onest','Segoe UI',system-ui,sans-serif;
   color-scheme:light;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--blue)}
-button,input,select{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+[hidden]{display:none!important}
+html,body{margin:0;background:#fff;color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--head)}
+a{color:inherit;text-decoration:none} a:hover{text-decoration:underline}
+button,input,select{font-family:inherit;color:inherit}
+input::placeholder{color:var(--ph)}
+:focus-visible{outline:2px solid var(--btn);outline-offset:2px}
+.app{min-height:100vh;display:flex;flex-direction:column}
 
-.top{background:var(--blue);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
-.top-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
-.logo-t{display:flex;flex-direction:column;line-height:1.1}
-.logo-t b{font-size:15px;letter-spacing:.06em}
-.logo-t span{font-size:11px;letter-spacing:.12em;opacity:.85}
-.user{display:flex;align-items:center;gap:8px;font-size:14px}
-.ava{width:32px;height:32px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;font-weight:700;font-size:13px}
+/* Шапка */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--head);color:#fff;min-height:64px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 32px;
+  padding-block:8px;padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700}
+.logo:hover{text-decoration:none}
+.logo-t{display:flex;flex-direction:column;gap:2px;line-height:1}
+.logo-t b{font-size:13px;letter-spacing:.03em}
+.logo-t span{font-size:8px;letter-spacing:.14em;opacity:.6;font-weight:400}
+.mainnav{flex:1 1 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 56px;font-size:13px;font-weight:600}
+.mainnav a{color:#fff}
+.userbtn{display:flex;align-items:center;gap:8px;min-height:44px;background:transparent;border:0;color:#fff;font-size:14px;font-weight:500;cursor:pointer}
+.loginbtn{min-height:40px;padding:0 20px;border-radius:6px;border:1px solid #fff;background:transparent;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+.burger{display:none;width:44px;height:44px;background:transparent;border:0;color:#fff;align-items:center;justify-content:center}
 
-.wrap{max-width:1080px;margin:0 auto;padding-block:24px 96px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.crumbs{font-size:13px;color:var(--muted);margin-bottom:12px}
-.card{background:var(--card);border-radius:8px;padding:32px clamp(16px,4vw,48px)}
-h1{font-size:clamp(22px,3vw,28px);line-height:1.25;margin:0 0 8px;text-wrap:balance;font-weight:700}
-h2{font-size:20px;margin:0 0 20px;font-weight:700;text-wrap:balance}
-h3{font-size:16px;margin:0 0 8px;font-weight:600}
+/* Кабінет */
+.cab{flex:1 1 auto;display:flex;align-items:stretch}
+.side{flex:0 0 252px;background:#fff;border-right:1px solid var(--aside-line);padding:20px 0;display:flex;flex-direction:column;gap:2px;font-size:13px;font-weight:500}
+.side a{display:flex;align-items:center;gap:12px;padding:12px 20px;color:var(--ink)}
+.side a.sub{padding:10px 20px 10px 50px;font-weight:400;gap:8px}
+.side a.on{background:var(--menu-on);font-weight:600}
+.badge{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--btn);color:#fff;font-size:11px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.cmain{flex:999 1 560px;min-width:0;padding-block:24px 56px;padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}
+.col{width:100%;max-width:800px;display:flex;flex-direction:column}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px;line-height:16px;color:var(--muted);margin-bottom:20px}
+.crumbs a{text-decoration:underline}
+h1{margin:0 0 28px;font-size:22px;line-height:28px;font-weight:700;text-wrap:balance}
+h2{margin:0 0 8px;font-size:20px;line-height:26px;font-weight:700}
+h3{margin:32px 0 12px;font-size:16px;line-height:22px;font-weight:700}
+h2+h3{margin-top:24px}
 p{margin:0}
-.lead{color:var(--muted);max-width:65ch}
 
 /* Степер */
-.stepper{list-style:none;margin:24px 0 32px;padding:0;display:flex;gap:4px;overflow-x:auto}
-.stepper li{flex:1 1 0;min-width:96px;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)}
-.stepper .bar{height:4px;border-radius:2px;background:var(--line-soft)}
-.stepper .lbl{display:flex;gap:6px;align-items:baseline}
-.stepper .n{font-weight:600}
-.stepper li.done .bar{background:var(--blue)}
-.stepper li.cur .bar{background:var(--blue)}
-.stepper li.cur{color:var(--ink);font-weight:600}
-.stepper li.done{color:var(--ink)}
-.step-mobile{display:none;font-size:14px;color:var(--muted);margin:16px 0 24px}
-@media (max-width:640px){.stepper{display:none}.step-mobile{display:block}}
+.stp{position:relative}
+.stp .ln{position:absolute;top:14px;height:1px;background:var(--track)}
+.stp ol{list-style:none;margin:0;padding:0;display:flex}
+.stp li{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 4px;text-align:center;font-size:12px;line-height:16px;color:var(--muted)}
+.stp .c{position:relative;z-index:1;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--fut);color:var(--fut-ink);display:flex;align-items:center;justify-content:center;font-size:13px}
+.stp li.cur{color:var(--ink);font-weight:600}
+.stp li.cur .c{background:var(--cur-bg);border-color:var(--head);color:var(--head)}
+.stp li.dn{color:var(--ink)}
+.stp li.dn .c{background:var(--done);border:2px solid var(--done)}
+.stp-cnt{margin:12px 0 32px;text-align:center;font-size:12px;line-height:16px;color:var(--muted)}
+.stp-m{display:none;margin:0 0 24px}
+.stp-m p{font-size:13px;color:var(--muted);margin-bottom:8px}
+.stp-m b{color:var(--ink)}
+.bar{height:4px;border-radius:2px;background:var(--track);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--head)}
 
-/* Форма */
-.form{max-width:640px;display:flex;flex-direction:column;gap:28px}
-.field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.flabel{font-size:14px;color:var(--muted)}
-fieldset.field{border:0;margin:0;padding:0}
-fieldset.field>legend{padding:0;margin-bottom:10px;font-size:16px;color:var(--ink);font-weight:600}
-.req::after{content:" *";color:var(--err)}
-input[type=text],input[type=tel],input[type=email],input[type=date],input[type=number],select{
-  border:0;border-bottom:1px solid var(--line);background:transparent;padding:8px 0;border-radius:0;width:100%;min-height:44px}
-input:focus,select:focus{outline:none;border-bottom:2px solid var(--blue)}
-input[readonly]{color:var(--muted);border-bottom-style:dashed}
-select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
-  background-position:calc(100% - 14px) 52%,calc(100% - 9px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:28px}
-.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:20px 24px}
-.opt{display:flex;gap:12px;align-items:flex-start;padding:10px 0;cursor:pointer;min-height:44px}
-.opt input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--blue);flex:none}
-.opt small{display:block;color:var(--muted);font-size:13px}
-.opts{display:flex;flex-direction:column}
-.opts.box .opt{border:1px solid var(--line-soft);border-radius:8px;padding:14px 16px;margin-bottom:8px}
-.opts.box .opt:has(input:checked){border-color:var(--blue);background:var(--blue-soft)}
+/* Поля: одне під одним */
+.fs{display:flex;flex-direction:column;gap:20px;max-width:520px}
+.fld{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fld>label,.flabel{font-size:11px;line-height:14px;color:var(--muted)}
+.fld input[type=text],.fld input[type=tel],.fld select,.drow input,.drow select{width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:6px 0 8px;font-size:14px;line-height:20px;background:transparent;min-height:36px}
+.fld input:focus,.fld select:focus,.drow input:focus,.drow select:focus{outline:none;border-bottom:2px solid var(--btn)}
+.fld input[readonly]{color:var(--ink);cursor:default}
+.lock{position:relative}.lock input{padding-right:28px}
+.lock svg{position:absolute;right:4px;top:9px}
+select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A6577' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0 center;padding-right:24px!important}
+.hint{font-size:12px;line-height:16px;color:var(--muted);margin-top:4px}
+.drow{display:flex;gap:24px;align-items:flex-end}
+.drow .dd{width:72px;flex:none}.drow .dy{width:88px;flex:none}.drow select{flex:1 1 auto;min-width:0}
+.err{font-size:12px;line-height:16px;color:var(--err);margin-top:4px}
+.bad input,.bad select{border-bottom-color:var(--err)!important}
+.bad .dz{border-color:var(--err)}
 
-.invalid input,.invalid select{border-bottom-color:var(--err)}
-.invalid .drop{border-color:var(--err)}
-.err-msg{color:var(--err);font-size:13px}
-
-/* Файл */
-.drop{display:flex;align-items:center;gap:12px;border:1px dashed var(--line);border-radius:8px;padding:12px 16px;cursor:pointer;min-height:56px}
-.drop:hover{border-color:var(--blue)}
-.drop input{position:absolute;width:1px;height:1px;opacity:0}
-.drop:focus-within{outline:2px solid var(--blue);outline-offset:2px}
-.drop .ic{width:36px;height:36px;border-radius:50%;background:var(--blue-soft);display:grid;place-items:center;flex:none;color:var(--blue)}
-.drop .dt{font-weight:500;color:var(--blue);word-break:break-all}
-.drop .dh{display:block;font-size:12px;color:var(--muted);font-weight:400}
-.drop.has .dt{color:var(--ink)}
+/* Перемикачі */
+.opts{display:flex;flex-direction:column;gap:4px}
+.opt{display:flex;gap:12px;align-items:center;min-height:36px;font-size:14px;line-height:20px;cursor:pointer}
+.opt input{width:20px;height:20px;margin:0;flex:none;accent-color:var(--btn);cursor:pointer}
+.opt.top{align-items:flex-start}.opt.top input{margin-top:1px}
+.sub-blk{margin:8px 0 16px 32px;display:flex;flex-direction:column}
+.sub-blk>h3:first-child{margin-top:8px}
+.card{border:1px solid var(--aside-line);border-radius:8px;padding:16px 20px;display:flex;flex-direction:column;gap:20px;max-width:560px}
+.card-h{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px}
 
 /* Банери */
-.msg{border-radius:8px;padding:14px 16px;display:flex;gap:12px;font-size:15px;max-width:640px}
-.msg .e{flex:none;font-size:18px;line-height:1.3}
-.msg.info{background:var(--blue-soft)}
-.msg.warn{background:var(--warn-bg);border-left:0}
-.msg.ok{background:var(--ok-bg);color:var(--ok)}
-.msg p+p{margin-top:6px}
+.msg{display:flex;gap:12px;align-items:center;border-radius:4px;padding:12px 16px;font-size:13px;line-height:18px;max-width:560px}
+.msg.info{background:var(--info);gap:8px}
+.msg.warn{background:var(--warn);color:var(--warn-ink)}
+.msg.bad-m{background:var(--err-bg);color:var(--err-ink);align-items:flex-start;font-size:14px;line-height:20px;padding:14px 16px}
+.msg .ic{flex:none;font-size:20px}
+.msg.info .ic{font-size:16px}
+.msg b{font-weight:600}
+.ok-t{font-size:13px;line-height:18px;color:var(--done);display:flex;gap:8px;align-items:center;margin-top:8px}
+.mt{margin-top:16px}.mt24{margin-top:24px}
 
-.pcard{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:8px 0}
-.pcard b{font-weight:500}
-.btn{border-radius:8px;padding:12px 24px;min-height:48px;font-weight:600;cursor:pointer;border:1px solid var(--blue);background:var(--blue);color:#fff}
-.btn:hover{background:var(--blue-d)}
-.btn.sec{background:transparent;color:var(--blue)}
-.btn.sec:hover{background:var(--blue-soft)}
-.btn.link{border:0;background:none;color:var(--blue);padding:0;min-height:auto;font-weight:500;text-decoration:underline}
-.btn:disabled{opacity:.5;cursor:default}
-.nav{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid var(--line-soft);flex-wrap:wrap}
+/* Завантаження */
+.up{display:flex;flex-direction:column;gap:8px;max-width:560px}
+.up .ul{font-size:14px;line-height:20px;font-weight:500}
+.dz{display:flex;gap:16px;align-items:center;border:1px dashed var(--line);border-radius:6px;padding:16px 20px;cursor:pointer;background:#fff}
+.dz:hover,.dz.drag{border-color:var(--btn);background:#F7FAFF}
+.dz:focus-within{outline:2px solid var(--btn);outline-offset:2px}
+.dz input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.dz .t{font-size:14px;line-height:20px}
+.dz .t b{color:var(--btn);font-weight:600}
+.dz small{display:block;font-size:12px;line-height:16px;color:var(--muted);margin-top:2px}
+.files{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.files li{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--aside-line);padding:8px 0;font-size:13px}
+.files li span:first-child{flex:1;min-width:0;word-break:break-all}
+.files .sz{color:var(--muted);font-variant-numeric:tabular-nums}
+.icbtn{background:none;border:0;color:var(--muted);cursor:pointer;width:32px;height:32px;display:grid;place-items:center;border-radius:4px}
+.icbtn:hover{background:var(--menu-on);color:var(--err)}
 
-/* Стартова сторінка послуги */
-.svc{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px}
-@media (max-width:820px){.svc{grid-template-columns:1fr}}
-.svc ul{margin:8px 0 0;padding-left:20px}
-.svc li{margin:4px 0}
-.side{border:1px solid var(--line-soft);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px;align-self:start}
-.side dt{font-size:13px;color:var(--muted)}
-.side dd{margin:0 0 8px;font-weight:500}
+/* Кнопки */
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+.btn{min-height:44px;padding:0 24px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--btn);background:var(--btn);color:#fff}
+.btn:hover{background:#0047D6}
+.btn.o{background:#fff;color:var(--btn)}
+.btn.o:hover{background:var(--info)}
+.btn:disabled{opacity:.55;cursor:default}
+.lnk{background:none;border:0;color:var(--btn);font-weight:500;cursor:pointer;padding:6px 0;display:inline-flex;gap:6px;align-items:center;font-size:14px}
+.lnk.del{color:var(--muted);font-size:13px}
 
-/* Підсумок */
-.sum{display:flex;flex-direction:column;gap:20px;max-width:640px}
-.sum section{border:1px solid var(--line-soft);border-radius:8px;padding:16px 20px}
-.sum dl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:6px 16px;margin:8px 0 0;font-size:14px}
-.sum dt{color:var(--muted)}
-.sum dd{margin:0;word-break:break-word}
-@media (max-width:520px){.sum dl{grid-template-columns:1fr}.sum dd{margin-bottom:6px}}
-.edit{float:right;font-size:14px}
+/* Таблиці */
+.tbl-w{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:13px;line-height:18px}
+th{text-align:left;font-weight:600;color:var(--muted);font-size:12px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--page)}
+td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:top}
+.st{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+.st.new{background:#FFF1C2;color:#6B4E00}
+.st.ok{background:#E3F4EF;color:var(--done)}
 
-.done-ic{width:64px;height:64px;border-radius:50%;background:var(--ok-bg);color:var(--ok);display:grid;place-items:center;margin-bottom:16px}
-.track{list-style:none;padding:0;margin:16px 0;display:flex;flex-direction:column;gap:0}
-.track li{display:flex;gap:12px;padding-bottom:16px;position:relative}
-.track li::before{content:"";width:12px;height:12px;border-radius:50%;border:2px solid var(--line);background:var(--card);flex:none;margin-top:6px;z-index:1}
-.track li::after{content:"";position:absolute;left:5px;top:18px;bottom:0;width:2px;background:var(--line-soft)}
-.track li:last-child::after{display:none}
-.track li.on::before{border-color:var(--blue);background:var(--blue)}
-.mono{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+/* Публічна частина */
+.pub{flex:1 1 auto;background:var(--page)}
+.pin{max-width:1180px;margin:0 auto;padding-block:32px 64px;padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
+.auth{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.auth section{background:#fff;border:1px solid var(--aside-line);border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.amethod{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 12px;border:0;border-radius:8px;background:#F3F5F8;font-size:14px;font-weight:600;color:var(--ink);text-align:left;cursor:pointer}
+.amethod:hover{background:#E8EDF5}
+.amethod .l{flex:1}
+.qr{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;font-size:14px}
 
-/* Панель сценаріїв прототипу */
-.demo{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;
-  background:#1B1F27;color:#fff;border-radius:10px;font-size:13px;max-width:300px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+/* Бланк заяви */
+.doc-tb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;background:#3A3F47;color:#fff;border-radius:6px 6px 0 0;padding:8px 12px;font-size:13px;max-width:760px}
+.doc-tb span{opacity:.8}
+.doc-wrap{background:#E9ECF1;padding:24px;border-radius:0 0 6px 6px;max-width:760px}
+.doc{background:#fff;padding:40px 48px;font-family:'Times New Roman',Georgia,serif;font-size:14px;line-height:20px;color:#111;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.doc h4{text-align:center;margin:0 0 4px;font-size:16px}
+.doc .sub{text-align:center;margin-bottom:24px}
+.doc h5{margin:20px 0 8px;font-size:14px;border-bottom:1px solid #999;padding-bottom:4px}
+.doc dl{display:grid;grid-template-columns:200px minmax(0,1fr);gap:4px 16px;margin:0}
+.doc dt{color:#444}.doc dd{margin:0}
+.doc .lst{margin:0;padding-left:18px}
+.doc .fine{font-size:13px;margin-top:16px}
+.doc .sig{display:flex;justify-content:space-between;margin-top:28px}
+
+/* Модальне вікно */
+.ov{position:fixed;inset:0;background:rgba(14,34,64,.45);z-index:30;display:flex;align-items:center;justify-content:center;padding:16px}
+.mod{background:#fff;border-radius:8px;padding:32px;max-width:440px;width:100%;display:flex;flex-direction:column;gap:16px;text-align:center;align-items:center}
+.mod h2{margin:0}
+.spin{width:36px;height:36px;border:3px solid var(--track);border-top-color:var(--btn);border-radius:50%;animation:sp 0.9s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* Підвал */
+.foot{flex:none;background:var(--foot);color:var(--foot-ink);padding-block:40px 32px;padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px));display:flex;flex-wrap:wrap;gap:32px 64px;justify-content:space-between;font-size:13px;line-height:20px}
+.foot .h{font-size:12px;color:var(--foot-mute)}
+.foot a{color:#fff;font-weight:600}
+.foot>div{display:flex;flex-direction:column;gap:8px;max-width:320px}
+
+/* Панель сценаріїв */
+.demo{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;background:#1B2433;color:#fff;border-radius:10px;font-size:13px;max-width:300px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
 .demo summary{padding:10px 14px;cursor:pointer;font-weight:600;list-style:none}
 .demo summary::-webkit-details-marker{display:none}
-.demo .dbody{padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
-.demo label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.demo .b{padding:0 14px 14px;display:flex;flex-direction:column;gap:10px}
+.demo label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;line-height:18px}
 .demo input{accent-color:#7DB0FF;margin-top:2px}
-.demo .note{color:#AEB6C4}
-.demo button{background:#2E3440;color:#fff;border:0;border-radius:6px;padding:8px;cursor:pointer}
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.demo .n{color:#AEB6C4}
+.demo button{background:#2E3646;color:#fff;border:0;border-radius:6px;padding:8px;cursor:pointer}
+
+
+/* Публічна частина за portal.kyiv.digital */
+.searchic{width:44px;height:44px;display:grid;place-items:center;color:#fff;border-radius:6px}
+.searchic:hover{background:rgba(255,255,255,.12)}
+.home-hero{background:var(--head);color:#fff}
+.home-hero .pin{padding-block:48px 56px}
+.home-hero h1{font-size:36px;line-height:42px;margin:0 0 8px;color:#fff}
+.home-hero p.sub{font-size:16px;line-height:24px;opacity:.9;margin-bottom:24px;max-width:60ch}
+.search{display:flex;max-width:680px;background:#fff;border-radius:8px;overflow:hidden}
+.search input{flex:1;min-width:0;border:0;padding:16px;font-size:15px;color:var(--ink)}
+.search button{border:0;background:var(--btn);color:#fff;padding:0 24px;font-weight:600;cursor:pointer}
+.home-hero .ex{font-size:13px;opacity:.85;margin-top:10px}
+.sec-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;margin:0 0 20px}
+.sec-h h2{font-size:24px;line-height:30px;margin:0}
+.sec-h p{font-size:14px;color:var(--muted);margin-top:4px}
+.sec{margin-bottom:48px}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.cat-t{background:#fff;border:1px solid var(--aside-line);border-radius:8px;padding:20px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;font-size:15px;font-weight:600;text-align:left;cursor:pointer}
+.cat-t:hover{border-color:var(--btn)}
+.cat-t svg{color:var(--btn)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.svc{background:#fff;border:1px solid var(--aside-line);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:10px;text-align:left;cursor:pointer;font-size:14px;line-height:20px;color:var(--ink)}
+.svc:hover{border-color:var(--btn);box-shadow:0 4px 16px rgba(14,34,64,.08);text-decoration:none}
+.svc b{font-size:15px;line-height:21px;font-weight:600}
+.svc .d{color:var(--muted);font-size:13px;line-height:19px}
+.tag{align-self:flex-start;font-size:12px;font-weight:600;border-radius:12px;padding:2px 10px}
+.tag.on{background:#E3F4EF;color:var(--done)}
+.tag.off{background:#EEF1F6;color:var(--muted)}
+.proj{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.proj div{background:#fff;border:1px solid var(--aside-line);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:20px}
+.proj b{font-size:16px}
+.proj a{color:var(--btn);font-weight:600;margin-top:auto}
+.lst-l{display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px;align-items:start}
+.catnav{background:#fff;border-radius:8px;padding:12px 0;display:flex;flex-direction:column;font-size:14px;max-height:none}
+.catnav button{background:none;border:0;text-align:left;padding:9px 20px;cursor:pointer;font-size:14px;line-height:20px;color:var(--ink)}
+.catnav button:hover{background:var(--menu-on)}
+.catnav button.on{background:var(--menu-on);font-weight:600;box-shadow:inset 3px 0 0 var(--btn)}
+.filters{display:flex;flex-wrap:wrap;gap:16px 24px;margin-bottom:16px}
+.filters .fld{min-width:200px;flex:1 1 200px}
+.found{font-size:13px;color:var(--muted);margin-bottom:16px}
+.sv{display:flex;flex-direction:column;gap:24px;max-width:880px}
+.backl{align-self:flex-start;background:none;border:0;color:var(--btn);font-weight:600;font-size:14px;cursor:pointer;padding:0;display:inline-flex;gap:6px;align-items:center}
+.sv-top{background:#fff;border-radius:8px;padding:32px;display:flex;flex-direction:column;gap:16px}
+.sv-top h1{margin:0;font-size:28px;line-height:34px}
+.sv-top h2{font-size:16px;line-height:24px;font-weight:400;color:var(--muted);margin:0}
+.params{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;border-top:1px solid var(--aside-line);padding-top:16px}
+.params span{display:block;font-size:12px;color:var(--muted)}
+.params b{font-size:15px;font-weight:600}
+.blk{background:#fff;border-radius:8px;padding:28px 32px;font-size:14px;line-height:22px}
+.blk h3{margin:0 0 12px;font-size:18px;line-height:24px}
+.blk ul,.blk ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--aside-line);margin-bottom:16px}
+.tabs button{background:none;border:0;padding:10px 16px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button.on{color:var(--btn);border-bottom-color:var(--btn)}
+.video{aspect-ratio:16/9;width:100%;max-width:560px;background:#0E2240;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:14px}
+.cta{background:var(--info);border-radius:8px;padding:28px 32px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.cta h3{margin:0;font-size:20px}
+.ph{background:#FFF1C2;border-radius:3px;padding:0 4px}
+.foot{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.foot .soc{display:flex;gap:10px}
+.foot .soc a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:12px}
+.foot .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.12);padding-top:16px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:12px;color:var(--foot-mute);max-width:none}
+@media (max-width:900px){.lst-l{grid-template-columns:1fr}.catnav{flex-direction:row;overflow-x:auto;padding:4px}.catnav button{white-space:nowrap;padding:8px 14px}.catnav button.on{box-shadow:inset 0 -3px 0 var(--btn)}}
+@media (max-width:760px){.home-hero h1{font-size:28px;line-height:34px}.sv-top,.blk,.cta{padding:20px}.sv-top h1{font-size:22px;line-height:28px}.mainnav{display:none}}
+
+@media (max-width:760px){
+  .side,.mainnav{display:none}
+  .burger{display:flex}
+  .top{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px));justify-content:space-between}
+  .userbtn .nm,.loginbtn{display:none}
+  .cmain{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px;background:var(--page)}
+  .stp,.stp-cnt{display:none}.stp-m{display:block}
+  h1{font-size:18px;line-height:24px;margin-bottom:16px}
+  .btns{flex-direction:column-reverse}.btns .btn{width:100%;min-height:48px}
+  .pin{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .sv-body{padding:20px}
+  .doc{padding:24px 20px}.doc dl{grid-template-columns:1fr}.doc dd{margin-bottom:6px}
+  .doc-wrap{padding:8px}
+  .sub-blk{margin-left:0}
+  .demo{max-width:calc(100% - 32px)}
+}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
 </style>
 
+<div class="app">
 <header class="top">
-  <div class="top-in">
-    <a class="logo" href="#" id="home-link" aria-label="Портал послуг, на головну">
-      <svg width="34" height="38" viewBox="0 0 34 38" aria-hidden="true"><path d="M17 1 32 6v12c0 9.5-6.4 16.2-15 19C8.4 34.2 2 27.5 2 18V6z" fill="#fff"/><path d="M12 10v18M12 19l9-9M14.5 17l7 11" stroke="#0068FF" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span class="logo-t"><b>ПОРТАЛ ПОСЛУГ</b><span>KYIV DIGITAL</span></span>
-    </a>
-    <div class="user"><span class="ava" aria-hidden="true">ОК</span><span>Олена К.</span></div>
-  </div>
+  <a href="#" class="logo" data-nav="home" aria-label="Портал послуг, на головну">
+    <svg aria-hidden="true" width="27" height="34" viewBox="0 0 24 30"><path d="M0 0h24v22l-12 8L0 22z" fill="#fff"/><path d="M6 7h4v12H6zM10 13l5-6h4.5L13.5 13l6 6H15z" fill="#0068FF"/></svg>
+    <span class="logo-t"><b>ПОРТАЛ ПОСЛУГ</b><span>KYIV DIGITAL</span></span>
+  </a>
+  <nav class="mainnav" aria-label="Основна навігація"><a href="#" data-nav="services">Міські послуги</a><a href="#" data-soon>Часті питання</a></nav>
+  <a href="#" class="searchic" data-nav="services" data-focus-search aria-label="Пошук послуг"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+  <button type="button" class="loginbtn" id="loginBtn" data-nav="auth">Увійти</button>
+  <button type="button" class="userbtn" id="userBtn" hidden data-nav="orders"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg><span class="nm">Ірина К.</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+  <button type="button" class="burger" aria-label="Меню" data-soon><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </header>
 
-<main class="wrap">
-  <div class="crumbs">Послуги / Соціальний захист / Допомога після обстрілу</div>
-  <div class="card">
-
-  <!-- ===== Сторінка послуги ===== -->
-  <section class="screen" id="s-start">
-    <div class="svc">
-      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
-        <h1>Допомога особам, які опинилися у складних життєвих обставинах унаслідок обстрілу</h1>
-        <p class="lead">Через одну заяву можна отримати допомогу щодо однієї або кількох подій, які сталися під час одного обстрілу: поранення, загибель члена родини, пошкодження чи руйнування житла.</p>
-        <div>
-          <h3>Хто може отримати</h3>
-          <ul>
-            <li>Особи, зареєстровані в Києві, або внутрішньо переміщені особи, які проживають у Києві.</li>
-            <li>Власники пошкодженого чи зруйнованого житла в Києві.</li>
-            <li>Законні представники та особи, які діють за довіреністю.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Що знадобиться</h3>
-          <ul>
-            <li>Паспорт (з профілю, з Дії або файлом).</li>
-            <li>Документи, що підтверджують подію. Перелік система сформує під ваші відповіді.</li>
-            <li>Рахунок IBAN, відкритий на ваше ім'я.</li>
-            <li>Кваліфікований електронний підпис або Дія.Підпис.</li>
-          </ul>
-        </div>
+<!-- ============ ПУБЛІЧНА ЧАСТИНА ============ -->
+<div class="pub" id="v-home">
+  <div class="home-hero"><div class="pin">
+    <h1>Портал послуг</h1>
+    <p class="sub">Швидкий та зручний доступ до усіх міських послуг для мешканців Києва</p>
+    <form class="search" id="homeSearch" role="search"><input type="text" id="hq" placeholder="Знайти послугу" aria-label="Знайти послугу"><button type="submit">Знайти</button></form>
+    <p class="ex">Наприклад, Захисник або Матеріальна допомога</p>
+  </div></div>
+  <div class="pin">
+    <section class="sec">
+      <div class="sec-h"><div><h2>Категорії послуг</h2><p>Оберіть категорію, щоб побачити всі послуги в ній</p></div><button type="button" class="btn o" data-cat="all">Всі категорії</button></div>
+      <div class="cats"><button type="button" class="cat-t" data-cat="defender"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/></svg><span>Захисникам</span></button><button type="button" class="cat-t" data-cat="rehab"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Оздоровлення та Реабілітація</span></button><button type="button" class="cat-t" data-cat="edu"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11v5c2.5 2 7.5 2 10 0v-5"/></svg><span>Освіта</span></button><button type="button" class="cat-t" data-cat="docs"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg><span>Довідки та запити</span></button><button type="button" class="cat-t" data-cat="kvart"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg><span>Квартирний облік</span></button><button type="button" class="cat-t" data-cat="damage"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10l8-6 8 6v10z"/><path d="m10 9 2 4-3 2 3 3"/></svg><span>Пошкодження майна внаслідок військових дій</span></button></div>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><div><h2>Популярні послуги</h2><p>Послуги, якими кияни користуються найчастіше</p></div><button type="button" class="btn o" data-nav="services">Всі послуги</button></div>
+      <div class="grid"><button type="button" class="svc" data-nav="service" data-c="damage matdop"><span class="tag on">Онлайн</span><b>Матеріальна допомога особам у складних життєвих обставинах через обстріли</b><span class="d">Одноразова та щомісячна допомога у зв'язку з пораненням, загибеллю члена родини, пошкодженням або руйнуванням житла</span></button><button type="button" class="svc" data-soon data-c="damage matdop"><span class="tag off">Офлайн</span><b>Щомісячна допомога власникам зруйнованого війною житла - 20 000 грн</b><span class="d">Послуга тимчасово неактивна, бо передана районним управлінням соціального захисту</span></button><button type="button" class="svc" data-soon data-c="biz"><span class="tag on">Онлайн</span><b>Погодження розміщення літніх та сезонних майданчиків біля кафе та ресторанів</b><span class="d">Онлайн-погодження сезонного майданчика для закладу харчування</span></button><button type="button" class="svc" data-soon data-c="matdop"><span class="tag on">Онлайн</span><b>Одноразова матеріальна допомога малозабезпеченим киянам</b><span class="d">Виплата для киян, які потребують додаткового захисту</span></button><button type="button" class="svc" data-soon data-c="house"><span class="tag on">Онлайн</span><b>Часткове відшкодування вартості незалежних джерел електричної енергії</b><span class="d">Компенсація частини вартості генератора, зарядної станції чи інверторної системи</span></button><button type="button" class="svc" data-soon data-c="defender"><span class="tag on">Онлайн</span><b>Безоплатне паркування в Києві для Захисників та Захисниць</b><span class="d">Безоплатне паркування на майданчиках міста</span></button><button type="button" class="svc" data-soon data-c="defender rehab"><span class="tag off">Офлайн</span><b>Компенсація за переобладнання квартири для осіб з інвалідністю внаслідок війни</b><span class="d">Компенсація витрат на облаштування житла</span></button><button type="button" class="svc" data-soon data-c="docs"><span class="tag on">Онлайн</span><b>Запит до архіву</b><span class="d">Отримання архівної довідки або копії документа</span></button><button type="button" class="svc" data-soon data-c="edu"><span class="tag on">Онлайн</span><b>Запис дитини до школи</b><span class="d">Електронна заява на зарахування до першого класу</span></button></div>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><h2>Проєкти міста</h2></div>
+      <div class="proj">
+        <div><b>Kyiv Sport</b><span>Спортивні можливості міста</span><a href="https://sport.kyivcity.gov.ua/" target="_blank" rel="noopener">Перейти →</a></div>
+        <div><b>Kyiv Guide</b><span>Путівник містом</span><a href="https://guide.kyivcity.gov.ua/" target="_blank" rel="noopener">Перейти →</a></div>
+        <div><b>Safe Sky</b><span>Платформа збору коштів на підтримку ППО</span><a href="https://sky.standbykyiv.digital/" target="_blank" rel="noopener">Перейти →</a></div>
       </div>
-      <aside class="side">
-        <dl style="margin:0">
-          <dt>Вартість</dt><dd>Безоплатно</dd>
-          <dt>Результат</dt><dd>Виплата на рахунок заявника</dd>
-          <dt>Подання</dt><dd>Онлайн, з підписом</dd>
-        </dl>
-        <button class="btn" type="button" data-go="applicant">Отримати послугу</button>
-      </aside>
-    </div>
-  </section>
-
-  <!-- ===== Шапка заяви + степер ===== -->
-  <div id="flow-head" hidden>
-    <h1>Заява про надання допомоги після обстрілу</h1>
-    <ol class="stepper" id="stepper" aria-label="Кроки заяви"></ol>
-    <p class="step-mobile" id="step-mobile"></p>
+    </section>
   </div>
+</div>
 
-  <!-- ===== 1. Заявник ===== -->
-  <section class="screen" id="s-applicant" hidden>
-    <h2>Відомості про заявника</h2>
-    <div class="form">
-      <div class="field"><label class="flabel" for="a-name">Прізвище, ім'я, по батькові</label><input type="text" id="a-name" value="Коваленко Олена Петрівна" readonly></div>
-      <div class="row">
-        <div class="field"><label class="flabel" for="a-rnokpp">РНОКПП</label><input type="text" id="a-rnokpp" class="mono" value="3145209876" readonly></div>
-        <div class="field"><label class="flabel" for="a-email">Електронна пошта</label><input type="email" id="a-email" value="olena.k@example.com" readonly></div>
+<div class="pub" id="v-services" hidden>
+  <div class="pin">
+    <h1>Міські послуги</h1>
+    <div class="lst-l">
+      <nav class="catnav" aria-label="Категорії послуг" id="catnav"><button type="button" data-cat="all">Всі послуги</button><button type="button" data-cat="rehab">Оздоровлення та Реабілітація</button><button type="button" data-cat="kvart">Квартирний облік</button><button type="button" data-cat="x3">Житло для ВПО</button><button type="button" data-cat="x4">Фонди від підприємств</button><button type="button" data-cat="defender">Захисникам</button><button type="button" data-cat="matdop">Матеріальна допомога</button><button type="button" data-cat="rehab">Реабілітація</button><button type="button" data-cat="x8">Соціальні програми</button><button type="button" data-cat="x9">Дітям</button><button type="button" data-cat="x10">Освіта та дозвілля</button><button type="button" data-cat="x11">Додаткові пільги та гарантії</button><button type="button" data-cat="x12">Волонтерський фонд</button><button type="button" data-cat="x13">Фахівці із супроводу</button><button type="button" data-cat="edu">Освіта</button><button type="button" data-cat="biz">Бізнесу</button><button type="button" data-cat="x16">Вакансії для Захисників</button><button type="button" data-cat="x17">Вакансії</button><button type="button" data-cat="x18">Медицина</button><button type="button" data-cat="x19">Транспорт і логістика</button><button type="button" data-cat="x20">Адміністрація і менеджмент</button><button type="button" data-cat="x21">Інспектування та перевірки</button><button type="button" data-cat="x22">Промисловість</button><button type="button" data-cat="x23">Довкілля та благоустрій</button><button type="button" data-cat="x24">Викладацька діяльність</button><button type="button" data-cat="x25">Громадські організації</button><button type="button" data-cat="damage">Пошкодження майна внаслідок військових дій</button><button type="button" data-cat="docs">Довідки та запити</button><button type="button" data-cat="house">Житлові питання та енергоефективність</button></nav>
+      <div style="min-width:0">
+        <form class="search" id="listSearch" role="search" style="margin-bottom:20px;border:1px solid var(--aside-line)"><input type="text" id="lq" placeholder="Знайти послугу" aria-label="Знайти послугу"><button type="submit">Знайти</button></form>
+        <div class="filters">
+          <div class="fld"><label for="f-st">Соціальний статус</label><select id="f-st"><option>Всі</option><option>Кияни</option><option>Захисники</option><option>Сім'ї захисників</option><option>ВПО</option></select></div>
+          <div class="fld"><label for="f-loc">Розташування</label><select id="f-loc"><option>Всі</option><option>Голосіївський</option><option>Дарницький</option><option>Деснянський</option><option>Дніпровський</option><option>Оболонський</option><option>Печерський</option><option>Подільський</option><option>Святошинський</option><option>Солом'янський</option><option>Шевченківський</option></select></div>
+          <div class="fld"><label for="f-type">Тип послуги</label><select id="f-type"><option value="">Всі</option><option value="on">Онлайн</option><option value="off">Офлайн</option></select></div>
+        </div>
+        <p class="found" id="found"></p>
+        <div class="grid" id="svcGrid"><button type="button" class="svc" data-nav="service" data-c="damage matdop"><span class="tag on">Онлайн</span><b>Матеріальна допомога особам у складних життєвих обставинах через обстріли</b><span class="d">Одноразова та щомісячна допомога у зв'язку з пораненням, загибеллю члена родини, пошкодженням або руйнуванням житла</span></button><button type="button" class="svc" data-soon data-c="damage matdop"><span class="tag off">Офлайн</span><b>Щомісячна допомога власникам зруйнованого війною житла - 20 000 грн</b><span class="d">Послуга тимчасово неактивна, бо передана районним управлінням соціального захисту</span></button><button type="button" class="svc" data-soon data-c="biz"><span class="tag on">Онлайн</span><b>Погодження розміщення літніх та сезонних майданчиків біля кафе та ресторанів</b><span class="d">Онлайн-погодження сезонного майданчика для закладу харчування</span></button><button type="button" class="svc" data-soon data-c="matdop"><span class="tag on">Онлайн</span><b>Одноразова матеріальна допомога малозабезпеченим киянам</b><span class="d">Виплата для киян, які потребують додаткового захисту</span></button><button type="button" class="svc" data-soon data-c="house"><span class="tag on">Онлайн</span><b>Часткове відшкодування вартості незалежних джерел електричної енергії</b><span class="d">Компенсація частини вартості генератора, зарядної станції чи інверторної системи</span></button><button type="button" class="svc" data-soon data-c="defender"><span class="tag on">Онлайн</span><b>Безоплатне паркування в Києві для Захисників та Захисниць</b><span class="d">Безоплатне паркування на майданчиках міста</span></button><button type="button" class="svc" data-soon data-c="defender rehab"><span class="tag off">Офлайн</span><b>Компенсація за переобладнання квартири для осіб з інвалідністю внаслідок війни</b><span class="d">Компенсація витрат на облаштування житла</span></button><button type="button" class="svc" data-soon data-c="docs"><span class="tag on">Онлайн</span><b>Запит до архіву</b><span class="d">Отримання архівної довідки або копії документа</span></button><button type="button" class="svc" data-soon data-c="edu"><span class="tag on">Онлайн</span><b>Запис дитини до школи</b><span class="d">Електронна заява на зарахування до першого класу</span></button></div>
       </div>
-      <div class="field"><label class="flabel req" for="a-phone">Номер телефону</label><input type="tel" id="a-phone" class="mono" value="+380 67 123 45 67" required></div>
+    </div>
+  </div>
+</div>
 
-      <fieldset class="field">
-        <legend class="flabel req">Паспорт</legend>
+<div class="pub" id="v-service" hidden>
+  <div class="pin">
+    <div class="sv">
+      <button type="button" class="backl" id="svcBack"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>Назад</button>
+      <section class="sv-top">
+        <span class="tag on">Онлайн</span>
+        <h1>Матеріальна допомога особам у складних життєвих обставинах через обстріли</h1>
+        <h2>Одноразова та щомісячна допомога киянам і внутрішньо переміщеним особам, які постраждали від обстрілу: у зв'язку з пораненням, загибеллю члена родини, пошкодженням або руйнуванням житла. Заяву можна подати онлайн або через ЦНАП.</h2>
+        <div class="params">
+          <div><span>Надавач послуги:</span><b>Департамент соціальної та ветеранської політики</b></div>
+          <div><span>Сума допомоги</span><b>10 000 – 40 000 грн</b></div>
+          <div><span>Час розгляду</span><b class="ph">[уточнити]</b></div>
+          <div><span>Регулярність виплат</span><b>Одноразово; щомісячно на період відселення</b></div>
+        </div>
+        <div><button type="button" class="btn" data-apply>Подати заяву</button></div>
+      </section>
+      <section class="blk"><h3>Для кого ця послуга</h3><ul>
+        <li>Особи, які отримали поранення внаслідок обстрілу, або їхні законні представники.</li>
+        <li>Члени сім'ї особи, яка загинула внаслідок обстрілу.</li>
+        <li>Власники пошкодженого або зруйнованого житла, їхні представники за довіреністю, а також особи пільгових категорій, зареєстровані в цьому житлі.</li>
+        <li>Допомогу надають особам, зареєстрованим у Києві, або внутрішньо переміщеним особам.</li>
+      </ul></section>
+      <section class="blk"><h3>Відеоінструкція</h3><div class="video">Тут буде відеоінструкція</div></section>
+      <section class="blk"><h3>Як скористатися послугою</h3>
+        <div class="tabs" role="tablist"><button type="button" class="on" data-tab="how-on">Онлайн</button><button type="button" data-tab="how-off">Офлайн</button></div>
+        <ol id="how-on"><li>Авторизуватися на Порталі послуг.</li><li>Натиснути «Подати заяву» та обрати події, які сталися внаслідок обстрілу.</li><li>Заповнити відомості за кожною подією та додати документи.</li><li>Вказати рахунок IBAN.</li><li>Перевірити заяву та підписати її.</li></ol>
+        <ol id="how-off" hidden><li>Звернутися до ЦНАП з паспортом і документами.</li><li>Адміністратор прийме заяву та передасть її на розгляд.</li></ol>
+      </section>
+      <section class="blk"><h3>Необхідні документи</h3>
+        <div class="tabs" role="tablist"><button type="button" class="on" data-tab="doc-on">Онлайн</button><button type="button" data-tab="doc-off">Офлайн</button></div>
+        <div id="doc-on"><ul><li>Паспорт громадянина України: можна поділитися через Дію.</li><li>Документи, що підтверджують подію. Перелік система сформує за вашими відповідями.</li><li>Документ про повноваження, якщо заяву подає представник.</li></ul></div>
+        <div id="doc-off" hidden><ul><li>Паспорт громадянина України та РНОКПП.</li><li>Оригінали документів, що підтверджують подію.</li><li>Реквізити рахунку IBAN.</li></ul></div>
+      </section>
+      <section class="blk"><h3>Що відбувається після подання заяви</h3><p>На кожен вид допомоги формується окрема заява. Статус кожної заяви ви побачите в кабінеті в розділі «Замовлені послуги», сповіщення надходитимуть на телефон. Після схвалення кошти надійдуть на вказаний рахунок.</p></section>
+      <section class="blk"><h3>Можливі причини відмови</h3><ul><li>Особа не зареєстрована у Києві та не має статусу внутрішньо переміщеної особи.</li><li>Подано неповний пакет документів або недостовірні відомості.</li><li>Допомогу за цією подією вже призначено.</li></ul></section>
+      <section class="blk"><h3>Правове обґрунтування</h3><p class="ph" style="display:inline-block">[реквізити рішень і порядків надання допомоги]</p></section>
+      <section class="blk"><h3>Контакти для отримання консультацій</h3><p>Технічна підтримка порталу: (044) 366-80-22</p><p>Консультації щодо допомоги: <span class="ph">[уточнити]</span></p></section>
+      <section class="cta"><h3>Бажаєте отримати цю послугу?</h3><p style="font-size:14px">Натисніть кнопку нижче та заповніть заяву для її отримання.</p><button type="button" class="btn" data-apply>Подати заяву</button></section>
+    </div>
+  </div>
+</div>
+
+<div class="pub" id="v-auth" hidden>
+  <div class="pin">
+    <div class="auth">
+      <section id="authPick">
+        <h2 style="font-size:16px;margin:0 0 4px">Для авторизації виберіть один з доступних методів:</h2>
+        <button type="button" class="amethod" data-auth="diia"><span aria-hidden="true" style="flex:none;width:36px;height:36px;border-radius:8px;background:#000;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">Дія</span><span class="l">Дія.Підпис</span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
+        <button type="button" class="amethod" data-auth="key"><span aria-hidden="true" style="flex:none;width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B2433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/></svg></span><span class="l">Особистий ключ</span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
+        <button type="button" class="amethod" data-auth="id"><span aria-hidden="true" style="flex:none;display:flex;align-items:center;gap:3px;font-size:13px;font-weight:700">ID<span style="background:#000;color:#fff;border-radius:10px;padding:2px 7px">GOV</span>UA</span><span class="l"></span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button>
+      </section>
+      <section id="authWait" hidden>
+        <div class="qr">
+          <svg aria-hidden="true" width="160" height="160" viewBox="0 0 21 21" shape-rendering="crispEdges"><rect width="21" height="21" fill="#fff"/><g fill="#1B2433"><path d="M0 0h7v7H0zM14 0h7v7h-7zM0 14h7v7H0z"/><path d="M1 1h5v5H1zM15 1h5v5h-5zM1 15h5v5H1z" fill="#fff"/><path d="M2 2h3v3H2zM16 2h3v3h-3zM2 16h3v3H2zM8 1h1v2H8zM10 2h2v1h-2zM9 4h1v2H9zM11 5h2v2h-2zM8 8h3v1H8zM12 8h1v3h-1zM14 8h2v1h-2zM17 9h2v2h-2zM8 10h2v2H8zM10 12h3v1h-3zM14 11h1v3h-1zM16 13h3v1h-3zM8 14h2v2H8zM11 14h2v1h-2zM12 16h2v2h-2zM15 15h1v4h-1zM17 16h3v1h-3zM9 17h2v3H9zM18 18h2v2h-2zM13 19h2v1h-2zM1 8h2v2H1zM4 9h2v1H4zM2 11h3v1H2z"/></g></svg>
+          <p id="authText">Відскануйте QR-код у застосунку Дія і підтвердіть вхід.</p>
+          <div class="spin" aria-hidden="true"></div>
+          <button type="button" class="lnk" id="authBack">Обрати інший спосіб</button>
+        </div>
+      </section>
+      <section>
+        <h2 style="font-size:16px;margin:0">Як це працює</h2>
+        <p style="font-size:14px;line-height:20px">Для авторизації вам необхідно підтвердити свою особу. Ви можете зробити це за допомогою особистого ключа, системи ID.GOV.UA або через Дія.Підпис. Оберіть зручний для вас спосіб і дотримуйтесь інструкцій.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- ============ КАБІНЕТ ============ -->
+<div class="cab" id="v-cab" hidden>
+  <aside class="side" aria-label="Меню кабінету">
+    <a href="#" data-soon><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Вхідні повідомлення</a>
+    <a href="#" data-soon><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>Задачі</a>
+    <a href="#" data-nav="orders"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3.5 6 1.2 1.2L6.8 5M3.5 12l1.2 1.2L6.8 11M3.5 18l1.2 1.2L6.8 17"/></svg>Мої послуги</a>
+    <a href="#" class="sub" id="m-orders" data-nav="orders">Замовлені послуги<span class="badge" id="ordCount">5</span></a>
+    <a href="#" class="sub" id="m-drafts" data-nav="drafts">Чернетки</a>
+    <a href="#" data-soon><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-1.5 1.7-2 3-2s2.5.5 3 2M15 10h3M15 14h3"/></svg>Відомості про мене</a>
+  </aside>
+  <main class="cmain"><div class="col">
+
+  <!-- Форма заяви -->
+  <div id="v-form" hidden>
+    <nav class="crumbs" aria-label="Навігаційний ланцюжок"><a href="#" data-nav="drafts">Мої задачі</a><span>›</span><span>Подання заяви на матеріальну допомогу особам у складних життєвих обставинах через обстріли</span></nav>
+    <h1>Подання заяви на матеріальну допомогу особам у складних життєвих обставинах через обстріли</h1>
+    <div class="stp" id="stp"></div>
+    <p class="stp-cnt" id="stpCnt"></p>
+    <div class="stp-m" id="stpM"></div>
+
+    <!-- Крок: Заявник -->
+    <section class="step" id="s-applicant" hidden>
+      <h2 style="margin-bottom:16px">Відомості про заявника</h2>
+      <div class="msg info" style="margin-bottom:20px;max-width:520px"><span>Уважно перевірте заповнені дані</span><span class="ic" aria-hidden="true">👇</span></div>
+      <div class="fs">
+        <div class="fld"><label for="a-fio">Прізвище, ім'я, по батькові</label><div class="lock"><input id="a-fio" type="text" readonly value="Коваленко Ірина Олексіївна">LOCK</div></div>
+        <div class="fld"><label for="a-rn">РНОКПП</label><div class="lock"><input id="a-rn" type="text" readonly value="3045678912">LOCK</div></div>
+        <div class="fld"><label for="a-em">Електронна пошта</label><div class="lock"><input id="a-em" type="text" readonly value="iryna.kovalenko@example.com">LOCK</div></div>
+        <div class="fld" data-req data-err="Вкажіть серію та номер паспорта або номер ID-картки"><label for="a-pass">Паспортні дані *</label><input id="a-pass" type="text" value="" placeholder="Серія та номер"><span class="hint">Серія і номер паспорта (АА 123456) або номер ID-картки (9 цифр). Копію додасте на кроці «Документи»</span></div>
+        <div class="fld" data-req data-err="Вкажіть номер телефону у форматі +380XXXXXXXXX" data-pat="^\+380\d{9}$"><label for="a-ph">Телефон *</label><input id="a-ph" type="tel" value="+380501234567" placeholder="+380"><span class="hint">На цей номер надійдуть сповіщення про статус заяви</span></div>
+      </div>
+      <div class="msg warn mt24" style="max-width:520px"><span class="ic" aria-hidden="true">☝</span><span>Уважно перевірте заповнені дані та актуальність контактів. За необхідності відредагуйте.</span></div>
+    </section>
+
+    <!-- Крок: Подія -->
+    <section class="step" id="s-event" hidden>
+      <h2>Яка подія сталася внаслідок обстрілу / збройної агресії?</h2>
+      <div class="msg info mt" style="margin-bottom:8px"><span>Оберіть подію — так ми визначимо, яка допомога вам належить. Можна подати одну заяву на всі події одразу або окремі заяви на кожну подію в різний час</span><span class="ic" aria-hidden="true">👇</span></div>
+      <div class="fld" data-group="ev" data-err="Оберіть хоча б одну подію">
+        <span class="flabel" style="margin:12px 0 4px">Події</span>
         <div class="opts">
-          <label class="opt"><input type="radio" name="pass" value="profile" checked required><span class="opt-t">З профілю: ID-картка № 004123789<small>Дійсна до 14.03.2031</small></span></label>
-          <label class="opt"><input type="radio" name="pass" value="diia"><span class="opt-t">Отримати з Дії</span></label>
-          <label class="opt"><input type="radio" name="pass" value="file"><span class="opt-t">Завантажити файл</span></label>
-        </div>
-      </fieldset>
-      <div class="field" data-when="pass=diia" hidden data-nosum>
-        <button type="button" class="btn sec diia-btn" data-target="a-pass-diia">Поділитися через Дію</button>
-        <input type="file" id="a-pass-diia" required hidden>
-        <p class="diia-ok msg ok" hidden><span class="e">✓</span><span>Паспорт отримано з Дії</span></p>
-      </div>
-      <div class="field" data-when="pass=file" hidden>
-        <span class="flabel req">Скан або фото паспорта</span>
-        <label class="drop"><input type="file" id="a-pass-file" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">PDF, JPG або PNG, до 10 МБ</span></span></label>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 2. Подія ===== -->
-  <section class="screen" id="s-event" hidden>
-    <h2>Що сталося внаслідок обстрілу</h2>
-    <div class="form">
-      <div class="msg info"><span class="e">👇</span><div><p>Позначте все, що сталося під час одного обстрілу.</p><p>Ви можете подати заяву одразу щодо всіх подій або щодо кожної окремо, в різний час.</p></div></div>
-      <fieldset class="field" id="ev-group">
-        <legend class="req">Оберіть подію</legend>
-        <div class="opts box">
-          <label class="opt"><input type="checkbox" id="ev-injury" name="ev" value="injury"><span class="opt-t">Отримано поранення<small>Мене або особу, яку я представляю, поранено</small></span></label>
-          <label class="opt"><input type="checkbox" id="ev-death" name="ev" value="death"><span class="opt-t">Загинув член родини</span></label>
-          <label class="opt"><input type="checkbox" id="ev-housing" name="ev" value="housing"><span class="opt-t">Житло було пошкоджено або зруйновано</span></label>
-        </div>
-      </fieldset>
-
-      <div class="field"><label class="flabel req" for="e-date">Дата обстрілу</label><input type="date" id="e-date" required></div>
-
-      <div style="display:flex;flex-direction:column;gap:20px">
-        <h3 style="margin:0">Адреса, де сталася подія</h3>
-        <div class="row">
-          <div class="field"><label class="flabel" for="e-city">Місто</label><input type="text" id="e-city" value="Київ" readonly></div>
-          <div class="field"><label class="flabel req" for="e-district">Район</label>
-            <select id="e-district" required><option value="">Оберіть район</option></select></div>
-        </div>
-        <div class="field"><label class="flabel req" for="e-street">Вулиця</label>
-          <select id="e-street" required disabled><option value="">Спочатку оберіть район</option></select></div>
-        <div class="field" data-nosum><label class="opt"><input type="checkbox" name="private" value="yes" id="e-private"><span class="opt-t">Приватний будинок</span></label></div>
-        <div class="row">
-          <div class="field"><label class="flabel req" for="e-house">Номер будинку</label><input type="text" id="e-house" inputmode="numeric" required></div>
-          <div class="field" data-when="!private=yes"><label class="flabel req" for="e-flat">Квартира</label><input type="text" id="e-flat" inputmode="numeric" required></div>
+          <label class="opt"><input type="checkbox" name="ev" value="injury" id="ev-injury"><span>Отримано поранення</span></label>
+          <div class="msg warn" data-when="ev=injury" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати особа, яка отримала поранення, або її законний представник</span></div>
+          <label class="opt"><input type="checkbox" name="ev" value="death" id="ev-death"><span>Загинув член родини</span></label>
+          <div class="msg warn" data-when="ev=death" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати член сім'ї загиблої особи</span></div>
+          <label class="opt"><input type="checkbox" name="ev" value="housing" id="ev-housing"><span>Моє житло було пошкоджено / зруйновано</span></label>
+          <div class="msg warn" data-when="ev=housing" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати власник житла, його представник за довіреністю або особа пільгової категорії, зареєстрована в цьому житлі</span></div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== Поранення ===== -->
-  <section class="screen" id="s-injury" hidden>
-    <h2>Поранення</h2>
-    <div class="form">
-      <div class="msg info"><span class="e">👇</span><p>Якщо під час обстрілу поранено кількох людей, на кожного подається окрема заява.</p></div>
-      <fieldset class="field">
-        <legend class="req">Хто отримав поранення?</legend>
-        <div class="opts box">
-          <label class="opt"><input type="radio" name="inj_who" value="self" required><span class="opt-t">Я</span></label>
-          <label class="opt"><input type="radio" name="inj_who" value="child"><span class="opt-t">Дитина або інша особа, законним представником якої я є</span></label>
-          <label class="opt"><input type="radio" name="inj_who" value="proxy"><span class="opt-t">Особа, яка видала мені довіреність</span></label>
-        </div>
-      </fieldset>
-      <div class="form" data-when="inj_who=child|proxy" hidden style="gap:20px">
-        <h3 style="margin:0">Відомості про постраждалу особу</h3>
-        <div class="field"><label class="flabel req" for="i-name">Прізвище, ім'я, по батькові</label><input type="text" id="i-name" required></div>
-        <div class="row">
-          <div class="field"><label class="flabel req" for="i-bd">Дата народження</label><input type="date" id="i-bd" required></div>
-          <div class="field"><label class="flabel" for="i-rn">РНОКПП, якщо є</label><input type="text" id="i-rn" class="mono" inputmode="numeric" maxlength="10"></div>
-        </div>
+      <h3>Коли сталась подія</h3>
+      <div class="fs"><div class="fld date" id="e-date" data-label="Дата *" data-req data-err="Вкажіть дату події"></div></div>
+      <h3>За якою адресою сталась подія?</h3>
+      <div class="fs">
+        <div class="fld"><label for="e-city">Місто *</label><div class="lock"><input id="e-city" type="text" readonly value="Київ">LOCK</div></div>
+        <div class="fld" data-req data-err="Оберіть район"><label for="e-dist">Район *</label><select id="e-dist"><option value="">Оберіть зі списку</option></select></div>
+        <div class="fld" data-req data-err="Оберіть вулицю"><label for="e-str">Вулиця *</label><select id="e-str" disabled><option value="">Оберіть зі списку</option></select></div>
+        <div class="fld" data-req data-err="Вкажіть номер будинку"><label for="e-house">Номер будинку *</label><input id="e-house" type="text" placeholder="Число"></div>
+        <label class="opt"><input type="checkbox" name="priv" value="1" id="e-priv"><span>Приватний будинок</span></label>
+        <div class="fld" data-when="!priv=1"><label for="e-flat">Квартира</label><input id="e-flat" type="text" inputmode="numeric" placeholder="Число"></div>
       </div>
+    </section>
 
-      <div data-when="inj_who=self|child|proxy" hidden data-nosum>
-        <div class="msg ok" data-when="@reg=1"><span class="e">✓</span><p>Реєстрацію постраждалої особи в Києві підтверджено.</p></div>
-        <div class="form" data-when="@reg=0" style="gap:20px">
-          <div class="msg warn"><span class="e">☝</span><p>Ми не знайшли відомостей про реєстрацію постраждалої особи в Києві чи про її облік як внутрішньо переміщеної особи. Якщо особа зареєстрована в Києві або має довідку ВПО, додайте документ, що це підтверджує.</p></div>
-          <div class="field"><span class="flabel req">Документ про реєстрацію в Києві або довідка ВПО</span>
-            <label class="drop"><input type="file" id="i-reg" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">PDF, JPG або PNG, до 10 МБ</span></span></label></div>
-        </div>
-      </div>
+    <!-- Крок: Поранення -->
+    <section class="step" id="s-injury" hidden>
+      <h2>Обставини поранення</h2>
+      <h3>Хто отримав поранення?</h3>
+      <div class="msg warn" style="margin-bottom:12px"><span class="ic" aria-hidden="true">☝</span><span>Можна обрати кілька варіантів. Під кожним обраним варіантом з'являться поля для уточнення.</span></div>
+      <div class="fld" data-group="inj" data-err="Оберіть, хто отримав поранення">
+        <div class="opts">
+          <label class="opt"><input type="checkbox" name="inj" value="self"><span>Я особисто</span></label>
+          <div class="sub-blk" data-when="inj=self">
+            <div class="fs">
+              <div class="fld" data-req data-err="Оберіть ступінь тяжкості"><label for="i-s-deg">Ступінь тяжкості тілесних ушкоджень *</label><select id="i-s-deg" class="deg"></select><span class="hint">Як зазначено в довідці медичного закладу</span></div>
+            </div>
+            <div class="reg" data-who="self"></div>
+            <div data-when="!inodoc=1&!reg_self=no">
+              <h3>Додайте підтверджуючі документи</h3>
+              <div class="msg warn" style="margin-bottom:16px"><span class="ic" aria-hidden="true">☝</span><span>Перелік сформовано відповідно до обраної події та особи, яка отримала поранення. Відомості про реєстрацію місця проживання та статус ВПО система отримує з реєстрів автоматично.</span></div>
+              <div class="up" data-label="Довідка медичного закладу про факт отримання травми / поранення та ступінь тяжкості" data-req></div>
+            </div>
+          </div>
 
-      <div class="form" style="gap:20px">
-        <h3 style="margin:0">Підтвердні документи</h3>
-        <div class="form" data-when="!inj_nodocs=yes" style="gap:20px">
-          <div class="field"><span class="flabel req">Медичний документ про отримане поранення</span>
-            <label class="drop"><input type="file" id="i-doc-med" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">Виписка, висновок або довідка закладу охорони здоров'я</span></span></label></div>
-          <div class="field" data-when="inj_who=child|proxy" hidden><span class="flabel req">Документ, що підтверджує ваші повноваження</span>
-            <label class="drop"><input type="file" id="i-doc-rep" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">Свідоцтво про народження, рішення про опіку або довіреність</span></span></label></div>
-        </div>
-        <div class="field" data-nosum><label class="opt"><input type="checkbox" name="inj_nodocs" value="yes"><span class="opt-t">У мене зараз немає цих документів</span></label></div>
-        <div class="msg warn" data-when="inj_nodocs=yes" hidden><span class="e">☝</span><p>Заяву буде прийнято. Якщо для розгляду знадобиться додаткова інформація, фахівець департаменту зв'яжеться з вами.</p></div>
-      </div>
-    </div>
-  </section>
+          <label class="opt"><input type="checkbox" name="inj" value="child"><span>Моя дитина</span></label>
+          <div class="sub-blk" data-when="inj=child">
+            <h3>Ким Ви є для дитини?</h3>
+            <div class="fld" data-group="i_role" data-err="Оберіть варіант"><div class="opts">
+              <label class="opt"><input type="radio" name="i_role" value="parent"><span>Мати / батько</span></label>
+              <label class="opt"><input type="radio" name="i_role" value="guard"><span>Опікун / піклувальник</span></label>
+            </div></div>
+            <h3>Відомості про дитину</h3>
+            <div class="msg warn" style="margin-bottom:16px"><span class="ic" aria-hidden="true">☝</span><span>Реєстрацію місця проживання та статус ВПО дитини система перевірить автоматично після введення даних.</span></div>
+            <div id="kids" style="display:flex;flex-direction:column;gap:16px"></div>
+            <div><button type="button" class="lnk" id="addKid">+ Додати дитину</button></div>
+            <div class="reg" data-who="child"></div>
+          </div>
 
-  <!-- ===== Загибель ===== -->
-  <section class="screen" id="s-death" hidden>
-    <h2>Загибель члена родини</h2>
-    <div class="form">
-      <fieldset class="field">
-        <legend class="req">Від чийого імені подається заява?</legend>
-        <div class="opts box">
-          <label class="opt"><input type="radio" name="d_who" value="self" required><span class="opt-t">Від мого імені, я член родини загиблої особи</span></label>
-          <label class="opt"><input type="radio" name="d_who" value="rep"><span class="opt-t">Від імені члена родини, якого я представляю</span></label>
-        </div>
-      </fieldset>
-      <div class="form" data-when="d_who=rep" hidden style="gap:20px">
-        <h3 style="margin:0">Член родини, якого ви представляєте</h3>
-        <div class="field"><label class="flabel req" for="d-rname">Прізвище, ім'я, по батькові</label><input type="text" id="d-rname" required></div>
-        <div class="row">
-          <div class="field"><label class="flabel req" for="d-rbd">Дата народження</label><input type="date" id="d-rbd" required></div>
-          <div class="field"><label class="flabel" for="d-rrn">РНОКПП, якщо є</label><input type="text" id="d-rrn" class="mono" inputmode="numeric" maxlength="10"></div>
-        </div>
-      </div>
-
-      <div class="form" style="gap:20px">
-        <h3 style="margin:0">Відомості про загиблу особу</h3>
-        <div class="field"><label class="flabel req" for="d-name">Прізвище, ім'я, по батькові</label><input type="text" id="d-name" required></div>
-        <div class="row">
-          <div class="field"><label class="flabel req" for="d-bd">Дата народження</label><input type="date" id="d-bd" required></div>
-          <div class="field"><label class="flabel" for="d-rn">РНОКПП, якщо є</label><input type="text" id="d-rn" class="mono" inputmode="numeric" maxlength="10"></div>
-        </div>
-        <div class="field"><label class="flabel req" for="d-rel">Ким загибла особа доводилася члену родини, який отримує допомогу</label>
-          <select id="d-rel" required><option value="">Оберіть зі списку</option><option>Чоловік або дружина</option><option>Батько або мати</option><option>Син або донька</option><option>Брат або сестра</option><option>Дід або баба</option><option>Онук або онука</option></select></div>
-      </div>
-
-      <div data-when="d_who=self|rep" hidden data-nosum>
-        <div class="msg ok" data-when="@reg=1"><span class="e">✓</span><p>Реєстрацію загиблої особи в Києві підтверджено.</p></div>
-        <div class="form" data-when="@reg=0" style="gap:20px">
-          <div class="msg warn"><span class="e">☝</span><p>Ми не знайшли відомостей про реєстрацію загиблої особи в Києві чи про її облік як внутрішньо переміщеної особи. Додайте документ, що це підтверджує.</p></div>
-          <div class="field"><span class="flabel req">Документ про реєстрацію в Києві або довідка ВПО</span>
-            <label class="drop"><input type="file" id="d-reg" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">PDF, JPG або PNG, до 10 МБ</span></span></label></div>
+          <label class="opt"><input type="checkbox" name="inj" value="other"><span>Інша особа</span></label>
+          <div class="sub-blk" data-when="inj=other">
+            <h3>Ким Ви є для пораненого?</h3>
+            <div class="fld" data-group="i_orole" data-err="Оберіть варіант"><div class="opts">
+              <label class="opt"><input type="radio" name="i_orole" value="legal"><span>Законний представник</span></label>
+              <label class="opt"><input type="radio" name="i_orole" value="proxy"><span>Представник за довіреністю</span></label>
+            </div></div>
+            <h3>Надайте дані особи, яка отримала поранення</h3>
+            <div class="fs">
+              <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="i-o-n">ПІБ *</label><input id="i-o-n" type="text" placeholder="Прізвище, ім'я, по батькові"></div>
+              <div class="fld" data-req data-pat="^\d{10}$" data-err="РНОКПП має містити 10 цифр"><label for="i-o-rn">РНОКПП *</label><input id="i-o-rn" type="text" inputmode="numeric" maxlength="10" placeholder="10 цифр"></div>
+              <div class="fld" data-req data-err="Вкажіть паспортні дані"><label for="i-o-p">Паспортні дані *</label><input id="i-o-p" type="text" placeholder="Серія та номер паспорта або номер ID-картки"></div>
+              <div class="fld" data-req data-err="Оберіть ступінь тяжкості"><label for="i-o-deg">Ступінь тяжкості тілесних ушкоджень *</label><select id="i-o-deg" class="deg"></select><span class="hint">Як зазначено в довідці медичного закладу</span></div>
+            </div>
+            <div class="msg warn mt" data-when="@reg=1"><span class="ic" aria-hidden="true">☝</span><span>Реєстрацію місця проживання та статус ВПО особи, яку Ви представляєте, перевіримо за її РНОКПП автоматично.</span></div>
+            <div class="reg" data-who="other"></div>
+            <div data-when="!inodoc=1&!reg_other=no">
+              <h3>Додайте підтверджуючі документи</h3>
+              <div class="msg warn" style="margin-bottom:16px"><span class="ic" aria-hidden="true">☝</span><span>Перелік сформовано для звернення представника.</span></div>
+              <div class="up" data-label="Довідка медичного закладу про факт отримання травми / поранення та ступінь тяжкості" data-req></div>
+              <div class="msg info mt"><span>Документ про Ваші повноваження додасте на кроці «Документи»</span></div>
+            </div>
+          </div>
         </div>
       </div>
+      <label class="opt mt24"><input type="checkbox" name="inodoc" value="1"><span>У мене немає всіх необхідних документів</span></label>
+      <div class="msg warn mt" data-when="inodoc=1"><span class="ic" aria-hidden="true">☝</span><span>Заяву за цією подією зараз не буде сформовано. Ви зможете подати її пізніше, коли матимете всі документи.</span></div>
+    </section>
 
-      <div class="form" style="gap:20px">
-        <h3 style="margin:0">Підтвердні документи</h3>
-        <div class="form" data-when="!d_nodocs=yes" style="gap:20px">
-          <div class="field"><span class="flabel req">Свідоцтво про смерть</span>
-            <label class="drop"><input type="file" id="d-doc-cert" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">PDF, JPG або PNG, до 10 МБ</span></span></label></div>
-          <div class="field"><span class="flabel req">Документ, що підтверджує родинний зв'язок</span>
-            <label class="drop"><input type="file" id="d-doc-rel" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">Свідоцтво про шлюб, про народження тощо</span></span></label></div>
-          <div class="field" data-when="d_who=rep" hidden><span class="flabel req">Документ, що підтверджує ваші повноваження</span>
-            <label class="drop"><input type="file" id="d-doc-rep" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">Довіреність або рішення про опіку</span></span></label></div>
-        </div>
-        <div class="field" data-nosum><label class="opt"><input type="checkbox" name="d_nodocs" value="yes"><span class="opt-t">У мене зараз немає цих документів</span></label></div>
-        <div class="msg warn" data-when="d_nodocs=yes" hidden><span class="e">☝</span><p>Заяву буде прийнято. Якщо для розгляду знадобиться додаткова інформація, фахівець департаменту зв'яжеться з вами.</p></div>
+    <!-- Крок: Загибель -->
+    <section class="step" id="s-death" hidden>
+      <h2>Загибель члена родини</h2>
+      <h3>Ким Ви є загиблій особі?</h3>
+      <div class="fs"><div class="fld" data-req data-err="Оберіть родинний зв'язок"><label for="d-rel">Родинний зв'язок *</label><select id="d-rel" name="d_rel"><option value="">Оберіть зі списку</option><option value="spouse">Чоловік / дружина</option><option value="parent">Батько / мати</option><option value="child">Син / донька</option><option value="sib">Рідний брат / сестра</option><option value="grand">Дід / баба</option><option value="gchild">Онук / онука</option></select></div></div>
+      <h3>Відомості про загиблу особу</h3>
+      <div class="fs">
+        <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="d-fio">Прізвище, ім'я, по батькові *</label><input id="d-fio" type="text" placeholder="Прізвище, ім'я, по батькові"></div>
+        <div class="fld" data-req data-err="Вкажіть серію та номер свідоцтва"><label for="d-cert">Серія та номер свідоцтва про смерть *</label><input id="d-cert" type="text" placeholder="Наприклад: I-ТВ 123456"></div>
+        <div class="fld date" id="d-date" data-label="Дата смерті *" data-req data-err="Вкажіть дату смерті"></div>
       </div>
-    </div>
-  </section>
-
-  <!-- ===== Житло ===== -->
-  <section class="screen" id="s-housing" hidden>
-    <h2>Пошкодження або руйнування житла</h2>
-    <div class="form">
-      <div class="msg info"><span class="e">👇</span><p>Адресу житла взято з кроку «Подія». Якщо пошкоджено кілька квартир, на кожну подається окрема заява.</p></div>
-      <div class="pcard"><span class="flabel">Адреса житла</span><b id="h-addr">—</b></div>
-
-      <fieldset class="field">
-        <legend class="req">Від чийого імені подається заява?</legend>
-        <div class="opts box">
-          <label class="opt"><input type="radio" name="h_who" value="self" required><span class="opt-t">Від мого імені</span></label>
-          <label class="opt"><input type="radio" name="h_who" value="legal"><span class="opt-t">Як законний представник</span></label>
-          <label class="opt"><input type="radio" name="h_who" value="proxy"><span class="opt-t">За довіреністю</span></label>
+      <div class="msg bad-m mt24" data-when="@dup=1" role="alert"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C62828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span><b>Ви вже подали заяву на допомогу у зв'язку із загибеллю цієї особи.</b><br>Заява № МД-20102026-087 від 20.10.2026 перебуває на розгляді. Повторно подати заяву неможливо. Продовжуйте заповнення заяви на інші події.</span></div>
+      <div data-when="@dup=0">
+        <div class="reg" data-who="dead"></div>
+        <div data-when="!dnodoc=1&!reg_dead=no">
+          <h3>Додайте підтверджуючі документи</h3>
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div class="up" data-label="Свідоцтво про смерть загиблої особи" data-req></div>
+            <div class="up" data-label="Довідка із зазначенням причини загибелі / смерті" data-req></div>
+            <div class="up" data-when="d_rel=spouse" data-label="Свідоцтво про шлюб" data-req></div>
+            <div class="up" data-when="d_rel=parent|child|sib|grand|gchild" data-label="Документи про родинний зв'язок із загиблою особою" data-req></div>
+            <div class="up" data-label="Відмова від призначення інших членів родини"></div>
+          </div>
         </div>
-      </fieldset>
-      <div class="form" data-when="h_who=legal|proxy" hidden style="gap:20px">
-        <h3 style="margin:0">Особа, яку ви представляєте</h3>
-        <div class="field"><label class="flabel req" for="h-name">Прізвище, ім'я, по батькові</label><input type="text" id="h-name" required></div>
-        <div class="row">
-          <div class="field"><label class="flabel req" for="h-bd">Дата народження</label><input type="date" id="h-bd" required></div>
-          <div class="field"><label class="flabel" for="h-rn">РНОКПП, якщо є</label><input type="text" id="h-rn" class="mono" inputmode="numeric" maxlength="10"></div>
-        </div>
+        <label class="opt mt24"><input type="checkbox" name="dnodoc" value="1"><span>У мене немає всіх необхідних документів</span></label>
+        <div class="msg warn mt" data-when="dnodoc=1"><span class="ic" aria-hidden="true">☝</span><span>Заяву за цією подією зараз не буде сформовано. Ви зможете подати її пізніше, коли матимете всі документи.</span></div>
       </div>
+    </section>
 
-      <fieldset class="field" data-when="h_who=self|legal|proxy" hidden>
-        <legend class="req">Ким особа є щодо цього житла?</legend>
-        <div class="opts box">
-          <label class="opt"><input type="radio" name="h_role" value="owner" required><span class="opt-t">Власник або співвласник</span></label>
-          <label class="opt"><input type="radio" name="h_role" value="resident"><span class="opt-t">Зареєстрована в цьому житлі, але не власник</span></label>
-        </div>
-      </fieldset>
-
-      <div data-when="h_role=owner|resident" hidden data-nosum>
-        <div class="msg ok" data-when="@pilga=1"><span class="e">✓</span><p>Особа належить до пільгової категорії. Розмір допомоги становить 20 000 грн.</p></div>
-        <div class="msg info" data-when="@pilga=0&h_role=owner"><span class="e">👇</span><p>Розмір допомоги для власника житла становить 10 000 грн.</p></div>
-        <div class="msg warn" data-when="@pilga=0&h_role=resident"><span class="e">☝</span><p>Особам, які не є власниками, допомогу надають лише за належності до пільгової категорії. Ми не знайшли такого статусу. Якщо він є, додайте документ, що це підтверджує.</p></div>
-      </div>
-      <div class="field" data-when="@pilga=0&h_role=resident" hidden><span class="flabel req">Документ, що підтверджує пільгову категорію</span>
-        <label class="drop"><input type="file" id="h-pilga" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">Посвідчення або довідка</span></span></label></div>
-
-      <div data-when="@pilga=1&h_role=owner|resident" hidden data-nosum>
-        <div class="msg ok" data-when="@reg=1"><span class="e">✓</span><p>Реєстрацію в Києві підтверджено.</p></div>
-        <div class="form" data-when="@reg=0" style="gap:20px">
-          <div class="msg warn"><span class="e">☝</span><p>Ми не знайшли відомостей про реєстрацію в Києві чи про облік як внутрішньо переміщеної особи. Додайте документ, що це підтверджує.</p></div>
-          <div class="field"><span class="flabel req">Документ про реєстрацію в Києві або довідка ВПО</span>
-            <label class="drop"><input type="file" id="h-reg" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">PDF, JPG або PNG, до 10 МБ</span></span></label></div>
+    <!-- Крок: Житло -->
+    <section class="step" id="s-housing" hidden>
+      <h2>Пошкодження житла</h2>
+      <h3>Чи є Ви власником або співвласником пошкодженого житла?</h3>
+      <div class="fld" data-group="h_own" data-err="Оберіть варіант"><div class="opts">
+        <label class="opt"><input type="radio" name="h_own" value="owner"><span>Так, власник</span></label>
+        <label class="opt"><input type="radio" name="h_own" value="co"><span>Так, співвласник</span></label>
+        <label class="opt"><input type="radio" name="h_own" value="proxy"><span>Я представник власника / співвласника за довіреністю</span></label>
+        <label class="opt"><input type="radio" name="h_own" value="no"><span>Ні</span></label>
+      </div></div>
+      <div data-when="h_own=proxy">
+        <h3>Відомості про власника / співвласника</h3>
+        <div class="fs">
+          <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="h-on">ПІБ власника *</label><input id="h-on" type="text" placeholder="Прізвище, ім'я, по батькові"></div>
+          <div class="fld" data-req data-pat="^\d{10}$" data-err="РНОКПП має містити 10 цифр"><label for="h-orn">РНОКПП власника *</label><input id="h-orn" type="text" inputmode="numeric" maxlength="10" placeholder="10 цифр"></div>
         </div>
       </div>
+      <div class="up mt" data-when="h_own=owner|co|proxy" data-label="Витяг з Державного реєстру речових прав на нерухоме майно або, як виняток, ордер на житло" data-req></div>
+      <div data-when="h_own=co">
+        <h3>Чи маєте Ви письмову згоду співвласників щодо визначення отримувача допомоги?</h3>
+        <div class="fld" data-group="h_cons" data-err="Оберіть варіант"><div class="opts">
+          <label class="opt"><input type="radio" name="h_cons" value="yes"><span>Так</span></label>
+          <label class="opt"><input type="radio" name="h_cons" value="no"><span>Ні</span></label>
+        </div></div>
+      </div>
 
-      <fieldset class="field">
-        <legend class="req">У якому стані житло зараз?</legend>
-        <div class="opts box">
-          <label class="opt"><input type="radio" name="h_state" value="live" required><span class="opt-t">Пошкоджене, але в ньому можна жити</span></label>
-          <label class="opt"><input type="radio" name="h_state" value="move"><span class="opt-t">Непридатне для проживання, потрібно тимчасово переселитися</span></label>
+      <div data-when="h_own=owner|co|proxy|no">
+        <h3>Чи належите Ви до однієї з категорій, для яких передбачено підвищений розмір одноразової допомоги?</h3>
+        <div class="fld" data-group="h_cat" data-err="Оберіть варіант"><div class="opts">
+          <label class="opt"><input type="radio" name="h_cat" value="vpo"><span>Внутрішньо переміщена особа (ВПО)</span></label>
+          <label class="opt"><input type="radio" name="h_cat" value="many"><span>Член багатодітної сім'ї</span></label>
+          <label class="opt"><input type="radio" name="h_cat" value="guard"><span>Опікун / піклувальник дитини-сироти або дитини, позбавленої батьківського піклування</span></label>
+          <label class="opt"><input type="radio" name="h_cat" value="dis"><span>Член сім'ї, у якій виховується дитина з інвалідністю</span></label>
+          <label class="opt"><input type="radio" name="h_cat" value="none"><span>Не маю зазначених категорій</span></label>
+        </div></div>
+        <p class="ok-t" data-when="h_cat=vpo|many|guard|dis&@pilga=1"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg><span id="h-cat-ok"></span></p>
+        <div class="msg warn mt" data-when="h_cat=vpo|many|guard|dis&@pilga=0"><span class="ic" aria-hidden="true">☝</span><span id="h-cat-no"></span></div>
+      </div>
+
+      <div class="msg warn mt24" data-when="@hnone=1"><span class="ic" aria-hidden="true">☝</span><span>На жаль, Ви не можете отримати допомогу за пошкоджене житло.</span></div>
+      <div data-when="h_own=no&h_cat=vpo|many|guard|dis"><div class="reg" data-who="pilg"></div></div>
+
+      <div data-when="@hok=1">
+        <h3>Чи потребуєте Ви тимчасового відселення через неможливість проживання в цьому житлі?</h3>
+        <div class="fld" data-group="h_move" data-err="Оберіть варіант"><div class="opts">
+          <label class="opt"><input type="radio" name="h_move" value="yes"><span>Так</span></label>
+          <label class="opt"><input type="radio" name="h_move" value="no"><span>Ні</span></label>
+        </div></div>
+        <div class="msg warn mt" data-when="h_move=yes"><span class="ic" aria-hidden="true">☝</span><span>Ви можете отримати одноразову допомогу 40 000 грн у зв'язку з тимчасовим відселенням. Для цього потрібні акт або витяг з рішення районної комісії з питань ТЕБ та НС і довідка ОСББ / ЖБК про необхідність тимчасового відселення — вони з'являться у переліку документів нижче.</span></div>
+
+        <div data-when="h_move=yes">
+          <h3>Чи має власник (співвласники) пошкодженого житла інше житлове приміщення в м. Києві, придатне для проживання?</h3>
+          <div class="fld" data-group="h_other" data-err="Оберіть варіант"><div class="opts">
+            <label class="opt"><input type="radio" name="h_other" value="yes"><span>Так</span></label>
+            <label class="opt"><input type="radio" name="h_other" value="no"><span>Ні</span></label>
+          </div></div>
+          <div class="msg warn mt" data-when="h_other=yes"><span class="ic" aria-hidden="true">☝</span><span>Щомісячна допомога на період відселення не призначається, якщо власник або співвласник має інше житло в м. Києві, придатне для проживання.</span></div>
         </div>
-      </fieldset>
-      <div class="msg info" data-when="h_state=move" hidden><span class="e">👇</span><div><p>Додатково буде розглянуто допомогу на тимчасове переселення, 40 000 грн.</p><p>Якщо житло потребуватиме капітального ремонту, щомісячну допомогу призначать окремо після обстеження.</p></div></div>
-
-      <div class="form" style="gap:20px">
-        <h3 style="margin:0">Підтвердні документи</h3>
-        <div class="form" data-when="!h_nodocs=yes" style="gap:20px">
-          <div class="field" data-when="h_role=owner" hidden><span class="flabel req">Документ про право власності на житло</span>
-            <label class="drop"><input type="file" id="h-doc-own" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">Свідоцтво, договір або витяг з реєстру</span></span></label></div>
-          <div class="field"><span class="flabel req">Фото пошкоджень</span>
-            <label class="drop"><input type="file" id="h-doc-photo" required multiple><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файли<span class="dh">До 10 фото, JPG або PNG</span></span></label></div>
-          <div class="field" data-when="h_who=legal|proxy" hidden><span class="flabel req">Документ, що підтверджує ваші повноваження</span>
-            <label class="drop"><input type="file" id="h-doc-rep" required><span class="ic" aria-hidden="true">＋</span><span class="dt">Оберіть файл<span class="dh">Довіреність або рішення про опіку</span></span></label></div>
+        <div data-when="h_move=yes&h_other=no">
+          <h3>Чи бажаєте Ви подати заяву на щомісячну допомогу 20 000 грн на період відселення?</h3>
+          <div class="msg warn" style="margin-bottom:12px"><span class="ic" aria-hidden="true">☝</span><span>Щомісячна допомога призначається на період, поки житло непридатне для проживання.</span></div>
+          <div class="fld" data-group="h_mon" data-err="Оберіть варіант"><div class="opts">
+            <label class="opt"><input type="radio" name="h_mon" value="yes"><span>Так</span></label>
+            <label class="opt"><input type="radio" name="h_mon" value="no"><span>Ні</span></label>
+          </div></div>
         </div>
-        <div class="field" data-nosum><label class="opt"><input type="checkbox" name="h_nodocs" value="yes"><span class="opt-t">У мене зараз немає цих документів</span></label></div>
-        <div class="msg warn" data-when="h_nodocs=yes" hidden><span class="e">☝</span><p>Заяву буде прийнято. Якщо для розгляду знадобиться додаткова інформація, фахівець департаменту зв'яжеться з вами.</p></div>
-      </div>
-    </div>
-  </section>
+        <div data-when="@mon=1|2">
+          <h3>Умови призначення щомісячної допомоги</h3>
+          <p style="font-size:14px;margin-bottom:8px">Щомісячна допомога не призначається (припиняється), якщо:</p>
+          <div class="msg warn" style="margin-bottom:12px"><span class="ic" aria-hidden="true">☝</span><span>Встановіть відмітку, якщо «Так»</span></div>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" name="h_mc" value="1"><span>Власником / співвласником було отримано сертифікат «єВідновлення»?</span></label>
+            <label class="opt"><input type="checkbox" name="h_mc" value="2"><span>Власник / співвласник виїхав за межі України?</span></label>
+            <label class="opt"><input type="checkbox" name="h_mc" value="3"><span>Власника / співвласника зараховано на повне державне утримання?</span></label>
+          </div>
+          <div class="msg warn mt" data-when="@mon=2"><span class="ic" aria-hidden="true">☝</span><span>За цих умов щомісячну допомогу не може бути призначено.</span></div>
+        </div>
 
-  <!-- ===== Відомості для нарахувань ===== -->
-  <section class="screen" id="s-payment" hidden>
-    <h2>Відомості для нарахувань</h2>
-    <div class="form">
-      <div class="msg warn"><span class="e">☝</span><div><p>Вкажіть рахунок IBAN, відкритий на ваше ім'я.</p><p>Усі виплати за цією заявою надійдуть на цей рахунок. Номер IBAN можна знайти в застосунку банку або отримати у відділенні.</p></div></div>
-      <div class="field"><label class="flabel req" for="p-iban">IBAN</label>
-        <input type="text" id="p-iban" class="mono" placeholder="UA00 0000 0000 0000 0000 0000 0000 0" required data-pattern="^UA\d{27}$" data-msg="IBAN має починатися з UA і містити 29 символів"></div>
-    </div>
-  </section>
+        <h3>Додайте підтверджуючі документи</h3>
+        <h3 id="g1-title" style="margin-top:16px;font-size:15px"></h3>
+        <div data-when="!g1nodoc=1" style="display:flex;flex-direction:column;gap:20px">
+          <div class="up" data-label="Довідка ОСББ / ЖБК / організації з обслуговування житлового фонду про пошкодження або руйнування житла" data-req></div>
+          <div class="up" data-when="h_cat=guard&@pilga=0" data-label="Посвідчення опікуна / піклувальника або рішення суду чи органу опіки та піклування" data-req></div>
+          <div class="up" data-when="h_cat=guard&@pilga=0" data-label="Документ про статус дитини (дитина-сирота / дитина, позбавлена батьківського піклування)" data-req></div>
+          <div class="up" data-when="h_cat=vpo|many|dis&@pilga=0" data-label="Документ, що підтверджує належність до пільгової категорії" data-req></div>
+          <div class="up" data-when="h_cat=vpo|many|guard|dis" data-label="Письмова згода членів сім'ї щодо визначення отримувача допомоги" data-req></div>
+        </div>
+        <label class="opt mt"><input type="checkbox" name="g1nodoc" value="1"><span>У мене немає всіх документів для цієї допомоги</span></label>
 
-  <!-- ===== Підтвердження ===== -->
-  <section class="screen" id="s-confirm" hidden>
-    <h2>Підтвердження умов</h2>
-    <div class="form">
-      <p class="lead">Перевірте відомості. Щоб виправити, перейдіть до потрібного кроку.</p>
-      <div class="sum" id="summary"></div>
-      <div class="opts">
-        <div class="field"><label class="opt"><input type="checkbox" id="c-true" required><span>Підтверджую, що всі відомості в заяві правдиві</span></label></div>
-        <div class="field"><label class="opt"><input type="checkbox" id="c-terms" required><span>Ознайомлена з умовами надання допомоги</span></label></div>
-        <div class="field"><label class="opt"><input type="checkbox" id="c-pd" required><span>Даю згоду на обробку персональних даних, зазначених у заяві</span></label></div>
-      </div>
-    </div>
-  </section>
+        <div data-when="h_move=yes">
+          <h3 style="font-size:15px">Одноразова допомога 40 000 грн у зв'язку з тимчасовим відселенням</h3>
+          <div data-when="!g2nodoc=1" style="display:flex;flex-direction:column;gap:20px">
+            <div class="up" data-label="Акт або витяг з рішення районної комісії з питань ТЕБ та НС щодо ситуації у житловому фонді, що зазнав пошкодження чи руйнування" data-req></div>
+            <div class="up" data-label="Довідка ОСББ / ЖБК / організації з обслуговування житлового фонду про необхідність тимчасового відселення" data-req></div>
+            <div class="up" data-when="h_cons=no" data-label="Письмова згода співвласників щодо визначення отримувача одноразової допомоги у зв'язку з тимчасовим відселенням" data-req></div>
+          </div>
+          <label class="opt mt"><input type="checkbox" name="g2nodoc" value="1"><span>У мене немає всіх документів для цієї допомоги</span></label>
+        </div>
 
-  <!-- ===== Підписання ===== -->
-  <section class="screen" id="s-sign" hidden>
-    <h1>Підписання заяви</h1>
-    <p class="lead" style="margin-bottom:24px">Оберіть спосіб підпису.</p>
-    <div class="form">
-      <div class="opts box">
-        <label class="opt"><input type="radio" name="sign" value="diia" checked><span class="opt-t">Дія.Підпис<small>Підтвердження в застосунку Дія</small></span></label>
-        <label class="opt"><input type="radio" name="sign" value="key"><span class="opt-t">Файловий ключ КЕП<small>Файл ключа і пароль</small></span></label>
+        <div data-when="@mon=1">
+          <h3 style="font-size:15px">Щомісячна допомога 20 000 грн на період відселення</h3>
+          <div class="msg warn" style="margin-bottom:16px"><span class="ic" aria-hidden="true">☝</span><span>Акт комісії з питань ТЕБ та НС той самий, що для допомоги 40 000 грн, — додається один раз.</span></div>
+          <div data-when="!g3nodoc=1"><div class="up" data-label="Довідка ОСББ / ЖБК / організації з обслуговування житлового фонду про непридатність будинку (квартири) для проживання" data-req></div></div>
+          <label class="opt mt"><input type="checkbox" name="g3nodoc" value="1"><span>У мене немає всіх документів для цієї допомоги</span></label>
+        </div>
+        <div class="msg warn mt" data-when="@hnodoc=1"><span class="ic" aria-hidden="true">☝</span><span>Заяву на допомогу, для якої немає всіх документів, зараз не буде сформовано. Ви зможете подати її пізніше.</span></div>
       </div>
-      <div class="msg info" id="sign-wait" hidden><span class="e">👇</span><p>Підтвердіть підписання в застосунку Дія.</p></div>
-      <div class="nav" style="margin-top:8px">
-        <button type="button" class="btn sec" data-go="confirm">Назад</button>
-        <button type="button" class="btn" id="btn-sign">Підписати</button>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== Готово ===== -->
-  <section class="screen" id="s-done" hidden>
-    <div class="form">
-      <div>
-        <div class="done-ic" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg></div>
-        <h1>Заяву подано</h1>
-        <p class="lead">Номер заяви <b class="mono" id="app-no">КД-2026-004517</b>. Статус і рішення з'являться в розділі «Мої заяви», повідомлення надійде на пошту.</p>
+    <!-- Крок: Відомості для нарахувань -->
+    <section class="step" id="s-payment" hidden>
+      <h2>Відомості для нарахувань</h2>
+      <h3 style="margin-top:24px;margin-bottom:8px">Банківські реквізити</h3>
+      <div class="fs"><div class="fld" data-req data-pat="^UA\d{27}$" data-err="IBAN складається з літер UA та 27 цифр"><label for="p-iban" style="font-size:13px;line-height:18px">Номер IBAN, на який буде перераховано допомогу *</label><input id="p-iban" type="text" placeholder="UA" style="padding-top:10px"></div></div>
+      <div class="msg warn mt24" style="flex-direction:column;align-items:stretch;gap:10px;padding:20px 24px">
+        <span style="display:flex;gap:8px;align-items:center;font-weight:600"><span aria-hidden="true" style="font-size:18px">☝</span>Що таке IBAN?</span>
+        <span>IBAN — це міжнародний номер банківського рахунку. Складається з літер UA та 27 цифр. Його можна отримати у відділенні вашого банку або онлайн.</span>
+        <span style="display:flex;gap:8px;align-items:center;font-weight:600;margin-top:6px"><span aria-hidden="true" style="font-size:18px">☝</span>Як дізнатися свій IBAN?</span>
+        <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px"><li>Через застосунок вашого банку</li><li>У відділенні банку</li></ul>
+        <span style="margin-top:6px">Якщо у вас є «Картка киянина» від Ощадбанку, ви можете дізнатися свій IBAN у мобільному застосунку або через чат-бот.</span>
       </div>
-      <div>
-        <h3>Що далі</h3>
-        <ol class="track">
-          <li class="on"><span><b>Подано</b><br><span class="flabel">Сьогодні</span></span></li>
-          <li><span>Розгляд заяви</span></li>
-          <li><span>Рішення про надання допомоги</span></li>
-          <li><span>Виплата на ваш рахунок</span></li>
-        </ol>
-      </div>
-      <div class="msg info"><span class="e">👇</span><p>Якщо під час цього обстрілу сталося ще щось, чого немає в заяві, ви можете подати ще одну заяву щодо цієї події.</p></div>
-      <div class="nav" style="margin-top:0">
-        <button type="button" class="btn sec" id="btn-again">Подати ще одну заяву</button>
-        <button type="button" class="btn" data-go="start">До послуги</button>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== Навігація кроків ===== -->
-  <div class="nav" id="nav" hidden>
-    <button type="button" class="btn sec" id="btn-back">Назад</button>
-    <button type="button" class="btn" id="btn-next">Далі</button>
+    <!-- Крок: Документи -->
+    <section class="step" id="s-docs" hidden>
+      <h2 style="margin-bottom:16px">Документи</h2>
+      <div class="msg info" style="margin-bottom:8px"><span>Тут додаються документи, спільні для всіх видів допомоги у Вашій заяві. Кожен документ подається один раз.</span><span class="ic" aria-hidden="true">👇</span></div>
+      <h3>Паспорт громадянина України *</h3>
+      <div class="fld" id="passBlk" style="max-width:560px;gap:12px">
+        <p style="font-size:14px;line-height:20px">Поділіться через Дію — одним підтвердженням передасте всі потрібні документи.</p>
+        <div><button type="button" class="btn" id="diiaBtn">Поділитися через Дію</button></div>
+        <p class="ok-t" id="diiaOk" hidden><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Паспорт отримано з Дії</p>
+        <div id="passUp" style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:13px;color:var(--muted)">або</span>
+          <div class="up" id="passFile" data-label="Копія паспорта громадянина України (ID-картки) або іншого документа, що посвідчує особу"></div>
+        </div>
+      </div>
+      <div data-when="@rep=1">
+        <h3>Документи представника</h3>
+        <div class="up" data-label="Документ про повноваження законного представника / уповноваженої особи" data-req></div>
+      </div>
+      <h3>Уже отримано та додано до заяви</h3>
+      <div class="tbl-w"><table><thead><tr><th>Статус</th><th>Документ / відомості</th><th>Джерело</th></tr></thead><tbody id="gotRows"></tbody></table></div>
+    </section>
+
+    <!-- Крок: Умови -->
+    <section class="step" id="s-terms" hidden>
+      <h2>Погодження з умовами</h2>
+      <div class="opts mt24" style="gap:16px;max-width:720px">
+        <div class="fld" data-group="t1" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t1" value="1"><span>Підтверджую достовірність поданих мною документів та відомостей. Мене попереджено про відповідальність, у тому числі кримінальну, за подання недостовірних відомостей або підроблених документів з метою отримання грошових виплат (статті 190, 358 Кримінального кодексу України).</span></label></div>
+        <div class="fld" data-group="t2" data-err="Підтвердіть, щоб продовжити"><label class="opt top"><input type="checkbox" name="t2" value="1"><span>З метою забезпечення реалізації адміністративно-правових відносин, відносин у сфері соціального захисту та бухгалтерського обліку при наданні мені матеріальної допомоги, відповідно до Закону України «Про захист персональних даних» я, <b>Коваленко Ірина Олексіївна</b>, даю згоду на обробку моїх персональних даних та персональних даних осіб, відомості про яких я зазначив(-ла) у заяві.</span></label></div>
+      </div>
+    </section>
+
+    <div class="btns" id="nav"><button type="button" class="btn o" id="bBack">Назад</button><button type="button" class="btn" id="bNext">Продовжити</button></div>
   </div>
 
+  <!-- Перегляд і підписання -->
+  <div id="v-sign" hidden>
+    <nav class="crumbs" aria-label="Навігаційний ланцюжок"><a href="#" data-nav="drafts">Мої задачі</a><span>›</span><span>Подання заяви на матеріальну допомогу особам у складних життєвих обставинах через обстріли</span></nav>
+    <h1>Подання заяви на матеріальну допомогу особам у складних життєвих обставинах через обстріли</h1>
+    <h2 style="margin-bottom:16px">Перегляд і підписання заяви</h2>
+    <div id="signBody"></div>
   </div>
-</main>
 
-<details class="demo" id="demo">
+  <!-- Замовлені послуги / чернетки -->
+  <div id="v-orders" hidden>
+    <h1 id="ordTitle">Замовлені послуги</h1>
+    <div class="tbl-w"><table><thead id="ordHead"></thead><tbody id="ordRows"></tbody></table></div>
+    <div class="btns" style="margin-top:24px"><button type="button" class="btn o" data-nav="services">Замовити іншу послугу</button></div>
+  </div>
+
+  </div></main>
+</div>
+
+<footer class="foot">
+  <div><span class="h">Міська платформа</span><a href="#" data-nav="services">Міські послуги</a><a href="#" data-soon>Часті питання</a></div>
+  <div><span class="h">Соціальні мережі</span><div class="soc"><a href="#" data-soon aria-label="Facebook">Fb</a><a href="#" data-soon aria-label="Instagram">In</a><a href="#" data-soon aria-label="Telegram">Tg</a><a href="#" data-soon aria-label="YouTube">Yt</a></div></div>
+  <div><span class="h">Мобільний застосунок Київ Цифровий</span><a href="#" data-soon>Google Play</a><a href="#" data-soon>App Store</a></div>
+  <div><span class="h">Контакти</span><span>Якщо ви маєте зауваження або пропозиції, будь ласка, зв'яжіться з нами:</span><span>(044) 366-80-22</span></div>
+  <div class="legal"><span>Вебпортал надання електронних послуг · 2026 · Київська міська державна адміністрація, Київська міська рада</span><span>Прототип інтерфейсу для узгодження процесу подання заяви. Дані умовні.</span></div>
+</footer>
+</div>
+
+<div class="ov" id="ov" hidden><div class="mod" role="dialog" aria-modal="true" aria-labelledby="modT" id="mod"></div></div>
+
+<details class="demo">
   <summary>⚙ Сценарії прототипу</summary>
-  <div class="dbody">
-    <p class="note">Імітація відповідей реєстрів. На порталі цієї панелі немає.</p>
-    <label><input type="checkbox" id="dm-reg" checked><span>Реєстрацію в Києві або статус ВПО знайдено (РТГК, ЄІСС)</span></label>
-    <label><input type="checkbox" id="dm-pilga"><span>Пільгову категорію знайдено (ЄІСС)</span></label>
+  <div class="b">
+    <p class="n">Імітація відповідей реєстрів. На порталі цієї панелі немає.</p>
+    <label><input type="checkbox" id="dm-reg" checked><span>РТГК / ЄІСС підтверджують реєстрацію у Києві або статус ВПО</span></label>
+    <label><input type="checkbox" id="dm-pilga" checked><span>ЄІСС підтверджує пільгову категорію</span></label>
+    <label><input type="checkbox" id="dm-dup"><span>Заяву на цю загиблу особу Ви вже подавали</span></label>
     <button type="button" id="dm-reset">Почати спочатку</button>
   </div>
 </details>
 
 <script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const flags={reg:true,pilga:false};
-const META={applicant:'Заявник',event:'Подія',injury:'Поранення',death:'Загибель',housing:'Житло',payment:'Нарахування',confirm:'Підтвердження'};
-const TITLES={applicant:'Відомості про заявника',event:'Подія',injury:'Поранення',death:'Загибель члена родини',housing:'Пошкодження житла',payment:'Відомості для нарахувань'};
-const STREETS={
- "Голосіївський":["просп. Голосіївський","вул. Васильківська","вул. Антоновича","просп. Науки"],
- "Дарницький":["просп. Миколи Бажана","Харківське шосе","вул. Ревуцького","вул. Вербицького"],
- "Деснянський":["просп. Червоної Калини","вул. Закревського","Лісовий просп.","вул. Бальзака"],
- "Дніпровський":["просп. Соборності","бульв. Перова","вул. Райдужна","вул. Березняківська"],
- "Оболонський":["Оболонський просп.","просп. Володимира Івасюка","вул. Героїв Дніпра","вул. Левка Лук'яненка"],
- "Печерський":["вул. Велика Васильківська","бульв. Лесі Українки","вул. Липська","вул. Мечникова"],
- "Подільський":["вул. Сагайдачного","вул. Кирилівська","просп. Правди","вул. Межигірська"],
- "Святошинський":["Берестейський просп.","вул. Якуба Коласа","бульв. Академіка Кольцова","вул. Симиренка"],
- "Солом'янський":["Повітрофлотський просп.","вул. Гарматна","вул. Борщагівська","вул. Донця"],
- "Шевченківський":["вул. Велика Житомирська","вул. Богдана Хмельницького","вул. Січових Стрільців","бульв. Тараса Шевченка"]
-};
-let cur='start';
+const $=s=>document.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const LOCK='<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A8596" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const CHECK='<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>';
+const MONTHS=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+const DEGS=['Легкі','Середньої тяжкості','Тяжкі'];
+const CATS={vpo:'Внутрішньо переміщена особа (ВПО)',many:'Член багатодітної сім\'ї',guard:'Опікун / піклувальник дитини-сироти або дитини, позбавленої батьківського піклування',dis:'Член сім\'ї, у якій виховується дитина з інвалідністю'};
+const CAT_SHORT={vpo:'ВПО',many:'багатодітної сім\'ї',guard:'опікуна / піклувальника',dis:'сім\'ї, у якій виховується дитина з інвалідністю'};
+const STREETS={"Голосіївський":["просп. Голосіївський","вул. Васильківська","вул. Антоновича","просп. Науки"],"Дарницький":["просп. Миколи Бажана","Харківське шосе","вул. Ревуцького","вул. Вербицького"],"Деснянський":["просп. Червоної Калини","вул. Закревського","Лісовий просп.","вул. Бальзака"],"Дніпровський":["просп. Соборності","бульв. Перова","вул. Райдужна","вул. Березняківська"],"Оболонський":["Оболонський просп.","просп. Володимира Івасюка","вул. Героїв Дніпра","вул. Левка Лук'яненка"],"Печерський":["вул. Велика Васильківська","бульв. Лесі Українки","вул. Липська","вул. Мечникова"],"Подільський":["вул. Сагайдачного","вул. Кирилівська","просп. Правди","вул. Межигірська"],"Святошинський":["Берестейський просп.","вул. Якуба Коласа","бульв. Академіка Кольцова","вул. Симиренка"],"Солом'янський":["Повітрофлотський просп.","вул. Гарматна","вул. Борщагівська","вул. Донця"],"Шевченківський":["вул. Хрещатик","вул. Велика Житомирська","вул. Богдана Хмельницького","бульв. Тараса Шевченка"]};
+const LABELS={applicant:'Відомості про заявника',event:'Яка подія сталась внаслідок збройної агресії',injury:'Поранення',death:'Загибель',housing:'Пошкодження житла',payment:'Відомості для нарахувань',docs:'Документи',terms:'Підтвердження умов'};
+const flags={reg:1,pilga:1,dup:0,hok:0,hnone:0,mon:0,rep:0,hnodoc:0};
+let view='catalog', step='applicant', logged=false, kidN=0, orders=[], passDiia=false, appNo='';
 
-function steps(){
-  const s=['applicant','event'];
-  ['injury','death','housing'].forEach(e=>{if($('#ev-'+e).checked)s.push(e)});
-  return s.concat(['payment','confirm']);
+/* ---------- Рендер складених полів ---------- */
+$$('.lock').forEach(l=>{l.innerHTML=l.innerHTML.replace('LOCK',LOCK)});
+let uid=0;
+function renderDate(el){
+  const id='dt'+(++uid);
+  el.innerHTML=`<span class="flabel">${el.dataset.label}</span><div class="drow"><input type="text" class="dd" inputmode="numeric" maxlength="2" placeholder="День" aria-label="День" id="${id}d"><select aria-label="Місяць" id="${id}m"><option value="">Місяць</option>${MONTHS.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('')}</select><input type="text" class="dy" inputmode="numeric" maxlength="4" placeholder="Рік" aria-label="Рік" id="${id}y"></div>`;
 }
+function renderUp(el){
+  const req=el.hasAttribute('data-req'); el._files=[];
+  el.innerHTML=`<span class="ul">${el.dataset.label}${req?' *':''}</span><label class="dz"><input type="file" multiple accept="image/*,.pdf"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B5CFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span class="t"><b>Завантажте необхідні документи</b> або перетягніть їх сюди<small>Максимальний розмір одного файлу: 10.0 MB · Допустимі формати: зображення або PDF документ</small></span></label><ul class="files"></ul>`;
+  const inp=el.querySelector('input'), dz=el.querySelector('.dz');
+  inp.addEventListener('change',()=>{addFiles(el,inp.files);inp.value=''});
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');addFiles(el,e.dataTransfer.files)});
+}
+function fmtSize(b){return b>1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB'}
+function addFiles(el,list){ [...list].forEach(f=>el._files.push({name:f.name,size:f.size})); drawFiles(el); clearBad(el); }
+function drawFiles(el){
+  el.querySelector('.files').innerHTML=el._files.map((f,i)=>`<li><span>${esc(f.name)}</span><span class="sz">${fmtSize(f.size)}</span><button type="button" class="icbtn" data-del="${i}" aria-label="Видалити ${esc(f.name)}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></button></li>`).join('');
+}
+document.addEventListener('click',e=>{const d=e.target.closest('[data-del]'); if(d){const up=d.closest('.up'); up._files.splice(+d.dataset.del,1); drawFiles(up);}});
+function renderReg(el){
+  const w=el.dataset.who, n='reg_'+w;
+  const subj={self:'Вашу реєстрацію',child:'реєстрацію дитини',other:'реєстрацію особи, яку Ви представляєте',dead:'реєстрацію загиблої особи',pilg:'Вашу реєстрацію'}[w];
+  const q={self:'Чи зареєстровані Ви у м. Києві або маєте статус ВПО?',pilg:'Чи зареєстровані Ви у пошкодженому житлі в м. Києві або маєте статус ВПО?',child:'Чи зареєстрована дитина у м. Києві або має статус ВПО?',other:'Чи зареєстрована особа у м. Києві або має статус ВПО?',dead:'Чи була загибла особа зареєстрована у м. Києві або мала статус ВПО?'}[w];
+  el.setAttribute('data-when','@reg=0');
+  el.innerHTML=`<div class="msg warn mt24"><span class="ic" aria-hidden="true">☝</span><span>Ми перевірили реєстр територіальної громади м. Києва (РТГК) та ЄІСС, але не знайшли відомостей про ${subj} у Києві або статус ВПО.</span></div>
+  <h3>${q}</h3><div class="fld" data-group="${n}" data-err="Оберіть варіант"><div class="opts">
+  <label class="opt"><input type="radio" name="${n}" value="kyiv"><span>Так, зареєстрований(-а) у м. Києві</span></label>
+  <label class="opt"><input type="radio" name="${n}" value="vpo"><span>Так, має статус ВПО</span></label>
+  <label class="opt"><input type="radio" name="${n}" value="no"><span>Ні</span></label></div></div>
+  <div class="up mt" data-when="${n}=kyiv" data-label="Витяг з реєстру територіальної громади" data-req></div>
+  <div class="up mt" data-when="${n}=vpo" data-label="Довідка про взяття на облік внутрішньо переміщеної особи" data-req></div>
+  <div class="msg warn mt" data-when="${n}=no"><span class="ic" aria-hidden="true">☝</span><span>Допомогу за цією подією надають лише особам, зареєстрованим у Києві, або внутрішньо переміщеним особам.</span></div>`;
+}
+function kidHTML(i){
+  return `<div class="card kid" data-kid="${i}"><div class="card-h"><span>Дитина ${i}</span><button type="button" class="lnk del" data-rmkid>Видалити</button></div>
+  <div class="fs">
+  <div class="fld" data-req data-err="Вкажіть прізвище, ім'я, по батькові"><label for="k${i}n">Прізвище, ім'я, по батькові *</label><input id="k${i}n" type="text" class="kname" placeholder="Прізвище, ім'я, по батькові"></div>
+  <div class="fld date" data-label="Дата народження *" data-req data-err="Вкажіть дату народження"></div>
+  <div class="fld" data-req data-err="Вкажіть серію свідоцтва"><label for="k${i}s">Серія свідоцтва про народження *</label><input id="k${i}s" type="text" placeholder="Наприклад: І-КВ"></div>
+  <div class="fld" data-req data-pat="^\\d{6}$" data-err="Номер свідоцтва має містити 6 цифр"><label for="k${i}c">Номер свідоцтва про народження *</label><input id="k${i}c" type="text" inputmode="numeric" maxlength="6" placeholder="6 цифр"></div>
+  <div class="fld" data-req data-err="Оберіть ступінь тяжкості"><label for="k${i}d">Ступінь тяжкості тілесних ушкоджень *</label><select id="k${i}d" class="deg"></select><span class="hint">Як зазначено в довідці медичного закладу</span></div>
+  </div>
+  <div data-when="!inodoc=1&!reg_child=no" style="display:flex;flex-direction:column;gap:20px">
+  <div class="up" data-label="Довідка медичного закладу про факт отримання травми / поранення та ступінь тяжкості дитини" data-req></div>
+  <div class="up" data-when="i_role=parent" data-label="Свідоцтво про народження дитини" data-req></div>
+  <div class="up" data-when="i_role=guard" data-label="Посвідчення опікуна / піклувальника або рішення суду чи органу опіки та піклування" data-req></div>
+  </div></div>`;
+}
+function fillDeg(root=document){ $$('select.deg',root).forEach(s=>{ if(!s.options.length) s.innerHTML='<option value="">Оберіть зі списку</option>'+DEGS.map(d=>`<option>${d}</option>`).join(''); }); }
+function addKid(){
+  const box=$('#kids'); box.insertAdjacentHTML('beforeend',kidHTML(++kidN));
+  const k=box.lastElementChild; $$('.date',k).forEach(renderDate); $$('.up',k).forEach(renderUp); fillDeg(k); renumKids(); cond();
+}
+function renumKids(){ $$('.kid').forEach((k,i)=>{k.querySelector('.card-h span').textContent='Дитина '+(i+1); k.querySelector('[data-rmkid]').hidden=$$('.kid').length<2;}); }
+document.addEventListener('click',e=>{ if(e.target.closest('[data-rmkid]')){ e.target.closest('.kid').remove(); renumKids(); } });
+
+/* ---------- Умови показу ---------- */
+function val(name){ const els=$$(`[name="${name}"]`); return els.filter(i=>(i.type==='radio'||i.type==='checkbox')?i.checked:true).map(i=>i.value).filter(Boolean); }
 function test(tok){
-  let neg=tok[0]==='!'; if(neg)tok=tok.slice(1);
+  let neg=tok[0]==='!'; if(neg) tok=tok.slice(1);
   const [n,v]=tok.split('='); const vals=v.split('|'); let ok;
-  if(n[0]==='@') ok=vals.includes(flags[n.slice(1)]?'1':'0');
-  else ok=$$(`input[name="${n}"]`).some(i=>i.checked&&vals.includes(i.value));
+  if(n[0]==='@') ok=vals.includes(String(flags[n.slice(1)]));
+  else ok=val(n).some(x=>vals.includes(x));
   return neg?!ok:ok;
 }
-function cond(){ $$('[data-when]').forEach(el=>{el.hidden=!el.dataset.when.split('&').every(test)}); }
+function computeFlags(){
+  const own=val('h_own')[0], cat=val('h_cat')[0];
+  flags.hnone = (own==='no'&&cat==='none')?1:0;
+  flags.hok = (own&&cat&&!flags.hnone&&!(own==='no'&&flags.reg===0&&val('reg_pilg')[0]==='no'))?1:0;
+  const mc=val('h_mc').length;
+  flags.mon = (val('h_move')[0]==='yes'&&val('h_other')[0]==='no'&&val('h_mon')[0]==='yes') ? (mc?2:1) : 0;
+  flags.rep = ((included('injury')&&val('inj').includes('other'))||(included('housing')&&own==='proxy'))?1:0;
+  flags.hnodoc = (val('g1nodoc').length||val('g2nodoc').length||val('g3nodoc').length)?1:0;
+  if(cat&&CATS[cat]){ $('#h-cat-ok').textContent=`Статус ${CAT_SHORT[cat]} підтверджено за даними ЄІСС. Документ додавати не потрібно.`;
+    $('#h-cat-no').textContent=`За даними ЄІСС статус ${CAT_SHORT[cat]} не знайдено. Додайте документ, що його підтверджує, — він з'явиться у переліку документів нижче.`; }
+  $('#g1-title').textContent = cat&&cat!=='none' ? 'Одноразова допомога 20 000 грн (пільгова категорія)' : 'Одноразова допомога 10 000 грн';
+}
+function cond(){ computeFlags(); $$('[data-when]').forEach(el=>{ el.hidden=!el.dataset.when.split('&').every(test); }); }
+function included(ev){ return $('#ev-'+ev).checked; }
 
+/* ---------- Кроки ---------- */
+function steps(){ return ['applicant','event',...['injury','death','housing'].filter(included),'payment','docs','terms']; }
 function renderStepper(){
-  const st=steps(), i=st.indexOf(cur);
-  $('#stepper').innerHTML=st.map((s,k)=>`<li class="${k<i?'done':k===i?'cur':''}" ${k===i?'aria-current="step"':''}><span class="bar"></span><span class="lbl"><span class="n">${k+1}</span>${META[s]}</span></li>`).join('');
-  $('#step-mobile').textContent=`Крок ${i+1} з ${st.length} · ${META[cur]}`;
+  const st=steps(), i=st.indexOf(step), n=st.length, inset=(50/n).toFixed(2)+'%';
+  $('#stp').innerHTML=`<div class="ln" style="left:${inset};right:${inset}"></div><ol aria-label="Кроки заяви">${st.map((s,k)=>`<li class="${k<i?'dn':k===i?'cur':''}"${k===i?' aria-current="step"':''}><span class="c">${k<i?CHECK:k+1}</span>${LABELS[s]}</li>`).join('')}</ol>`;
+  $('#stpCnt').textContent=`${i}/${n} Кроків завершено`;
+  $('#stpM').innerHTML=`<p>Крок ${i+1} з ${n} · <b>${LABELS[step]}</b></p><div class="bar"><span style="width:${(i+1)/n*100}%"></span></div>`;
 }
-function go(id){
-  $$('.screen').forEach(s=>s.hidden=s.id!=='s-'+id);
-  cur=id;
-  const flow=steps().includes(id);
-  $('#flow-head').hidden=!flow; $('#nav').hidden=!flow;
-  if(flow){ renderStepper(); $('#btn-next').textContent=id==='confirm'?'Перейти до підписання':'Далі'; }
-  if(id==='housing') $('#h-addr').textContent=addr();
-  if(id==='confirm') buildSummary();
-  cond(); window.scrollTo(0,0);
+function showStep(s){
+  step=s; $$('.step').forEach(x=>x.hidden=x.id!=='s-'+s);
+  if(s==='docs') buildGot();
+  renderStepper(); cond(); window.scrollTo(0,0);
 }
-function addr(){
-  const st=$('#e-street').value, h=$('#e-house').value, f=$('#e-flat').value, priv=$('#e-private').checked;
-  if(!st) return '—';
-  return `м. Київ, ${st}, ${h||'…'}${priv?' (приватний будинок)':f?', кв. '+f:''}`;
-}
-function hiddenUpTo(el,stop){ for(let p=el;p&&p!==stop;p=p.parentElement){ if(p.hidden) return true;} return false; }
 
-function clearErr(sec){ sec.querySelectorAll('.invalid').forEach(f=>f.classList.remove('invalid')); sec.querySelectorAll('.err-msg').forEach(m=>m.remove()); }
-function mark(el,msg){
-  const f=el.closest('.field')||el.parentElement; f.classList.add('invalid');
-  let m=f.querySelector(':scope > .err-msg'); if(!m){m=document.createElement('p');m.className='err-msg';f.appendChild(m)}
-  m.textContent=msg;
-}
-function validate(id){
-  const sec=$('#s-'+id); clearErr(sec); let ok=true; const seen=new Set();
-  sec.querySelectorAll('input,select').forEach(el=>{
-    if(!el.required||hiddenUpTo(el,sec)&&!(el.type==='file'&&el.hidden&&!hiddenUpTo(el.parentElement,sec))) return;
-    let bad=false,msg='Заповніть це поле';
-    if(el.type==='radio'){ if(seen.has(el.name))return; seen.add(el.name); bad=!sec.querySelector(`input[name="${el.name}"]:checked`); msg='Оберіть один із варіантів'; }
-    else if(el.type==='checkbox'){ bad=!el.checked; msg='Підтвердіть, щоб продовжити'; }
-    else if(el.type==='file'){ bad=!el.files.length&&!el.dataset.filled; msg=el.hidden?'Поділіться документом через Дію':'Додайте файл'; }
-    else if(el.tagName==='SELECT'){ bad=!el.value; msg='Оберіть значення зі списку'; }
-    else { bad=!el.value.trim(); if(!bad&&el.dataset.pattern){ bad=!new RegExp(el.dataset.pattern).test(el.value.replace(/\s/g,'').toUpperCase()); msg=el.dataset.msg; } }
-    if(bad){ok=false;mark(el,msg)}
+/* ---------- Перевірка ---------- */
+function hiddenIn(el,stop){ for(let p=el;p&&p!==stop;p=p.parentElement){ if(p.hidden) return true; } return false; }
+function setBad(w,msg){ w.classList.add('bad'); let m=w.querySelector(':scope > .err'); if(!m){m=document.createElement('p');m.className='err';w.appendChild(m);} m.textContent=msg; }
+function clearBad(w){ w.classList.remove('bad'); const m=w.querySelector(':scope > .err'); m&&m.remove(); }
+function validate(sec){
+  let ok=true;
+  $$('.bad',sec).forEach(clearBad);
+  $$('[data-req],[data-group]',sec).forEach(w=>{
+    if(hiddenIn(w,sec)) return;
+    let bad=false, msg=w.dataset.err||'Заповніть це поле';
+    if(w.dataset.group){ bad=!val(w.dataset.group).length; }
+    else if(w.classList.contains('up')){ bad=!w._files.length; msg='Додайте документ'; }
+    else if(w.classList.contains('date')){ const [d,m,y]=$$('input,select',w).map(x=>x.value.trim()); bad=!(d&&m&&/^\d{4}$/.test(y)&&+d>=1&&+d<=31); }
+    else { const f=w.querySelector('input,select'); let v=f.value.trim(); if(w.dataset.pat) v=v.replace(/\s/g,'').toUpperCase(); bad=!v||(w.dataset.pat&&!new RegExp(w.dataset.pat).test(v)); }
+    if(bad){ ok=false; setBad(w,msg); }
   });
-  if(id==='event'&&!$$('input[name="ev"]').some(i=>i.checked)){ok=false;mark($('#ev-injury'),'Оберіть хоча б одну подію')}
-  if(!ok){ const f=sec.querySelector('.invalid'); f&&f.scrollIntoView({block:'center'}); }
+  if(sec.id==='s-docs' && !passDiia && !$('#passFile')._files.length){ ok=false; setBad($('#passBlk'),'Поділіться паспортом через Дію або завантажте копію'); }
+  if(!ok){ const b=sec.querySelector('.bad'); b&&b.scrollIntoView({block:'center',behavior:'smooth'}); }
   return ok;
 }
-
-function fieldValue(f){
-  const parts=[];
-  f.querySelectorAll('input,select').forEach(i=>{
-    if(i.type==='radio'||i.type==='checkbox'){ if(i.checked){ const t=i.closest('label').querySelector('.opt-t'); parts.push((t?t.firstChild.textContent:i.closest('label').textContent).trim()); } }
-    else if(i.tagName==='SELECT'){ if(i.value) parts.push(i.selectedOptions[0].text); }
-    else if(i.type==='file'){ if(i.files.length) parts.push([...i.files].map(x=>x.name).join(', ')); else if(i.dataset.filled) parts.push('Отримано з Дії'); }
-    else if(i.value.trim()) parts.push(i.value.trim());
-  });
-  return parts.join(', ');
-}
-function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function buildSummary(){
-  const out=steps().filter(s=>s!=='confirm').map(s=>{
-    const sec=$('#s-'+s); const rows=[];
-    sec.querySelectorAll('.field').forEach(f=>{
-      if(f.hasAttribute('data-nosum')||hiddenUpTo(f,sec)) return;
-      if(f.parentElement.closest('.field')) return;
-      const l=f.querySelector('.flabel, legend'); const v=fieldValue(f);
-      if(l&&v) rows.push(`<dt>${esc(l.textContent.trim())}</dt><dd>${esc(v)}</dd>`);
-    });
-    return `<section><button type="button" class="btn link edit" data-go="${s}">Змінити</button><h3>${TITLES[s]}</h3><dl>${rows.join('')}</dl></section>`;
-  }).join('');
-  $('#summary').innerHTML=out;
-}
-
-// Події
-document.addEventListener('click',e=>{
-  const g=e.target.closest('[data-go]'); if(g){ e.preventDefault(); go(g.dataset.go); }
-});
-$('#home-link').addEventListener('click',e=>{e.preventDefault();go('start')});
-$('#btn-next').addEventListener('click',()=>{
-  if(!validate(cur)) return;
-  const st=steps(), i=st.indexOf(cur);
-  go(cur==='confirm'?'sign':st[i+1]);
-});
-$('#btn-back').addEventListener('click',()=>{ const st=steps(), i=st.indexOf(cur); go(i>0?st[i-1]:'start'); });
+document.addEventListener('input',e=>{const w=e.target.closest('.bad'); w&&clearBad(w)});
 document.addEventListener('change',e=>{
-  const t=e.target;
-  if(t.type==='file'&&!t.hidden){ const d=t.closest('.drop'); const dt=d.querySelector('.dt');
-    if(t.files.length){ d.classList.add('has'); dt.firstChild.textContent=[...t.files].map(x=>x.name).join(', '); } }
-  if(t.name==='ev'&&cur==='event') renderStepper();
-  const f=t.closest('.invalid'); if(f){ f.classList.remove('invalid'); const m=f.querySelector('.err-msg'); m&&m.remove(); }
+  const w=e.target.closest('.bad'); w&&clearBad(w);
+  if(e.target.name==='ev') renderStepper();
+  if(e.target.name==='inj'&&e.target.value==='child'&&e.target.checked&&!$$('.kid').length) addKid();
   cond();
 });
-document.addEventListener('input',e=>{ const f=e.target.closest('.invalid'); if(f){ f.classList.remove('invalid'); const m=f.querySelector('.err-msg'); m&&m.remove(); } });
-$$('.diia-btn').forEach(b=>b.addEventListener('click',()=>{
-  const inp=$('#'+b.dataset.target); b.disabled=true; b.textContent='Очікуємо підтвердження в Дії…';
-  setTimeout(()=>{ inp.dataset.filled='1'; b.hidden=true; b.parentElement.querySelector('.diia-ok').hidden=false;
-    const f=b.closest('.field'); f.classList.remove('invalid'); const m=f.querySelector('.err-msg'); m&&m.remove(); },1200);
-}));
-// Довідник адрес
-const dSel=$('#e-district'), sSel=$('#e-street');
-Object.keys(STREETS).forEach(d=>dSel.add(new Option(d,d)));
-dSel.addEventListener('change',()=>{
-  sSel.innerHTML=''; sSel.disabled=!dSel.value;
-  sSel.add(new Option(dSel.value?'Оберіть вулицю':'Спочатку оберіть район',''));
-  (STREETS[dSel.value]||[]).forEach(s=>sSel.add(new Option(s,s)));
-});
-$('#e-date').max=new Date().toISOString().slice(0,10);
-// IBAN: групування по 4
-$('#p-iban').addEventListener('input',e=>{ const v=e.target.value.replace(/\s/g,'').toUpperCase().slice(0,29); e.target.value=v.replace(/(.{4})/g,'$1 ').trim(); });
-// Підпис
-$('#btn-sign').addEventListener('click',()=>{
-  const b=$('#btn-sign'); b.disabled=true; b.textContent='Підписуємо…'; $('#sign-wait').hidden=false;
-  setTimeout(()=>{ b.disabled=false; b.textContent='Підписати'; $('#sign-wait').hidden=true;
-    $('#app-no').textContent='КД-2026-'+String(Math.floor(1000+Math.random()*8999)).padStart(6,'0'); go('done'); },1500);
-});
-// Скидання
-function resetAll(){
-  $$('main input').forEach(i=>{
-    if(i.readOnly) return;
-    if(i.type==='radio'||i.type==='checkbox') i.checked=i.defaultChecked;
-    else if(i.type==='file'){ i.value=''; delete i.dataset.filled; }
-    else i.value=i.defaultValue;
-  });
-  $$('main select').forEach(s=>{s.value='';});
-  dSel.dispatchEvent(new Event('change'));
-  $$('.drop').forEach(d=>{d.classList.remove('has'); const dt=d.querySelector('.dt'); dt.firstChild.textContent=d.querySelector('input').multiple?'Оберіть файли':'Оберіть файл';});
-  $$('.diia-btn').forEach(b=>{b.hidden=false;b.disabled=false;b.textContent='Поділитися через Дію';b.parentElement.querySelector('.diia-ok').hidden=true;});
-  $$('.screen').forEach(clearErr);
+
+/* ---------- Отримані відомості (крок «Документи») ---------- */
+function buildGot(){
+  const r=[['РНОКПП','Авторизація на порталі']];
+  if(flags.reg) r.push(['Реєстрація у Києві / статус ВПО','РТГК, ЄІСС — перевірено']);
+  const cat=val('h_cat')[0];
+  if(included('housing')&&cat&&CATS[cat]&&flags.pilga) r.push(['Пільговий статус: '+CATS[cat],'ЄІСС — перевірено']);
+  if(included('injury')&&!val('inodoc').length) r.push(['Довідка медичного закладу про факт поранення','Крок «Поранення»']);
+  if(included('death')&&!flags.dup&&!val('dnodoc').length) r.push(['Свідоцтво про смерть, довідка про причину смерті, документ про родинний зв\'язок','Крок «Загибель»']);
+  if(included('housing')&&flags.hok) r.push(['Витяг ДРРП, довідка ОСББ'+(val('h_move')[0]==='yes'?', акт комісії ТЕБ та НС':''),'Крок «Пошкодження житла»']);
+  r.push(['IBAN для нарахування допомоги','Крок «Відомості для нарахувань»']);
+  $('#gotRows').innerHTML=r.map(([a,b])=>`<tr><td><span class="st ok">Додано</span></td><td>${esc(a)}</td><td>${esc(b)}</td></tr>`).join('');
 }
-$('#btn-again').addEventListener('click',()=>{resetAll();go('applicant')});
-$('#dm-reset').addEventListener('click',()=>{resetAll();go('start')});
-$('#dm-reg').addEventListener('change',e=>{flags.reg=e.target.checked;cond()});
-$('#dm-pilga').addEventListener('change',e=>{flags.pilga=e.target.checked;cond()});
-go('start');
+
+/* ---------- Бланк заяви ---------- */
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function dateOf(el){ const [d,m,y]=$$('input,select',el).map(x=>x.value.trim()); return d&&m&&y?`${d.padStart(2,'0')}.${String(m).padStart(2,'0')}.${y}`:''; }
+function addr(){ const st=$('#e-str').value, h=$('#e-house').value.trim(), f=$('#e-flat').value.trim(), p=$('#e-priv').checked;
+  return `м. Київ, ${$('#e-dist').value} район, ${st}, буд. ${h}${!p&&f?', кв. '+f:''}${p?' (приватний будинок)':''}`; }
+function aids(){
+  const list=[];
+  if(included('injury')&&!val('inodoc').length){
+    const who=[]; const sel=val('inj');
+    if(sel.includes('self')&&val('reg_self')[0]!=='no') who.push(`${$('#a-fio').value}, ушкодження: ${$('#i-s-deg').value.toLowerCase()}`);
+    if(sel.includes('child')&&val('reg_child')[0]!=='no') $$('.kid').forEach(k=>who.push(`${k.querySelector('.kname').value||'дитина'} (дитина), ушкодження: ${k.querySelector('.deg').value.toLowerCase()}`));
+    if(sel.includes('other')&&val('reg_other')[0]!=='no') who.push(`${$('#i-o-n').value}, ушкодження: ${$('#i-o-deg').value.toLowerCase()}`);
+    who.forEach(w=>list.push({g:'Поранення',t:'Одноразова допомога пораненій особі — '+w,svc:'Допомога у зв\'язку з пораненням'}));
+  }
+  if(included('death')&&!flags.dup&&!val('dnodoc').length&&val('reg_dead')[0]!=='no'){
+    list.push({g:'Загибель',t:`Одноразова допомога членам сім'ї загиблої особи — ${$('#d-fio').value}, ${$('#d-rel').selectedOptions[0].text.toLowerCase()}`,svc:'Допомога у зв\'язку із загибеллю члена родини'});
+  }
+  if(included('housing')&&flags.hok){
+    const cat=val('h_cat')[0], pr=cat&&cat!=='none';
+    if(!val('g1nodoc').length) list.push({g:'Пошкодження житла',t:pr?`Одноразова допомога за пошкоджене житло 20 000 грн (пільгова категорія: ${CATS[cat].toLowerCase()})`:'Одноразова допомога за пошкоджене житло 10 000 грн',svc:pr?'Допомога за пошкоджене житло, 20 000 грн':'Допомога за пошкоджене житло, 10 000 грн'});
+    if(val('h_move')[0]==='yes'&&!val('g2nodoc').length) list.push({g:'Пошкодження житла',t:'Одноразова допомога 40 000 грн у зв\'язку з тимчасовим відселенням',svc:'Допомога у зв\'язку з відселенням, 40 000 грн'});
+    if(flags.mon===1&&!val('g3nodoc').length) list.push({g:'Пошкодження житла',t:'Щомісячна допомога 20 000 грн на період відселення',svc:'Щомісячна допомога на період відселення'});
+  }
+  return list;
+}
+function buildSign(){
+  const a=aids(), body=$('#signBody');
+  if(!a.length){
+    body.innerHTML=`<div class="msg warn" style="max-width:640px"><span class="ic" aria-hidden="true">☝</span><span>Немає подій, за якими можливо сформувати заяву. Поверніться до вибору подій, щоб змінити відповіді.</span></div><div class="btns"><button type="button" class="btn" data-goto="event">Повернутися до вибору подій</button></div>`;
+    return;
+  }
+  const ev=['injury','death','housing'].filter(included).map(e=>({injury:'поранення',death:'загибель члена родини',housing:'пошкодження житла'}[e])).join('; ');
+  const groups={}; a.forEach(x=>(groups[x.g]=groups[x.g]||[]).push(x.t));
+  const d=new Date(), today=`${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+  appNo=`МД-${today.replace(/\./g,'')}-0${String(24+orders.length).padStart(2,'0')}`;
+  const iban=$('#p-iban').value.replace(/\s/g,'').toUpperCase().replace(/(.{4})/g,'$1 ').trim();
+  body.innerHTML=`<div class="msg warn" style="max-width:760px;margin-bottom:16px"><span class="ic" aria-hidden="true">☝</span><span>Система сформувала заяву за всіма обраними подіями. Уважно перевірте відомості. Після підписання заява буде надіслана на розгляд, а на кожен вид допомоги буде сформовано окрему заяву.</span></div>
+  <div class="doc-tb"><span>Заява.pdf · 1 з 1</span><span>100%</span></div>
+  <div class="doc-wrap"><div class="doc">
+    <h4>ЗАЯВА № ${appNo}</h4><p class="sub">про надання матеріальної допомоги особам у складних життєвих обставинах через обстріли</p>
+    <h5>Заявник</h5><dl><dt>Прізвище, ім'я та по батькові</dt><dd>${esc($('#a-fio').value)}</dd><dt>РНОКПП</dt><dd>${esc($('#a-rn').value)}</dd><dt>Паспорт</dt><dd>${esc($('#a-pass').value)}</dd><dt>Номер телефону</dt><dd>${esc($('#a-ph').value)}</dd><dt>Email</dt><dd>${esc($('#a-em').value)}</dd></dl>
+    <h5>Подія</h5><dl><dt>Дата обстрілу</dt><dd>${dateOf($('#e-date'))}</dd><dt>Адреса</dt><dd>${esc(addr())}</dd><dt>Що сталося</dt><dd>${ev[0].toUpperCase()+ev.slice(1)}</dd></dl>
+    <h5>Види допомоги, на які подається заява</h5><dl>${Object.entries(groups).map(([g,ts])=>`<dt>${g}</dt><dd><ul class="lst">${ts.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></dd>`).join('')}</dl>
+    <h5>Рахунок для виплати (IBAN)</h5><p>${esc(iban)}</p>
+    <p class="fine">Підтверджую достовірність поданих мною документів та відомостей. Мене попереджено про відповідальність, у тому числі кримінальну, за подання недостовірних відомостей або підроблених документів з метою отримання грошових виплат (статті 190, 358 Кримінального кодексу України).</p>
+    <p class="fine">Даю згоду на обробку моїх персональних даних та персональних даних осіб, відомості про яких зазначено в заяві, відповідно до Закону України «Про захист персональних даних».</p>
+    <div class="sig"><span>Дата: ${today}</span><span>Підпис: ____________</span></div>
+  </div></div>
+  <div class="btns"><button type="button" class="btn o" data-goto="terms">Назад</button><button type="button" class="btn" id="signBtn">Підписати та надіслати</button></div>`;
+}
+
+/* ---------- Модальні вікна ---------- */
+function modal(html){ $('#mod').innerHTML=html; $('#ov').hidden=false; const b=$('#mod').querySelector('button'); b&&b.focus(); }
+function closeModal(){ $('#ov').hidden=true; }
+function startSign(){
+  modal(`<h2 id="modT">Підписання заяви</h2><p style="font-size:14px">Оберіть спосіб накладання кваліфікованого електронного підпису.</p>
+  <button type="button" class="amethod" data-sign><span aria-hidden="true" style="flex:none;width:36px;height:36px;border-radius:8px;background:#000;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">Дія</span><span class="l">Дія.Підпис</span></button>
+  <button type="button" class="amethod" data-sign><span aria-hidden="true" style="flex:none;width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1B2433" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/></svg></span><span class="l">Особистий ключ</span></button>
+  <button type="button" class="lnk" data-close>Скасувати</button>`);
+}
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-close]')) closeModal();
+  if(e.target.closest('[data-sign]')){
+    modal(`<div class="spin" aria-hidden="true"></div><h2 id="modT" style="font-size:16px">Накладаємо підпис…</h2>`);
+    setTimeout(()=>{
+      const a=aids(); const d=new Date(); const today=`${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+      a.forEach((x,i)=>orders.unshift({no:`${appNo}/${i+1}`,svc:x.svc,date:today}));
+      $('#ordCount').textContent=5+orders.length;
+      modal(`<svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#007A64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-7"/></svg><h2 id="modT">Вітаємо!</h2><p style="font-size:14px">Ваша заява була успішно відправлена</p><button type="button" class="btn" data-close data-nav="orders">До замовлених послуг</button>`);
+    },1400);
+  }
+});
+
+/* ---------- Навігація між екранами ---------- */
+function go(v){
+  if(v==='home'||v==='services') lastPub=v;
+  view=v;
+  const pubV=['home','services','service','auth'];
+  pubV.forEach(x=>$('#v-'+x).hidden=v!==x);
+  if(v==='services') filterSvc();
+  $('#v-cab').hidden=pubV.includes(v);
+  $('#v-form').hidden=v!=='form'; $('#v-sign').hidden=v!=='sign'; $('#v-orders').hidden=!(v==='orders'||v==='drafts');
+  $('#loginBtn').hidden=logged; $('#userBtn').hidden=!logged;
+  $('#m-orders').classList.toggle('on',v==='orders');
+  $('#m-drafts').classList.toggle('on',v==='form'||v==='sign'||v==='drafts');
+  if(v==='auth'){ $('#authPick').hidden=false; $('#authWait').hidden=true; }
+  if(v==='orders'||v==='drafts') buildOrders(v);
+  if(v==='sign') buildSign();
+  if(v==='form') showStep(step); else window.scrollTo(0,0);
+}
+function buildOrders(v){
+  const base=[{no:'ЗП-14092026-311',svc:'Довідка про технічний стан об\'єкта нерухомості (БТІ)',date:'14.09.2026',st:'ok'}];
+  if(v==='drafts'){
+    $('#ordTitle').textContent='Чернетки';
+    $('#ordHead').innerHTML='<tr><th>Послуга</th><th>Створено</th><th></th></tr>';
+    $('#ordRows').innerHTML=`<tr><td>Подання заяви на матеріальну допомогу особам у складних життєвих обставинах через обстріли</td><td>Сьогодні</td><td><button type="button" class="lnk" data-nav="form">Продовжити заповнення</button></td></tr>`;
+    return;
+  }
+  $('#ordTitle').textContent='Замовлені послуги';
+  $('#ordHead').innerHTML='<tr><th>№ заяви</th><th>Послуга</th><th>Дата подання</th><th>Статус</th></tr>';
+  $('#ordRows').innerHTML=[...orders.map(o=>({...o,st:'new'})),...base].map(o=>`<tr><td style="white-space:nowrap">${esc(o.no)}</td><td>${esc(o.svc)}</td><td>${o.date}</td><td><span class="st ${o.st}">${o.st==='new'?'Подано (нова)':'Виконано'}</span></td></tr>`).join('');
+}
+document.addEventListener('click',e=>{
+  const n=e.target.closest('[data-nav]');
+  if(n){ e.preventDefault(); const t=n.dataset.nav; if(n.hasAttribute('data-focus-search')){ curCat='all'; go('services'); $('#lq').focus(); return; } if(['orders','drafts','form'].includes(t)&&!logged){ pending=t; go('auth'); } else go(t); return; }
+  const g=e.target.closest('[data-goto]'); if(g){ go('form'); showStep(g.dataset.goto); return; }
+  const s=e.target.closest('[data-soon]'); if(s){ e.preventDefault(); modal(`<h2 id="modT" style="font-size:16px">У прототипі цей розділ не реалізовано</h2><p style="font-size:14px">Доступна послуга «Матеріальна допомога особам у складних життєвих обставинах через обстріли».</p><button type="button" class="btn" data-close>Зрозуміло</button>`); }
+});
+let pending='form';
+document.addEventListener('click',e=>{ if(e.target.closest('[data-apply]')){ pending='form'; step='applicant'; if(logged) go('form'); else go('auth'); } });
+$$('[data-auth]').forEach(b=>b.addEventListener('click',()=>{
+  $('#authPick').hidden=true; $('#authWait').hidden=false;
+  $('#authText').textContent = b.dataset.auth==='diia' ? 'Відскануйте QR-код у застосунку Дія і підтвердіть вхід.' : b.dataset.auth==='key' ? 'Перевіряємо особистий ключ…' : 'Переходимо до ID.GOV.UA…';
+  $('.qr svg').style.display = b.dataset.auth==='diia' ? '' : 'none';
+  setTimeout(()=>{ if(view!=='auth') return; logged=true; go(pending); },1600);
+}));
+$('#authBack').addEventListener('click',()=>{ $('#authPick').hidden=false; $('#authWait').hidden=true; });
+let curCat='all', lastPub='home';
+function filterSvc(){
+  const q=($('#lq').value||'').trim().toLowerCase(), t=$('#f-type').value;
+  let n=0; $$('#svcGrid .svc').forEach(s=>{ const ok=(curCat==='all'||s.dataset.c.split(' ').includes(curCat))&&(!q||s.textContent.toLowerCase().includes(q))&&(!t||s.querySelector('.tag').classList.contains(t)); s.hidden=!ok; if(ok)n++; });
+  $$('#catnav button').forEach(b=>b.classList.toggle('on',b.dataset.cat===curCat));
+  $('#found').textContent='знайдено послуг: '+n;
+}
+document.addEventListener('click',e=>{ const c=e.target.closest('[data-cat]'); if(c){ curCat=c.dataset.cat; go('services'); } });
+$('#homeSearch').addEventListener('submit',e=>{ e.preventDefault(); $('#lq').value=$('#hq').value; curCat='all'; go('services'); });
+$('#listSearch').addEventListener('submit',e=>{ e.preventDefault(); filterSvc(); });
+$('#f-type').addEventListener('change',filterSvc);
+$('#svcBack').addEventListener('click',()=>go(lastPub));
+$$('.tabs button').forEach(b=>b.addEventListener('click',()=>{ const tb=b.parentElement; $$('button',tb).forEach(x=>{x.classList.toggle('on',x===b); $('#'+x.dataset.tab).hidden=x!==b;}); }));
+
+$('#bNext').addEventListener('click',()=>{
+  if(!validate($('#s-'+step))) return;
+  const st=steps(), i=st.indexOf(step);
+  if(step==='terms') go('sign'); else showStep(st[i+1]);
+});
+$('#bBack').addEventListener('click',()=>{ const st=steps(), i=st.indexOf(step); if(i===0) go('service'); else showStep(st[i-1]); });
+document.addEventListener('click',e=>{ if(e.target.id==='signBtn') startSign(); });
+$('#addKid').addEventListener('click',addKid);
+$('#diiaBtn').addEventListener('click',()=>{ const b=$('#diiaBtn'); b.disabled=true; b.textContent='Очікуємо підтвердження в Дії…';
+  setTimeout(()=>{ passDiia=true; b.hidden=true; $('#diiaOk').hidden=false; $('#passUp').hidden=true; clearBad($('#passBlk')); },1300); });
+
+/* ---------- Адреси, IBAN ---------- */
+const dSel=$('#e-dist'), sSel=$('#e-str');
+Object.keys(STREETS).forEach(d=>dSel.add(new Option(d,d)));
+dSel.addEventListener('change',()=>{ sSel.innerHTML='<option value="">Оберіть зі списку</option>'; (STREETS[dSel.value]||[]).forEach(s=>sSel.add(new Option(s,s))); sSel.disabled=!dSel.value; });
+$('#p-iban').addEventListener('input',e=>{ const v=e.target.value.replace(/\s/g,'').toUpperCase().slice(0,29); e.target.value=v.replace(/(.{4})/g,'$1 ').trim(); });
+
+/* ---------- Сценарії ---------- */
+$('#dm-reg').addEventListener('change',e=>{flags.reg=e.target.checked?1:0;cond()});
+$('#dm-pilga').addEventListener('change',e=>{flags.pilga=e.target.checked?1:0;cond()});
+$('#dm-dup').addEventListener('change',e=>{flags.dup=e.target.checked?1:0;cond()});
+$('#dm-reset').addEventListener('click',()=>location.reload());
+$('#ov').addEventListener('click',e=>{ if(e.target.id==='ov') closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('#ov').hidden) closeModal(); });
+
+/* ---------- Старт ---------- */
+$$('.reg').forEach(renderReg);
+$$('.date').forEach(renderDate);
+$$('.up').forEach(renderUp);
+fillDeg();
+go('home');
 </script>
 
 </body>
