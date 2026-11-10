@@ -83,15 +83,17 @@ p{margin:0}
 .fs{display:flex;flex-direction:column;gap:20px;max-width:520px}
 .fld{display:flex;flex-direction:column;gap:2px;min-width:0}
 .fld>label,.flabel{font-size:11px;line-height:14px;color:var(--muted)}
-.fld input[type=text],.fld input[type=tel],.fld select,.drow input,.drow select{width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:6px 0 8px;font-size:14px;line-height:20px;background:transparent;min-height:36px}
+.fld input[type=text],.fld input[type=tel],.fld select,.drow input,.drow select{width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:6px 0 8px;font-size:14px;line-height:20px;background-color:transparent;min-height:36px}
 .fld input:focus,.fld select:focus,.drow input:focus,.drow select:focus{outline:none;border-bottom:2px solid var(--btn)}
 .fld input[readonly]{color:var(--ink);cursor:default}
 .lock{position:relative}.lock input{padding-right:28px}
 .lock svg{position:absolute;right:4px;top:9px}
+select.empty{color:var(--ph)}
+select option{color:var(--ink)}
 select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A6577' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0 center;padding-right:24px!important}
 .hint{font-size:12px;line-height:16px;color:var(--muted);margin-top:4px}
 .drow{display:flex;gap:24px;align-items:flex-end}
-.drow .dd{width:72px;flex:none}.drow .dy{width:88px;flex:none}.drow select{flex:1 1 auto;min-width:0}
+.fld .drow input.dd{width:72px;flex:none}.fld .drow input.dy{width:88px;flex:none}.fld .drow select{flex:1 1 auto;width:auto;min-width:120px}
 .err{font-size:12px;line-height:16px;color:var(--err);margin-top:4px}
 .bad input,.bad select{border-bottom-color:var(--err)!important}
 .bad .dz{border-color:var(--err)}
@@ -119,14 +121,15 @@ select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%
 
 /* Завантаження */
 .up{display:flex;flex-direction:column;gap:8px;max-width:560px}
-.up .ul{font-size:14px;line-height:20px;font-weight:500}
-.dz{display:flex;gap:16px;align-items:center;border:1px dashed var(--line);border-radius:6px;padding:16px 20px;cursor:pointer;background:#fff}
+.up .ul{font-size:13px;line-height:18px;color:var(--ink)}
+.dz{display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;border:1px dashed var(--line);border-radius:8px;padding:28px 20px;cursor:pointer;background:#fff}
 .dz:hover,.dz.drag{border-color:var(--btn);background:#F7FAFF}
 .dz:focus-within{outline:2px solid var(--btn);outline-offset:2px}
 .dz input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-.dz .t{font-size:14px;line-height:20px}
-.dz .t b{color:var(--btn);font-weight:600}
-.dz small{display:block;font-size:12px;line-height:16px;color:var(--muted);margin-top:2px}
+.dz .t{font-size:13px;line-height:18px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.dz .t b{color:var(--btn);font-weight:500;text-decoration:underline;font-size:14px;line-height:20px}
+.dz .t .or{color:var(--ink);font-size:13px;margin-bottom:8px}
+.dz small{display:block;font-size:12px;line-height:16px;color:var(--muted)}
 .files{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
 .files li{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--aside-line);padding:8px 0;font-size:13px}
 .files li span:first-child{flex:1;min-width:0;word-break:break-all}
@@ -453,11 +456,11 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
         <span class="flabel" style="margin:12px 0 4px">Події</span>
         <div class="opts">
           <label class="opt"><input type="checkbox" name="ev" value="injury" id="ev-injury"><span>Отримано поранення</span></label>
-          <div class="msg warn" data-when="ev=injury" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати особа, яка отримала поранення, або її законний представник</span></div>
+          <div class="msg warn" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати особа, яка отримала поранення, або її законний представник</span></div>
           <label class="opt"><input type="checkbox" name="ev" value="death" id="ev-death"><span>Загинув член родини</span></label>
-          <div class="msg warn" data-when="ev=death" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати член сім'ї загиблої особи</span></div>
+          <div class="msg warn" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати член сім'ї загиблої особи</span></div>
           <label class="opt"><input type="checkbox" name="ev" value="housing" id="ev-housing"><span>Моє житло було пошкоджено / зруйновано</span></label>
-          <div class="msg warn" data-when="ev=housing" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати власник житла, його представник за довіреністю або особа пільгової категорії, зареєстрована в цьому житлі</span></div>
+          <div class="msg warn" style="margin:0 0 8px 32px"><span class="ic" aria-hidden="true">☝</span><span>Може подати власник житла, його представник за довіреністю або особа пільгової категорії, зареєстрована в цьому житлі</span></div>
         </div>
       </div>
       <h3>Коли сталась подія</h3>
@@ -631,16 +634,23 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
             <label class="opt"><input type="radio" name="h_mon" value="no"><span>Ні</span></label>
           </div></div>
         </div>
-        <div data-when="@mon=1|2">
-          <h3>Умови призначення щомісячної допомоги</h3>
-          <p style="font-size:14px;margin-bottom:8px">Щомісячна допомога не призначається (припиняється), якщо:</p>
-          <div class="msg warn" style="margin-bottom:12px"><span class="ic" aria-hidden="true">☝</span><span>Встановіть відмітку, якщо «Так»</span></div>
-          <div class="opts">
-            <label class="opt"><input type="checkbox" name="h_mc" value="1"><span>Власником / співвласником було отримано сертифікат «єВідновлення»?</span></label>
-            <label class="opt"><input type="checkbox" name="h_mc" value="2"><span>Власник / співвласник виїхав за межі України?</span></label>
-            <label class="opt"><input type="checkbox" name="h_mc" value="3"><span>Власника / співвласника зараховано на повне державне утримання?</span></label>
-          </div>
-          <div class="msg warn mt" data-when="@mon=2"><span class="ic" aria-hidden="true">☝</span><span>За цих умов щомісячну допомогу не може бути призначено.</span></div>
+        <div data-when="h_move=yes&h_other=no&h_mon=yes">
+          <h3>Чи отримував власник / співвласник сертифікат «єВідновлення»?</h3>
+          <div class="fld" data-group="h_mc1" data-err="Оберіть варіант"><div class="opts">
+            <label class="opt"><input type="radio" name="h_mc1" value="yes"><span>Так</span></label>
+            <label class="opt"><input type="radio" name="h_mc1" value="no"><span>Ні</span></label>
+          </div></div>
+          <h3>Чи виїхав власник / співвласник за межі України?</h3>
+          <div class="fld" data-group="h_mc2" data-err="Оберіть варіант"><div class="opts">
+            <label class="opt"><input type="radio" name="h_mc2" value="yes"><span>Так</span></label>
+            <label class="opt"><input type="radio" name="h_mc2" value="no"><span>Ні</span></label>
+          </div></div>
+          <h3>Чи зараховано власника / співвласника на повне державне утримання?</h3>
+          <div class="fld" data-group="h_mc3" data-err="Оберіть варіант"><div class="opts">
+            <label class="opt"><input type="radio" name="h_mc3" value="yes"><span>Так</span></label>
+            <label class="opt"><input type="radio" name="h_mc3" value="no"><span>Ні</span></label>
+          </div></div>
+          <div class="msg warn mt" data-when="@mon=2"><span class="ic" aria-hidden="true">☝</span><span>Щомісячну допомогу на період відселення не може бути призначено, якщо хоча б на одне з цих питань відповідь «Так».</span></div>
         </div>
 
         <h3>Додайте підтверджуючі документи</h3>
@@ -784,7 +794,7 @@ function renderDate(el){
 }
 function renderUp(el){
   const req=el.hasAttribute('data-req'); el._files=[];
-  el.innerHTML=`<span class="ul">${el.dataset.label}${req?' *':''}</span><label class="dz"><input type="file" multiple accept="image/*,.pdf"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0B5CFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg><span class="t"><b>Завантажте необхідні документи</b> або перетягніть їх сюди<small>Максимальний розмір одного файлу: 10.0 MB · Допустимі формати: зображення або PDF документ</small></span></label><ul class="files"></ul>`;
+  el.innerHTML=`<span class="ul">${el.dataset.label}${req?' *':''}</span><label class="dz"><input type="file" multiple accept="image/*,.pdf"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0B5CFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 17v-6M9.5 13.5 12 11l2.5 2.5"/></svg><span class="t"><b>Завантажте необхідні документи</b><span class="or">або перетягніть їх сюди</span><small>Максимальний розмір одного файлу: 10.0 MB</small><small>Допустимі формати: зображення або PDF документ</small></span></label><ul class="files"></ul>`;
   const inp=el.querySelector('input'), dz=el.querySelector('.dz');
   inp.addEventListener('change',()=>{addFiles(el,inp.files);inp.value=''});
   dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});
@@ -847,7 +857,7 @@ function computeFlags(){
   const own=val('h_own')[0], cat=val('h_cat')[0];
   flags.hnone = (own==='no'&&cat==='none')?1:0;
   flags.hok = (own&&cat&&!flags.hnone&&!(own==='no'&&flags.reg===0&&val('reg_pilg')[0]==='no'))?1:0;
-  const mc=val('h_mc').length;
+  const mc=['h_mc1','h_mc2','h_mc3'].some(n=>val(n)[0]==='yes');
   flags.mon = (val('h_move')[0]==='yes'&&val('h_other')[0]==='no'&&val('h_mon')[0]==='yes') ? (mc?2:1) : 0;
   flags.rep = ((included('injury')&&val('inj').includes('other'))||(included('housing')&&own==='proxy'))?1:0;
   flags.hnodoc = (val('g1nodoc').length||val('g2nodoc').length||val('g3nodoc').length)?1:0;
@@ -1069,6 +1079,9 @@ $('#dm-reset').addEventListener('click',()=>location.reload());
 $('#ov').addEventListener('click',e=>{ if(e.target.id==='ov') closeModal(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('#ov').hidden) closeModal(); });
 
+function markEmpty(){ $$('select').forEach(x=>x.classList.toggle('empty',!x.value)); }
+document.addEventListener('change',e=>{ if(e.target.tagName==='SELECT') markEmpty(); });
+new MutationObserver(markEmpty).observe(document.body,{childList:true,subtree:true});
 /* ---------- Старт ---------- */
 $$('.reg').forEach(renderReg);
 $$('.date').forEach(renderDate);
