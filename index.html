@@ -8,7 +8,7 @@
 <title>Допомога після обстрілу</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600&display=swap">
 <style>
 /* Портал послуг Kyiv Digital — кольори і компоненти з погоджених макетів. Одна світла тема, як на порталі. */
 :root{
@@ -266,7 +266,27 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
 .filters{display:flex;flex-wrap:wrap;gap:16px 24px;margin-bottom:16px}
 .filters .fld{min-width:200px;flex:1 1 200px}
 .found{font-size:13px;color:var(--muted);margin-bottom:16px}
-.sv{display:flex;flex-direction:column;gap:24px;max-width:880px}
+.sv{display:flex;flex-direction:column;gap:24px}
+.pub#v-service{background:#EEF5FF}
+.sv{max-width:1120px;margin:0 auto}
+.sv-hero{text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;padding:24px 0 8px}
+.sv-hero h1{margin:0;font-family:'Unbounded','Onest',sans-serif;font-weight:600;font-size:clamp(26px,4.2vw,52px);line-height:1.15;letter-spacing:-.01em;max-width:1100px;text-wrap:balance}
+.sv-hero p{font-size:17px;line-height:26px;max-width:900px}
+.kp{background:#fff;border-radius:16px;padding:32px 40px;display:flex;flex-direction:column;gap:20px}
+.kp-ic{flex:none;width:72px;height:72px;border-radius:50%;background:#E5EFFF;color:var(--head);display:grid;place-items:center}
+.kp-prov{display:flex;gap:20px;align-items:center}
+.kp-prov>div{flex:1;min-width:0}
+.kp h3{margin:0;color:var(--head);font-family:'Unbounded','Onest',sans-serif;font-weight:600}
+.kp-prov h3{font-size:26px;line-height:32px;padding-bottom:14px;border-bottom:1px dashed #C9D6EE;margin-bottom:14px}
+.kp-prov p{font-size:16px}
+.kp-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.kp-card{border:1px solid #D5E2F7;border-radius:12px;padding:24px 20px;display:flex;flex-direction:column;gap:20px}
+.kp-card h3{font-size:19px;line-height:24px;padding-bottom:20px;border-bottom:1px dashed #C9D6EE}
+.kp-v{display:flex;align-items:center;gap:16px}
+.kp-v .kp-ic{width:56px;height:56px}
+.kp-v b{font-size:15px;line-height:20px;font-weight:600}
+@media (max-width:760px){.kp{padding:20px}.kp-prov{flex-direction:column;align-items:flex-start}.kp-prov h3{font-size:20px}}
+
 .backl{align-self:flex-start;background:none;border:0;color:var(--btn);font-weight:600;font-size:14px;cursor:pointer;padding:0;display:inline-flex;gap:6px;align-items:center}
 .sv-top{background:#fff;border-radius:8px;padding:32px;display:flex;flex-direction:column;gap:16px}
 .sv-top h1{margin:0;font-size:28px;line-height:34px}
@@ -312,79 +332,33 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
 
 <div class="app">
 <header class="top">
-  <a href="#" class="logo" data-nav="home" aria-label="Портал послуг, на головну">
+  <a href="#" class="logo" data-nav="service" aria-label="Портал послуг, на головну">
     <svg aria-hidden="true" width="27" height="34" viewBox="0 0 24 30"><path d="M0 0h24v22l-12 8L0 22z" fill="#fff"/><path d="M6 7h4v12H6zM10 13l5-6h4.5L13.5 13l6 6H15z" fill="#0068FF"/></svg>
     <span class="logo-t"><b>ПОРТАЛ ПОСЛУГ</b><span>KYIV DIGITAL</span></span>
   </a>
-  <nav class="mainnav" aria-label="Основна навігація"><a href="#" data-nav="services">Міські послуги</a><a href="#" data-soon>Часті питання</a></nav>
-  <a href="#" class="searchic" data-nav="services" data-focus-search aria-label="Пошук послуг"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+  <nav class="mainnav" aria-label="Основна навігація"><a href="#" data-nav="service">Міські послуги</a><a href="#" data-soon>Часті питання</a></nav>
+  <a href="#" class="searchic" data-nav="service" aria-label="Пошук послуг"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
   <button type="button" class="loginbtn" id="loginBtn" data-nav="auth">Увійти</button>
   <button type="button" class="userbtn" id="userBtn" hidden data-nav="orders"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></svg><span class="nm">Ірина К.</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
   <button type="button" class="burger" aria-label="Меню" data-soon><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </header>
 
 <!-- ============ ПУБЛІЧНА ЧАСТИНА ============ -->
-<div class="pub" id="v-home">
-  <div class="home-hero"><div class="pin">
-    <h1>Портал послуг</h1>
-    <p class="sub">Швидкий та зручний доступ до усіх міських послуг для мешканців Києва</p>
-    <form class="search" id="homeSearch" role="search"><input type="text" id="hq" placeholder="Знайти послугу" aria-label="Знайти послугу"><button type="submit">Знайти</button></form>
-    <p class="ex">Наприклад, Захисник або Матеріальна допомога</p>
-  </div></div>
-  <div class="pin">
-    <section class="sec">
-      <div class="sec-h"><div><h2>Категорії послуг</h2><p>Оберіть категорію, щоб побачити всі послуги в ній</p></div><button type="button" class="btn o" data-cat="all">Всі категорії</button></div>
-      <div class="cats"><button type="button" class="cat-t" data-cat="defender"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/></svg><span>Захисникам</span></button><button type="button" class="cat-t" data-cat="rehab"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg><span>Оздоровлення та Реабілітація</span></button><button type="button" class="cat-t" data-cat="edu"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11v5c2.5 2 7.5 2 10 0v-5"/></svg><span>Освіта</span></button><button type="button" class="cat-t" data-cat="docs"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg><span>Довідки та запити</span></button><button type="button" class="cat-t" data-cat="kvart"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></svg><span>Квартирний облік</span></button><button type="button" class="cat-t" data-cat="damage"><svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10l8-6 8 6v10z"/><path d="m10 9 2 4-3 2 3 3"/></svg><span>Пошкодження майна внаслідок військових дій</span></button></div>
-    </section>
-    <section class="sec">
-      <div class="sec-h"><div><h2>Популярні послуги</h2><p>Послуги, якими кияни користуються найчастіше</p></div><button type="button" class="btn o" data-nav="services">Всі послуги</button></div>
-      <div class="grid"><button type="button" class="svc" data-nav="service" data-c="damage matdop"><span class="tag on">Онлайн</span><b>Матеріальна допомога особам у складних життєвих обставинах через обстріли</b><span class="d">Одноразова та щомісячна допомога у зв'язку з пораненням, загибеллю члена родини, пошкодженням або руйнуванням житла</span></button><button type="button" class="svc" data-soon data-c="damage matdop"><span class="tag off">Офлайн</span><b>Щомісячна допомога власникам зруйнованого війною житла - 20 000 грн</b><span class="d">Послуга тимчасово неактивна, бо передана районним управлінням соціального захисту</span></button><button type="button" class="svc" data-soon data-c="biz"><span class="tag on">Онлайн</span><b>Погодження розміщення літніх та сезонних майданчиків біля кафе та ресторанів</b><span class="d">Онлайн-погодження сезонного майданчика для закладу харчування</span></button><button type="button" class="svc" data-soon data-c="matdop"><span class="tag on">Онлайн</span><b>Одноразова матеріальна допомога малозабезпеченим киянам</b><span class="d">Виплата для киян, які потребують додаткового захисту</span></button><button type="button" class="svc" data-soon data-c="house"><span class="tag on">Онлайн</span><b>Часткове відшкодування вартості незалежних джерел електричної енергії</b><span class="d">Компенсація частини вартості генератора, зарядної станції чи інверторної системи</span></button><button type="button" class="svc" data-soon data-c="defender"><span class="tag on">Онлайн</span><b>Безоплатне паркування в Києві для Захисників та Захисниць</b><span class="d">Безоплатне паркування на майданчиках міста</span></button><button type="button" class="svc" data-soon data-c="defender rehab"><span class="tag off">Офлайн</span><b>Компенсація за переобладнання квартири для осіб з інвалідністю внаслідок війни</b><span class="d">Компенсація витрат на облаштування житла</span></button><button type="button" class="svc" data-soon data-c="docs"><span class="tag on">Онлайн</span><b>Запит до архіву</b><span class="d">Отримання архівної довідки або копії документа</span></button><button type="button" class="svc" data-soon data-c="edu"><span class="tag on">Онлайн</span><b>Запис дитини до школи</b><span class="d">Електронна заява на зарахування до першого класу</span></button></div>
-    </section>
-    <section class="sec">
-      <div class="sec-h"><h2>Проєкти міста</h2></div>
-      <div class="proj">
-        <div><b>Kyiv Sport</b><span>Спортивні можливості міста</span><a href="https://sport.kyivcity.gov.ua/" target="_blank" rel="noopener">Перейти →</a></div>
-        <div><b>Kyiv Guide</b><span>Путівник містом</span><a href="https://guide.kyivcity.gov.ua/" target="_blank" rel="noopener">Перейти →</a></div>
-        <div><b>Safe Sky</b><span>Платформа збору коштів на підтримку ППО</span><a href="https://sky.standbykyiv.digital/" target="_blank" rel="noopener">Перейти →</a></div>
-      </div>
-    </section>
-  </div>
-</div>
-
-<div class="pub" id="v-services" hidden>
-  <div class="pin">
-    <h1>Міські послуги</h1>
-    <div class="lst-l">
-      <nav class="catnav" aria-label="Категорії послуг" id="catnav"><button type="button" data-cat="all">Всі послуги</button><button type="button" data-cat="rehab">Оздоровлення та Реабілітація</button><button type="button" data-cat="kvart">Квартирний облік</button><button type="button" data-cat="x3">Житло для ВПО</button><button type="button" data-cat="x4">Фонди від підприємств</button><button type="button" data-cat="defender">Захисникам</button><button type="button" data-cat="matdop">Матеріальна допомога</button><button type="button" data-cat="rehab">Реабілітація</button><button type="button" data-cat="x8">Соціальні програми</button><button type="button" data-cat="x9">Дітям</button><button type="button" data-cat="x10">Освіта та дозвілля</button><button type="button" data-cat="x11">Додаткові пільги та гарантії</button><button type="button" data-cat="x12">Волонтерський фонд</button><button type="button" data-cat="x13">Фахівці із супроводу</button><button type="button" data-cat="edu">Освіта</button><button type="button" data-cat="biz">Бізнесу</button><button type="button" data-cat="x16">Вакансії для Захисників</button><button type="button" data-cat="x17">Вакансії</button><button type="button" data-cat="x18">Медицина</button><button type="button" data-cat="x19">Транспорт і логістика</button><button type="button" data-cat="x20">Адміністрація і менеджмент</button><button type="button" data-cat="x21">Інспектування та перевірки</button><button type="button" data-cat="x22">Промисловість</button><button type="button" data-cat="x23">Довкілля та благоустрій</button><button type="button" data-cat="x24">Викладацька діяльність</button><button type="button" data-cat="x25">Громадські організації</button><button type="button" data-cat="damage">Пошкодження майна внаслідок військових дій</button><button type="button" data-cat="docs">Довідки та запити</button><button type="button" data-cat="house">Житлові питання та енергоефективність</button></nav>
-      <div style="min-width:0">
-        <form class="search" id="listSearch" role="search" style="margin-bottom:20px;border:1px solid var(--aside-line)"><input type="text" id="lq" placeholder="Знайти послугу" aria-label="Знайти послугу"><button type="submit">Знайти</button></form>
-        <div class="filters">
-          <div class="fld"><label for="f-st">Соціальний статус</label><select id="f-st"><option>Всі</option><option>Кияни</option><option>Захисники</option><option>Сім'ї захисників</option><option>ВПО</option></select></div>
-          <div class="fld"><label for="f-loc">Розташування</label><select id="f-loc"><option>Всі</option><option>Голосіївський</option><option>Дарницький</option><option>Деснянський</option><option>Дніпровський</option><option>Оболонський</option><option>Печерський</option><option>Подільський</option><option>Святошинський</option><option>Солом'янський</option><option>Шевченківський</option></select></div>
-          <div class="fld"><label for="f-type">Тип послуги</label><select id="f-type"><option value="">Всі</option><option value="on">Онлайн</option><option value="off">Офлайн</option></select></div>
-        </div>
-        <p class="found" id="found"></p>
-        <div class="grid" id="svcGrid"><button type="button" class="svc" data-nav="service" data-c="damage matdop"><span class="tag on">Онлайн</span><b>Матеріальна допомога особам у складних життєвих обставинах через обстріли</b><span class="d">Одноразова та щомісячна допомога у зв'язку з пораненням, загибеллю члена родини, пошкодженням або руйнуванням житла</span></button><button type="button" class="svc" data-soon data-c="damage matdop"><span class="tag off">Офлайн</span><b>Щомісячна допомога власникам зруйнованого війною житла - 20 000 грн</b><span class="d">Послуга тимчасово неактивна, бо передана районним управлінням соціального захисту</span></button><button type="button" class="svc" data-soon data-c="biz"><span class="tag on">Онлайн</span><b>Погодження розміщення літніх та сезонних майданчиків біля кафе та ресторанів</b><span class="d">Онлайн-погодження сезонного майданчика для закладу харчування</span></button><button type="button" class="svc" data-soon data-c="matdop"><span class="tag on">Онлайн</span><b>Одноразова матеріальна допомога малозабезпеченим киянам</b><span class="d">Виплата для киян, які потребують додаткового захисту</span></button><button type="button" class="svc" data-soon data-c="house"><span class="tag on">Онлайн</span><b>Часткове відшкодування вартості незалежних джерел електричної енергії</b><span class="d">Компенсація частини вартості генератора, зарядної станції чи інверторної системи</span></button><button type="button" class="svc" data-soon data-c="defender"><span class="tag on">Онлайн</span><b>Безоплатне паркування в Києві для Захисників та Захисниць</b><span class="d">Безоплатне паркування на майданчиках міста</span></button><button type="button" class="svc" data-soon data-c="defender rehab"><span class="tag off">Офлайн</span><b>Компенсація за переобладнання квартири для осіб з інвалідністю внаслідок війни</b><span class="d">Компенсація витрат на облаштування житла</span></button><button type="button" class="svc" data-soon data-c="docs"><span class="tag on">Онлайн</span><b>Запит до архіву</b><span class="d">Отримання архівної довідки або копії документа</span></button><button type="button" class="svc" data-soon data-c="edu"><span class="tag on">Онлайн</span><b>Запис дитини до школи</b><span class="d">Електронна заява на зарахування до першого класу</span></button></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="pub" id="v-service" hidden>
   <div class="pin">
     <div class="sv">
-      <button type="button" class="backl" id="svcBack"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>Назад</button>
-      <section class="sv-top">
-        <span class="tag on">Онлайн</span>
-        <h1>Матеріальна допомога особам у складних життєвих обставинах через обстріли</h1>
-        <h2>Одноразова та щомісячна допомога киянам і внутрішньо переміщеним особам, які постраждали від обстрілу: у зв'язку з пораненням, загибеллю члена родини, пошкодженням або руйнуванням житла. Заяву можна подати онлайн або через ЦНАП.</h2>
-        <div class="params">
-          <div><span>Надавач послуги:</span><b>Департамент соціальної та ветеранської політики</b></div>
-          <div><span>Сума допомоги</span><b>10 000 – 40 000 грн</b></div>
-          <div><span>Час розгляду</span><b class="ph">[уточнити]</b></div>
-          <div><span>Регулярність виплат</span><b>Одноразово; щомісячно на період відселення</b></div>
+      <section class="sv-hero">
+        <h1>Матеріальна допомога особам, що опинились в складних життєвих обставинах внаслідок обстрілів, спричинених збройною агресією російської федерації</h1>
+        <p>Одноразова та щомісячна допомога киянам і внутрішньо переміщеним особам, які постраждали від обстрілу: у зв'язку з пораненням, загибеллю члена родини, пошкодженням або руйнуванням житла. Одна заява — на всі події, що сталися під час одного обстрілу.</p>
+        <button type="button" class="btn" data-apply>Подати заяву</button>
+      </section>
+      <section class="kp">
+        <div class="kp-prov"><span class="kp-ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18M12 3l9 5H3z"/></svg></span><div><h3>Надавач послуги:</h3><p>Управління соціальної та ветеранської політики районної в м. Києві державної адміністрації</p></div></div>
+        <div class="kp-cards">
+          <div class="kp-card"><h3>Сума допомоги</h3><div class="kp-v"><span class="kp-ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/></svg></span><b>від 10 000 грн</b></div></div>
+          <div class="kp-card"><h3>Час розгляду</h3><div class="kp-v"><span class="kp-ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8" stroke-dasharray="3 2"/><path d="M12 8v4l3 2"/></svg></span><b>30 днів</b></div></div>
+          <div class="kp-card"><h3>Регулярність виплат</h3><div class="kp-v"><span class="kp-ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><b>В залежності від виду допомоги</b></div></div>
         </div>
-        <div><button type="button" class="btn" data-apply>Подати заяву</button></div>
       </section>
       <section class="blk"><h3>Для кого ця послуга</h3><ul>
         <li>Особи, які отримали поранення внаслідок обстрілу, або їхні законні представники.</li>
@@ -783,14 +757,14 @@ td{padding:10px 12px;border-bottom:1px solid var(--aside-line);vertical-align:to
   <div id="v-orders" hidden>
     <h1 id="ordTitle">Замовлені послуги</h1>
     <div class="tbl-w"><table><thead id="ordHead"></thead><tbody id="ordRows"></tbody></table></div>
-    <div class="btns" style="margin-top:24px"><button type="button" class="btn o" data-nav="services">Замовити іншу послугу</button></div>
+    <div class="btns" style="margin-top:24px"><button type="button" class="btn o" data-nav="service">Замовити іншу послугу</button></div>
   </div>
 
   </div></main>
 </div>
 
 <footer class="foot">
-  <div><span class="h">Міська платформа</span><a href="#" data-nav="services">Міські послуги</a><a href="#" data-soon>Часті питання</a></div>
+  <div><span class="h">Міська платформа</span><a href="#" data-nav="service">Міські послуги</a><a href="#" data-soon>Часті питання</a></div>
   <div><span class="h">Соціальні мережі</span><div class="soc"><a href="#" data-soon aria-label="Facebook">Fb</a><a href="#" data-soon aria-label="Instagram">In</a><a href="#" data-soon aria-label="Telegram">Tg</a><a href="#" data-soon aria-label="YouTube">Yt</a></div></div>
   <div><span class="h">Мобільний застосунок Київ Цифровий</span><a href="#" data-soon>Google Play</a><a href="#" data-soon>App Store</a></div>
   <div><span class="h">Контакти</span><span>Якщо ви маєте зауваження або пропозиції, будь ласка, зв'яжіться з нами:</span><span>(044) 366-80-22</span></div>
@@ -1086,11 +1060,9 @@ document.addEventListener('click',e=>{
 
 /* ---------- Навігація між екранами ---------- */
 function go(v){
-  if(v==='home'||v==='services') lastPub=v;
   view=v;
-  const pubV=['home','services','service','auth'];
+  const pubV=['service','auth'];
   pubV.forEach(x=>$('#v-'+x).hidden=v!==x);
-  if(v==='services') filterSvc();
   $('#v-cab').hidden=pubV.includes(v);
   $('#v-form').hidden=v!=='form'; $('#v-sign').hidden=v!=='sign'; $('#v-orders').hidden=!(v==='orders'||v==='drafts');
   $('#loginBtn').hidden=logged; $('#userBtn').hidden=!logged;
@@ -1115,7 +1087,7 @@ function buildOrders(v){
 }
 document.addEventListener('click',e=>{
   const n=e.target.closest('[data-nav]');
-  if(n){ e.preventDefault(); const t=n.dataset.nav; if(n.hasAttribute('data-focus-search')){ curCat='all'; go('services'); $('#lq').focus(); return; } if(['orders','drafts','form'].includes(t)&&!logged){ pending=t; go('auth'); } else go(t); return; }
+  if(n){ e.preventDefault(); const t=n.dataset.nav; if(['orders','drafts','form'].includes(t)&&!logged){ pending=t; go('auth'); } else go(t); return; }
   const g=e.target.closest('[data-goto]'); if(g){ go('form'); showStep(g.dataset.goto); return; }
   const s=e.target.closest('[data-soon]'); if(s){ e.preventDefault(); modal(`<h2 id="modT" style="font-size:16px">У прототипі цей розділ не реалізовано</h2><p style="font-size:14px">Доступна послуга «Матеріальна допомога особам у складних життєвих обставинах через обстріли».</p><button type="button" class="btn" data-close>Зрозуміло</button>`); }
 });
@@ -1128,18 +1100,6 @@ $$('[data-auth]').forEach(b=>b.addEventListener('click',()=>{
   setTimeout(()=>{ if(view!=='auth') return; logged=true; go(pending); },1600);
 }));
 $('#authBack').addEventListener('click',()=>{ $('#authPick').hidden=false; $('#authWait').hidden=true; });
-let curCat='all', lastPub='home';
-function filterSvc(){
-  const q=($('#lq').value||'').trim().toLowerCase(), t=$('#f-type').value;
-  let n=0; $$('#svcGrid .svc').forEach(s=>{ const ok=(curCat==='all'||s.dataset.c.split(' ').includes(curCat))&&(!q||s.textContent.toLowerCase().includes(q))&&(!t||s.querySelector('.tag').classList.contains(t)); s.hidden=!ok; if(ok)n++; });
-  $$('#catnav button').forEach(b=>b.classList.toggle('on',b.dataset.cat===curCat));
-  $('#found').textContent='знайдено послуг: '+n;
-}
-document.addEventListener('click',e=>{ const c=e.target.closest('[data-cat]'); if(c){ curCat=c.dataset.cat; go('services'); } });
-$('#homeSearch').addEventListener('submit',e=>{ e.preventDefault(); $('#lq').value=$('#hq').value; curCat='all'; go('services'); });
-$('#listSearch').addEventListener('submit',e=>{ e.preventDefault(); filterSvc(); });
-$('#f-type').addEventListener('change',filterSvc);
-$('#svcBack').addEventListener('click',()=>go(lastPub));
 $$('.tabs button').forEach(b=>b.addEventListener('click',()=>{ const tb=b.parentElement; $$('button',tb).forEach(x=>{x.classList.toggle('on',x===b); $('#'+x.dataset.tab).hidden=x!==b;}); }));
 
 $('#bNext').addEventListener('click',()=>{
@@ -1187,7 +1147,7 @@ $$('.reg').forEach(renderReg);
 $$('.date').forEach(renderDate);
 $$('.up').forEach(renderUp);
 fillDeg();
-go('home');
+go('service');
 </script>
 
 </body>
